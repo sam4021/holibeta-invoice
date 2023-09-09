@@ -18,3 +18,4 @@ Route::get('/', [MainController::class, 'home']);
 
 
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
