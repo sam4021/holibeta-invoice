@@ -36,6 +36,10 @@ class AdminProducts extends Controller
     public function create()
     {
         //
+        $product_types=ProductType::select('id','name')->get();
+        $product_weights=ProductWeight::all();
+
+        return inertia::render('admin/products/create',compact('product_types','product_weights'));
     }
 
     /**
@@ -76,5 +80,11 @@ class AdminProducts extends Controller
     public function destroy(string $id)
     {
         //
+        $product=$this->productRepository->deleteProduct($id);
+        if ($product->status()==200){
+            return redirect()->route('products.index')->with('success','Product deleted successfully');
+        }else{
+            return redirect()->back()->with('error','Product could not be deleted');
+        }
     }
 }

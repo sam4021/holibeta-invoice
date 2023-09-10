@@ -50,4 +50,10 @@ class ProductRepository implements ProductInterface
             return response()->json(['message'=>$exception->getMessage()],400);
         }
     }
+
+    public function deleteProduct(string $id){
+        $product=Product::findOrFail($id);
+        $product->delete();
+        return response()->json(['message'=>'Product deleted successfully'],200);
+    }
 }

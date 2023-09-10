@@ -145,7 +145,7 @@ onMounted(() => {
         </div>
     </aside>
 
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 bg-gray-50">
         <div class="hidden sm:block">
             <div class="flex justify-between">
                 <div class="flex gap-3 items-center">
