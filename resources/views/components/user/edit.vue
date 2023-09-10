@@ -42,13 +42,20 @@
                             </div>
                             <div class="grid grid-cols-1 gap-1 my-5">
                                 <div>
+                                    <label class="sumo-label" for="email">Email:</label>
+                                    <input type="email" class="sumo-input my-3" id="name" v-model="form.email">
+                                    <div v-if="form.errors.email" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.email }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 gap-1 my-5">
+                                <div>
                                     <label class="sumo-label" for="role">Role:</label>
                                     <select class="sumo-input my-2" v-model="form.role">
                                         <option value="">Select role</option>
-                                        <option :value="status" :key="index" v-for="(status, index) in statuses">{{status}}</option>
-
+                                        <option :value="role" :key="index" v-for="(role, index) in roles">{{role}}</option>
                                     </select>
-                                    <input type="text" class="sumo-input my-3" id="role" v-model="form.role">
                                     <div v-if="form.errors.name" class="mt-3 text-red-800 text-sm">
                                         <span class="text-xs">{{form.errors.name }}</span>
                                     </div>
@@ -84,6 +91,7 @@ let form=useForm({
 const launchForm=()=>{
     form.name=props.user?.name
     form.email=props.user?.email
+    form.role=props.user?.role
     show.value=true
 }
 const submit=()=>{

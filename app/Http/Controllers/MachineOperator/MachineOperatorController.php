@@ -1,26 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\MachineOperator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Enums\RoleEnum;
 
-class AdminController extends Controller
+class MachineOperatorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:'.RoleEnum::Admin->value]);
+        $this->middleware(['role:'.RoleEnum::MachineOperator->value]);
     }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        return inertia::render('admin/index');
+        return inertia::render('machine-operator/index');
     }
 
     /**

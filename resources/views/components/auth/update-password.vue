@@ -17,7 +17,7 @@
                     <header class="p-3 bg-gray-100">
                         <div class="flex justify-between">
                             <div class="font-medium text-sumo-300 text-lg">
-                               Add User
+                               Edit Password
                             </div>
                             <div>
                                 <div class="text-end">
@@ -31,36 +31,33 @@
                     </header>
                     <div class="px-10 py-8 custom-scrolling overflow-y-auto max-h-[400px] m-2">
                         <form @submit.prevent="submit">
-                            <div class="grid grid-cols-2 gap-1 my-5">
+                            <div class="grid grid-cols-1 gap-1 my-5">
                                 <div>
-                                    <label class="sumo-label" for="name">Name:</label>
-                                    <input type="text" class="sumo-input my-3" id="name" v-model="form.name">
-                                    <div v-if="form.errors.name" class="mt-3 text-red-800 text-sm">
-                                        <span class="text-xs">{{form.errors.name }}</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="sumo-label" for="email">Email:</label>
-                                    <input type="email" class="sumo-input my-3" id="email" v-model="form.email">
-                                    <div v-if="form.errors.email" class="mt-3 text-red-800 text-sm">
-                                        <span class="text-xs">{{form.errors.email }}</span>
+                                    <label class="sumo-label" for="old_password">Old Password:</label>
+                                    <input type="password" class="sumo-input my-3" id="old_password" v-model="form.old_password">
+                                    <div v-if="form.errors.old_password" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.old_password }}</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 gap-1 my-5">
+                            <div class="grid grid-cols-2 gap-1 my-5">
                                 <div>
-                                    <label class="sumo-label" for="role">Role:</label>
-                                    <select class="sumo-input my-2" v-model="form.role">
-                                        <option :value="null">Select role</option>
-                                        <option :value="role" :key="index" v-for="(role, index) in roles">{{role}}</option>
-                                    </select>
-                                    <div v-if="form.errors.role" class="mt-3 text-red-800 text-sm">
-                                        <span class="text-xs">{{form.errors.role }}</span>
+                                    <label class="sumo-label" for="new_password">New Password:</label>
+                                    <input type="password" class="sumo-input my-3" id="new_password" v-model="form.new_password">
+                                    <div v-if="form.errors.new_password" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.new_password }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="sumo-label" for="password_confirmation">Password Confirmation:</label>
+                                    <input type="password" class="sumo-input my-3" id="password_confirmation" v-model="form.password_confirmation">
+                                    <div v-if="form.errors.password_confirmation" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.password_confirmation }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="my-3 flex justify-end">
-                                <button type="submit" class="btn-primary">Add User <span v-show="form.processing" class="ml-2 animate-ping"><i class="fa-solid fa-ellipsis"></i></span></button>
+                                <button type="submit" class="btn-primary">Update Password <span v-show="form.processing" class="ml-2 animate-ping"><i class="fa-solid fa-ellipsis"></i></span></button>
                             </div>
                         </form>
                     </div>
@@ -82,15 +79,15 @@ let props=defineProps({
 let show=ref(false)
 
 let form=useForm({
-    email: '',
-    name: '',
-    role:null,
+    old_password: '',
+    new_password: '',
+    password_confirmation:''
 })
 const launchForm=()=>{
     show.value=true
 }
 const submit=()=>{
-    form.post(route('admin.users.store'),{
+    form.post(route('auth.updatePassword'),{
         onSuccess:()=>{
             show.value = false
             form.reset()

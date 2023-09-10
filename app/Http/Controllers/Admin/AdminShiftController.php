@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\ShiftRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Enums\RoleEnum;
 
 class AdminShiftController extends Controller
 {
@@ -13,6 +14,7 @@ class AdminShiftController extends Controller
     public function __construct(ShiftRepository $shiftRepository)
     {
         $this->shiftRepository=$shiftRepository;
+        $this->middleware(['role:'.RoleEnum::Admin->value]);
     }
     /**
      * Display a listing of the resource.

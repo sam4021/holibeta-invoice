@@ -102,7 +102,6 @@ class AuthController extends Controller
         $user->notify(new PasswordResetNotification($otp->otp_code));
 
         return redirect()->route('create.password');
-
     }
 
     //update password page

@@ -12,6 +12,7 @@ use App\Models\Shift;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Enums\RoleEnum;
 
 class AdminProducts extends Controller
 {
@@ -19,6 +20,7 @@ class AdminProducts extends Controller
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository=$productRepository;
+        $this->middleware(['role:'.RoleEnum::Admin->value]);
     }
     /**
      * Display a listing of the resource.
