@@ -13,8 +13,8 @@ let props=defineProps({
 let form=useForm({
     name:props.product?.name,
     description:props.product?.description,
-    product_type:props.product?.product_type?.id,
-    product_weight:props.product?.product_weight?.id,
+    product_type:props.product?.product_type_id,
+    product_weight:props.product?.product_weight_id,
 
 })
 </script>
@@ -27,7 +27,7 @@ let form=useForm({
                 <h1 class="text-2xl font-bold">Add a product</h1>
             </div>
             <div class="my-5">
-                <form @submit.prevent="form.post(route('products.store'))">
+                <form @submit.prevent="form.patch(route('products.update',product.id))">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
                             <label class="sumo-label" for="product_name">Product name:</label>
@@ -65,7 +65,7 @@ let form=useForm({
                     </div>
                     <div class="my-5 flex justify-end">
                         <button :disabled="form.processing" type="submit" class="btn-primary flex gap-2 items-center">
-                            <span>Save product</span>
+                            <span>Update product</span>
                             <svg v-if="form.processing" class="fill-white w-5 animate-ping" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"/>
                             </svg>

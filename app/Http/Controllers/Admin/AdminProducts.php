@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
+use App\Models\Machine;
 use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\ProductWeight;
+use App\Models\Shift;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -69,6 +72,8 @@ class AdminProducts extends Controller
     public function show(string $id)
     {
         //
+        $product=new ProductResource(Product::findBySlugOrFail($id));
+        return inertia::render('admin/products/show',compact('product'));
     }
 
     /**
@@ -89,6 +94,21 @@ class AdminProducts extends Controller
     public function update(Request $request, string $id)
     {
         //
+
+        $validated=$request->validate([
+            'name'=>'required|string|max:125',
+            'description'=>'nullable|string',
+            'product_type'=>'required|integer|exists:product_types,id',
+            'product_weight'=>'required|integer|exists:product_weights,id',
+
+        ]);
+
+        $product=$this->productRepository->updateProduct($validated,$id);
+        if ($product->status()==200){
+            return redirect()->route('products.index')->with('success','Product updated successfully');
+        }else{
+            return redirect()->back()->with('status','Product could not be updated');
+        }
     }
 
     /**
@@ -103,5 +123,12 @@ class AdminProducts extends Controller
         }else{
             return redirect()->back()->with('error','Product could not be deleted');
         }
+    }
+
+    public function getProducts(){
+        $products=ProductResource::collection(Product::get());
+        $shifts=Shift::all();
+        $machines=Machine::select('id','name')->get();
+        return response()->json(['products'=>$products,'shifts'=>$shifts,'machines'=>$machines],200);
     }
 }

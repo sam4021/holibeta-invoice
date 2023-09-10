@@ -50,8 +50,17 @@ class ProductRepository implements ProductInterface
 
     public function updateProduct(array $data, string $id){
         try {
+
             $product=Product::findOrFail($id);
-            $product->update($data);
+            $product->update(
+                [
+                    'name'=>$data['name'],
+                    'description'=>$data['description'],
+                    'product_type_id'=>$data['product_type'],
+                    'product_weight_id'=>$data['product_weight'],
+
+                ]
+            );
             return response()->json(['message'=>'Product updated successfully','product'=>$product],200);
         }catch (\Exception $exception){
             return response()->json(['message'=>$exception->getMessage()],400);
