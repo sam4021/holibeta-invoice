@@ -8,14 +8,14 @@ defineProps({
     product_types:Object,
     product_weights:Object,
 })
-//const user=computed(()=>usePage().props.auth.id)
+const user=computed(()=>usePage().props.auth.id)
 let form=useForm({
     name:'',
     status:'',
     description:'',
     product_type:'',
     product_weight:'',
-    user_id:1,
+    user_id:user.value,
 })
 </script>
 

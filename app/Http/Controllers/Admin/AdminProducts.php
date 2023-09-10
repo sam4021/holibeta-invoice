@@ -77,6 +77,10 @@ class AdminProducts extends Controller
     public function edit(string $id)
     {
         //
+        $product=Product::findOrFail($id);
+        $product_types=ProductType::select('id','name')->get();
+        $product_weights=ProductWeight::all();
+        return inertia::render('admin/products/edit',compact('product','product_types','product_weights'));
     }
 
     /**

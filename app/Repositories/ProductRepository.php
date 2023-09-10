@@ -34,7 +34,14 @@ class ProductRepository implements ProductInterface
 
     public function createProduct(array $attributes){
         try {
-            $product=Product::create($attributes);
+            $product=Product::create([
+                'name'=>$attributes['name'],
+                'description'=>$attributes['description'],
+                'product_type_id'=>$attributes['product_type'],
+                'product_weight_id'=>$attributes['product_weight'],
+                'user_id'=>$attributes['user_id'],
+
+            ]);
             return response()->json(['message'=>'Product created successfully','product'=>$product],200);
         }catch (\Exception $exception){
             return response()->json(['message'=>$exception->getMessage()],400);
