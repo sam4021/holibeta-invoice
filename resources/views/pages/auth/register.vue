@@ -8,6 +8,14 @@ let form=useForm({
     name:'',
     password_confirmation:''
 })
+
+const submit=()=>{
+    form.post(route('create.user'),{
+        onSuccess:()=>{
+            form.reset()
+        }
+    })
+}
 </script>
 
 <template>
@@ -20,10 +28,10 @@ let form=useForm({
                 <h1 class="text-center font-bold text-xl text-sky-600">MACHINE READING</h1>
                 <h2 class="my-5 font-medium text-center">Create account</h2>
                 <div class="my-5">
-                    <form>
+                    <form autocomplete="off"  @submit.prevent="submit">
                         <div class="my-5 grid">
                             <label for="form-name" class="sumo-label">Name:</label>
-                            <input type="email" class="sumo-input my-2" id="form-name" placeholder="Enter your name" required v-model="form.name"/>
+                            <input type="text" class="sumo-input my-2" id="form-name" placeholder="Enter your name" required v-model="form.name"/>
                             <div v-if="form.errors.name" class="sumo-error">
                                 <span>{{ form.errors.name }}</span>
                             </div>
@@ -66,6 +74,7 @@ let form=useForm({
         </div>
     </section>
 </template>
+
 
 <style scoped>
 

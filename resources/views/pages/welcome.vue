@@ -18,7 +18,7 @@ let form=useForm({
             <h1 class="text-center font-bold text-xl text-sky-600">MACHINE READING</h1>
             <h2 class="my-5 font-medium text-center">Login to proceed</h2>
             <div class="my-5">
-                <form>
+                <form @submit.prevent="form.post(route('authenticate'))" autocomplete="off">
                     <div class="my-5 grid">
                         <label for="form-input" class="sumo-label">Email:</label>
                         <input type="email" class="sumo-input my-2" id="form-input" placeholder="Enter your email" required v-model="form.email"/>
