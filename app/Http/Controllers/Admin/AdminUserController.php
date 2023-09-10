@@ -19,6 +19,10 @@ use Illuminate\Support\Str;
 
 class AdminUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:'.RoleEnum::Admin->value]);
+    }
 
     /**
      * Display a listing of the resource.

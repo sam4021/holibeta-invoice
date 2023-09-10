@@ -68,11 +68,10 @@ const logout=()=>{
                 <div class="flex gap-2 items-center border-b py-3 border-gray-300">
                     <div>
                         <img alt="User profile" :src="'/images/lady-smiling-on-call.jpg'" class="h-11 rounded-full">
-
                     </div>
                     <div>
-                        <h6 class="font-bold text-sm">Maria Wanderi</h6>
-                        <Link href="#" class="text-sky-700 text-sm">Edit profile</Link>
+                        <h6 class="font-bold text-sm">{{$page.props.auth.name}}</h6>
+                        <Link :href="route('auth.editProfile')" class="text-sky-700 text-sm">Edit profile</Link>
                     </div>
                 </div>
                 <div class="py-3">

@@ -25,6 +25,9 @@ Route::group(['middleware'=>['auth']], function (){
     Route::post('/auth/resend-link',[AuthenticatedUser::class, 'resendVerification'])->name('resend.link')->middleware('throttle:6,1');
     Route::get('/auth/authUser',[AuthenticatedUser::class, 'getAuthUser'])->name('auth.authUser');
     Route::get('/auth/refreshAuthSession',[AuthenticatedUser::class, 'refreshAuthSession'])->name('auth.refreshAuthSession');
+    Route::get('/auth/edit-profile',[AuthenticatedUser::class, 'editProfile'])->name('auth.editProfile');
+    Route::post('/auth/update-profile',[AuthenticatedUser::class, 'updateProfile'])->name('auth.updateProfile');
+    Route::post('/auth/update-password',[AuthenticatedUser::class, 'updatePassword'])->name('auth.updatePassword');
 });
 
 

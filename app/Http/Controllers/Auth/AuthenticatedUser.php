@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules;
 use App\Enums\RoleEnum;
+use App\Rules\MatchOldPassword;
 
 class AuthenticatedUser extends Controller
 {
@@ -149,5 +150,40 @@ class AuthenticatedUser extends Controller
 
     public function refreshAuthSession(){
         AuthController::custom_auth_session();
+    }
+
+    public function editProfile(){
+        $user = Auth::user();
+        return inertia::render('auth/profile',compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['required'],
+        ]);
+
+        User::whereId(auth()->user()->id)->update([
+            'email' => $request->email,
+            'name' => $request->name,
+        ]);
+
+        return back()->with("status", "Details changed successfully!");
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => ['required',new MatchOldPassword],
+            'new_password' => ['required','same:password_confirmation'],
+            'password_confirmation' => ['required']
+        ]);
+
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with("status", "Password changed successfully!");
     }
 }

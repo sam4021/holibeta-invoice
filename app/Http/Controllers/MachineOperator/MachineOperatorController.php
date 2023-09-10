@@ -5,9 +5,14 @@ namespace App\Http\Controllers\MachineOperator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Enums\RoleEnum;
 
 class MachineOperatorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:'.RoleEnum::MachineOperator->value]);
+    }
     /**
      * Display a listing of the resource.
      */

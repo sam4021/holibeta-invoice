@@ -10,6 +10,7 @@ use App\Models\Machine;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use App\Enums\RoleEnum;
 
 class AdminMachineController extends Controller
 {
@@ -17,6 +18,7 @@ class AdminMachineController extends Controller
 
     public function __construct(MachineInterface $machineRepository){
         $this->machineRepository=$machineRepository;
+        $this->middleware(['role:'.RoleEnum::Admin->value]);
     }
 
     /**

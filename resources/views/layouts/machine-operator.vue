@@ -71,8 +71,8 @@ const logout=()=>{
 
                     </div>
                     <div>
-                        <h6 class="font-bold text-sm">Maria Wanderi</h6>
-                        <Link href="#" class="text-sky-700 text-sm">Edit profile</Link>
+                        <h6 class="font-bold text-sm">{{$page.props.auth.name}}</h6>
+                        <Link :href="route('auth.editProfile')" class="text-sky-700 text-sm">Edit profile</Link>
                     </div>
                 </div>
                 <div class="py-3">

@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Enums\RoleEnum;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:'.RoleEnum::Admin->value]);
+    }
+
     /**
      * Display a listing of the resource.
      */
