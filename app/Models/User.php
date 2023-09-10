@@ -46,4 +46,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function verifiable(){
+        return $this->hasMany(VerifyUser::class);
+    }
 }

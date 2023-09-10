@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
 import { initFlowbite } from 'flowbite'
-import {Link} from "@inertiajs/vue3";
+import {Link,useForm} from "@inertiajs/vue3";
 
 onMounted(() => {
     initFlowbite();
 })
+let form=useForm({
+
+})
+const logout=()=>{
+    form.post(route('logout'),{
+        onSuccess:()=>{
+        }
+    })
+}
 </script>
 
 <template>
@@ -114,6 +123,16 @@ onMounted(() => {
                         <span class="ml-3">Readings</span>
                     </Link>
                 </li>
+                <li>
+                    <Link :href="route('admin.users.index')" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group">
+
+                        <svg class="h-5 fill-gray-900 group-hover:fill-sky-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M80 256v64c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V256c0-17.67-14.33-32-32-32h-160C94.33 224 80 238.3 80 256zM365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0H64C28.65 0 0 28.65 0 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160L224 128c0 17.67 14.33 32 32 32h79.1V448zM96 128h80C184.8 128 192 120.8 192 112S184.8 96 176 96H96C87.16 96 80 103.2 80 112S87.16 128 96 128zM96 192h80C184.8 192 192 184.8 192 176S184.8 160 176 160H96C87.16 160 80 167.2 80 176S87.16 192 96 192zM288 384h-80c-8.844 0-16 7.156-16 16s7.156 16 16 16H288c8.844 0 16-7.156 16-16S296.8 384 288 384z"/>
+                        </svg>
+
+                        <span class="ml-3">Users</span>
+                    </Link>
+                </li>
 
 
             </ul>
@@ -130,14 +149,14 @@ onMounted(() => {
                     </li>
 
                     <li>
-                        <Link href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group">
+                        <button @click="logout()" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group">
 
                             <svg class="h-5 fill-gray-900 group-hover:fill-sky-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M312 336c6.156 0 12.28-2.344 16.97-7.031c9.375-9.375 9.375-24.56 0-33.94L81.94 48H192c13.25 0 24-10.75 24-24S205.3 0 192 0H24C10.75 0 0 10.75 0 24V192c0 13.25 10.75 24 24 24S48 205.3 48 192V81.94l247 247C299.7 333.7 305.8 336 312 336zM288 64c-13.25 0-24 10.75-24 24S274.8 112 288 112c97.03 0 176 78.97 176 176s-78.97 176-176 176S112 385 112 288c0-13.25-10.75-24-24-24S64 274.8 64 288c0 123.5 100.5 224 224 224s224-100.5 224-224S411.5 64 288 64z"/>
                             </svg>
 
                             <span class="ml-3">Logout</span>
-                        </Link>
+                        </button>
                     </li>
 
                 </ul>

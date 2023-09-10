@@ -6,5 +6,5 @@ enum RoleEnum:string
 {
 case Admin='Admin';
 case Supervisor='Supervisor';
-case MachineOperator='MachineOperator';
+case MachineOperator='Machine Operator';
 }

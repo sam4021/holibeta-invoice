@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
-import {Link, Head} from "@inertiajs/vue3";
+import { initFlowbite } from 'flowbite'
+import {Head} from "@inertiajs/vue3";
 import Admin from "@/views/layouts/admin.vue";
+
+onMounted(() => {
+    initFlowbite();
+})
 </script>
 
 <template>
