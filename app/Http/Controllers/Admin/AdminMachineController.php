@@ -2,22 +2,33 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MachineResource;
+use App\Interfaces\MachineInterface;
 use App\Models\Machine;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class AdminMachineController extends Controller
 {
+    private MachineInterface $machineRepository;
+
+    public function __construct(MachineInterface $machineRepository){
+        $this->machineRepository=$machineRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $machines=MachineResource::collection(Machine::all());
-        return inertia::render('admin/machines/index', compact('machines'));
+        $machines=$this->machineRepository->getMachines();
+        $filters = request()->all('search', 'showing');
+        $statuses=StatusEnum::cases();
+        return inertia::render('admin/machines/index', compact('machines','filters','statuses'));
     }
 
     /**
@@ -34,6 +45,18 @@ class AdminMachineController extends Controller
     public function store(Request $request)
     {
         //
+
+        $validated=$request->validate([
+            'name'=>'required|string|max:125',
+            'status'=>'required|string',
+        ]);
+        $machine=$this->machineRepository->storeMachine($validated);
+
+        if ($machine->status()==200) {
+            return redirect()->back()->with('success', 'Machine created successfully');
+        } else {
+            return redirect()->back()->with('status', 'Machine creation failed');
+        }
     }
 
     /**
@@ -58,6 +81,16 @@ class AdminMachineController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validated=$request->validate([
+            'name'=>'required|string|max:125',
+            'status'=>'required|string',
+        ]);
+        $machine=$this->machineRepository->updateMachine($validated,$id);
+        if ($machine['status']==200) {
+            return redirect()->back()->with('success', $machine['message']);
+        } else {
+            return redirect()->back()->with('status', $machine['message']);
+        }
     }
 
     /**
@@ -66,5 +99,12 @@ class AdminMachineController extends Controller
     public function destroy(string $id)
     {
         //
+
+        $machine=$this->machineRepository->machineDelete($id);
+        if ($machine->status()==200) {
+            return redirect()->back()->with('success', 'Machine deleted successfully');
+        } else {
+            return redirect()->back()->with('status', 'Machine deletion failed');
+        }
     }
 }

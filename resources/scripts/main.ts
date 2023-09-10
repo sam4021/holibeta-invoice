@@ -6,6 +6,7 @@ axios.defaults.baseURL=import.meta.env.VITE_APP_URL;
 import '../css/main.css'
 import 'flowbite';
 
+
 createInertiaApp({
     resolve: (name) => resolvePageComponent(`../views/pages/${name}.vue`, import.meta.glob('../views/pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
