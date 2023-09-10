@@ -5,19 +5,32 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Models\VerifyUser;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Enums\RoleEnum;
-
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\NewUserNotification;
+use App\Notifications\PasswordResetNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AdminUserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = UserResource::collection(User::all());
+        $users = User::query()
+        ->when(request('search'), function($query){
+            $query->where('name','like','%'.request('search').'%');
+        })
+      ->paginate(request('showing')??10);
+        $users = UserResource::collection($users);
         $roles = RoleEnum::cases();
 
         $filters=request()->only(['search','showing']);
@@ -37,36 +50,34 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $validated=$request->validate([
+            'name'=>['required', 'string', 'max:255'],
+            'email'=>['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role' =>['required']
+        ]);
+        DB::beginTransaction();
         try{
-            $validated=$request->validate([
-                'name'=>['required', 'string', 'max:255'],
-                'email'=>['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8','confirmed'],
-                'password_confirmation'=>['required'],
-                'role' =>['required']
-            ]);
             $role=Role::findByName($validated['role']);
+            $temp_pass=Str::random(8);
                $user=User::create([
                    'name'=>$validated['name'],
                    'email'=>$validated['email'],
-                   'password'=>Hash::make($validated['password']),
+                   'password'=>Hash::make($temp_pass),
                    'first_login'=>1
                ]);
                $user->assignRole($role);
        
-               //create email verification token
-               $token=rand(111111,999999);
-               VerifyUser::create([
-                   'user_id'=>$user->id,
-                   'otp_code'=>$token
-               ]);
-               //event for email verification
-              $user->notify(new EmailVerificationNotification($token));
+               //event
+              $user->notify(new NewUserNotification($temp_pass));
 
-            return response('User Created Successfully', 200);
+              DB::commit();
+            return redirect()->back()->with('success', 'User Created Successfully');
         }
         catch(\Exception $e){
-            return response('User Not Created. Try again', 400);
+            DB::rollBack();
+            dd($e);
+            return redirect()->back()->with('status', 'User Not Created. Try again');
         }
     }
 
@@ -91,7 +102,20 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated=$request->validate([
+            'name'=>['required', 'string', 'max:255'],
+            'role'=>['required']
+        ]);
+
+        User::findOrFail($id)->update([
+            'name' => $validated['name'],
+        ]);
+        $user = User::find($id);
+        if($validated['role'] != $user->getRoleNames()[0]){
+            $user->removeRole($user->getRoleNames()[0]);
+            $user->assignRole($validated['role']);
+        }
+        return redirect()->back()->with('success', 'User Created Successfully');
     }
 
     /**
@@ -101,9 +125,9 @@ class AdminUserController extends Controller
     {
         try {
             User::destroy($id);
-            return response('User Deleted Successfully', 200);
+            return redirect()->back()->with('success', 'User Deleted Successfully');
         } catch (\Exception $e) {
-            return response('User Not Deleted. Try again Later', 400);
+            return redirect()->back()->with('User Not Deleted. Try again Later');
         }
     }
 }

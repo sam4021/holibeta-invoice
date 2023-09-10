@@ -19,3 +19,5 @@ Route::get('/', [MainController::class, 'home'])->name('login');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
+require __DIR__.'/machine-operator.php';
+require __DIR__.'/supervisor.php';
