@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules;
+use App\Enums\RoleEnum;
 
 class AuthenticatedUser extends Controller
 {
@@ -67,30 +68,20 @@ class AuthenticatedUser extends Controller
                         'status'=>0
                     ]);
                     $role=Auth::user()->getRoleNames()->first();
-                    return  redirect()->route('manager.index');
-                    /*
+                    // return  redirect()->route('manager.index');
                     switch ($role) {
-                        case($role=='Super-Admin'):
-                            return redirect(RouteServiceProvider::HOME);
+                        case($role==RoleEnum::Admin->value):
+                            return redirect(RouteServiceProvider::ADMIN);
                             break;
-                        case($role=='Property-manager'):
-                            return redirect(RouteServiceProvider::MANAGER);
+                        case($role==RoleEnum::Supervisor->value):
+                            return redirect(RouteServiceProvider::SUPERVISOR);
                             break;
-                        case($role=='Landlord'):
-                            return redirect(RouteServiceProvider::LANDLORD);
-                            break;
-                        case($role=='Staff'):
-                            return redirect(RouteServiceProvider::STAFF);
-                            break;
-                        case($role=='Tenant'):
-                            return redirect(RouteServiceProvider::TENANT);
-                        case($role=='Caretaker'):
-                            return redirect(RouteServiceProvider::CARETAKER);
+                        case($role==RoleEnum::MachineOperator->value):
+                            return redirect(RouteServiceProvider::MACHINEOPERATOR);
                             break;
                         default:
                             return redirect('/');
                     }
-                    */
                 }else{
                     return redirect('/');
                 }

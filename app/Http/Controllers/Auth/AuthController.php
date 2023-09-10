@@ -36,6 +36,7 @@ class AuthController extends Controller
             'name'=>$validated['name'],
             'email'=>$validated['email'],
             'password'=>Hash::make($validated['password']),
+            'first_login'=>1
         ]);
         $user->assignRole($role);
 

@@ -37,7 +37,7 @@ let form=useForm({
 
                     <div class="my-5 grid gap-3 md:flex justify-center md:justify-between items-center">
                         <div class="order-2 md:order-1 text-center md:text-start ">
-                           <Link href="#" class="hover:text-sky-700">Forgot password</Link>
+                           <Link :href="route('password-reset')" class="hover:text-sky-700">Forgot password</Link>
                         </div>
                         <div class="order-1 md:order-2">
                             <button type="submit" class="btn-primary w-44">Login</button>

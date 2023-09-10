@@ -4,13 +4,10 @@
     </Head>
     <div class="grid h-screen bg-sumo-300 grid-cols-2">
         <div class="flex justify-center">
-            <product-description></product-description>
+            
         </div>
         <div class="bg-white rounded-l-3xl flex justify-center">
             <div class="self-center w-3/5 px-5">
-                <div class="py-3 place-content-center">
-                    <img alt="RemsGlobal Logo" :src="'/images/final-logo-outlines.png'" class="w-96 mb-5">
-                </div>
                 <div class="mt-32">
                     <div class=" py-5 px-5">
                         <div class="bg-sky-50 p-3 flex rounded-md"  v-if="$page.props.status">
@@ -63,7 +60,7 @@
 
 <script setup lang="ts">
 import {Head, Link, useForm} from "@inertiajs/vue3";
-import ProductDescription from "@/views/components/general-components/product-description.vue";
+
 let form=useForm({
     otp_code:''
 })

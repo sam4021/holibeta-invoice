@@ -16,7 +16,6 @@ class UpdatePasswordMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         if (Auth::guard('web')){
             if (Auth::check()){
                 if (Auth::user()->first_login){
