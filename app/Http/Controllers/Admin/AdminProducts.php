@@ -48,6 +48,19 @@ class AdminProducts extends Controller
     public function store(Request $request)
     {
         //
+        $validated=$request->validate([
+           'name'=>'required|string|max:125',
+            'description'=>'nullable|string',
+            'product_type'=>'required|integer|exists:product_types,id',
+            'product_weight'=>'required|integer|exists:product_weights,id',
+            'user_id'=>'required|integer|exists:users,id',
+        ]);
+        $product=$this->productRepository->createProduct($validated);
+        if ($product->status()==200){
+            return redirect()->route('products.index')->with('success','Product created successfully');
+        }else{
+            return redirect()->back()->with('status','Product could not be created');
+        }
     }
 
     /**
