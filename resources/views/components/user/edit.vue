@@ -40,6 +40,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 gap-1 my-5">
+                                <div>
+                                    <label class="sumo-label" for="role">Role:</label>
+                                    <select class="sumo-input my-2" v-model="form.role">
+                                        <option value="">Select role</option>
+                                        <option :value="status" :key="index" v-for="(status, index) in statuses">{{status}}</option>
+
+                                    </select>
+                                    <input type="text" class="sumo-input my-3" id="role" v-model="form.role">
+                                    <div v-if="form.errors.name" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.name }}</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="my-3 flex justify-end">
                                 <button type="submit" class="btn-primary">Update User <span v-show="form.processing" class="ml-2 animate-ping"><i class="fa-solid fa-ellipsis"></i></span></button>
                             </div>
@@ -57,13 +71,15 @@ import {ref} from "vue";
 
 let props=defineProps({
     user:Object,
+    roles:Object
 })
 
 let show=ref(false)
 
 let form=useForm({
     'email': '',
-    'name': ''
+    'name': '',
+    'role':''
 })
 const launchForm=()=>{
     form.name=props.user?.name

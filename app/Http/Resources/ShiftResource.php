@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MachineResource extends JsonResource
+class ShiftResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,10 @@ class MachineResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'status'=>$this->status,
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'start_time'=>$this->start_time,
+            'end_time'=>$this->end_time
         ];
     }
 }

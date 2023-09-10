@@ -28,7 +28,7 @@ class ShiftSeeder extends Seeder
                 'end_time'=>'11:00:00'
             ],
             [
-                'name'=>'Shift 2',
+                'name'=>'Shift 3',
                 'start_time'=>'11:00:01',
                 'end_time'=>'8:00:00'
             ]
