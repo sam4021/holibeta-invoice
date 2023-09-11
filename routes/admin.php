@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\AdminProducts;
 use App\Http\Controllers\Admin\AdminShiftController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware'=>['auth','verified','update_password']], function (){
+Route::group(['middleware'=>['auth','verified','update_password','role:Admin']], function (){
     Route::resource('admin/machines',AdminMachineController::class);
     Route::patch('admin/readings/confirmed/{id}',[AdminReadingController::class, 'markConfirmed'])->name('mark.reading.confirmed');
     Route::resource('admin/readings',AdminReadingController::class);
