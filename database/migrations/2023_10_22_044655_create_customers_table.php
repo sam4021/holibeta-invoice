@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('machines', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('created_by')->index();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
-            $table->string('name',125);
-            $table->string('slug',125);
-            $table->string('status')->default(\App\Enums\StatusEnum::Enabled->value);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('machines');
+        Schema::dropIfExists('customers');
     }
 };

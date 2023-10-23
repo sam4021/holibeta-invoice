@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_weights', function (Blueprint $table) {
+        Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
+            $table->string('name',125)->unique();
+            $table->string('slug',125)->unique();
+            $table->unsignedBigInteger('created_by')->index();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
-            $table->decimal('weight', 10,2);
-            $table->string('measurement_unit',50);
-            $table->integer('packaging_quantity');
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_weights');
+        Schema::dropIfExists('suppliers');
     }
 };
