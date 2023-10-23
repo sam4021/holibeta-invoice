@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div @click="show=true">
         <slot name="trigger"></slot>
     </div>
@@ -18,7 +18,7 @@
 
                             <slot name="header">
                                 <div class="font-bold text-sumo-300 text-lg">
-                                    <h6>Update Machine</h6>
+                                    <h6>Create Vehicle</h6>
                                 </div>
                             </slot>
                             <div>
@@ -37,20 +37,10 @@
                         <form @submit.prevent="submit" id="saveFacilities">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div>
-                                    <label for="name" class="text-sm font-medium text-gray-700">Machine name</label>
+                                    <label for="name" class="text-sm font-medium text-gray-700">Vehicle name</label>
                                     <input v-model="form.name" type="text" id="name" name="name" class="sumo-input my-2">
                                     <div class="sumo-error" v-if="form.errors.name">
                                         {{ form.errors.name }}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="name" class="text-sm font-medium text-gray-700">Status</label>
-                                    <select class="sumo-input my-2" v-model="form.status">
-                                        <option :value="status" :key="index" v-for="(status, index) in statuses">{{status}}</option>
-
-                                    </select>
-                                    <div class="sumo-error" v-if="form.errors.status">
-                                        {{ form.errors.status }}
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +49,7 @@
                     <hr>
                     <footer class="p-3.5">
                         <div class="flex justify-end">
-                            <button form="saveFacilities" type="submit" class="btn-primary btn-medium">Update machine</button>
+                            <button form="saveFacilities" type="submit" class="btn-primary btn-medium">Save Vehicle</button>
                         </div>
                     </footer>
                 </div>
@@ -73,8 +63,7 @@ import {watch, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 
 let props=defineProps({
-    machine:Object,
-    statuses:Object
+   
 })
 
 const show=ref(false)
@@ -90,14 +79,11 @@ watch(show,(val)=>{
 
 
 let form=useForm({
-    name:props.machine?.name,
-    status:props.machine?.status,
-    _method:'PATCH'
-
+    name:'',
 })
 
 const submit = () => {
-    form.post(route('machines.update',props.machine?.id),{
+    form.post(route('vehicles.store'),{
         preserveScroll:true,
         onSuccess:()=>{
             show.value=false
@@ -110,4 +96,4 @@ const submit = () => {
 
 <style scoped>
 
-</style>
+</style> -->

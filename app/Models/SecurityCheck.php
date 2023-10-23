@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SecurityCheck extends Model
 {
     use HasFactory,SoftDeletes;
+
+    protected $fillable = [
+        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_id', 'front_image', 'back_image', 'side_image'
+    ];
 }

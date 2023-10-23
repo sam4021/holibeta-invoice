@@ -12,6 +12,10 @@ class Vehicle extends Model
 {
     use HasFactory,SoftDeletes, Sluggable, SluggableScopeHelpers;
 
+    protected $fillable = [
+        'name', 'created_by'
+    ];
+
     public function sluggable(): array
     {
         return [

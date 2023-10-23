@@ -6,18 +6,14 @@ import {PropType, ref, watch, watchEffect} from "vue";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
 import debounce from 'lodash'
 import DataPagination from "@/views/components/general-components/data-pagination.vue";
-import UpdateMachine from "@/views/components/machine/update-machine.vue";
-import CreateMachine from "@/views/components/machine/create-machine.vue";
+// import UpdateVehicle from "@/views/components/vehicle/update-vehicle.vue";
+import CreateVehicle from "@/views/components/vehicle/create.vue";
 let props=defineProps({
-    machines: {
-        type: Object as PropType<Machine[]>,
+    vehicles: {
+        type: Object as PropType<Vehicle[]>,
         required: true
     },
     filters: Object as PropType<Filters>,
-    statuses: {
-        type: Object as PropType<Status[]>,
-        required: true
-    },
 })
 
 const search = ref<String>(props.filters.search);
@@ -28,37 +24,37 @@ const clearFilter=()=>{
 
 
 watch([search,showing],()=>{
-    router.get(route('machines.index', {
+    router.get(route('vehicles.index', {
         search: search.value,
         showing: showing.value,
     },{preserveScroll:true,preserveState:true}))
 },)
 
-const deleteMachine=(id:number)=>{
-    router.delete(route('machines.destroy',id))
+const deleteVehicle=(id:number)=>{
+    router.delete(route('vehicles.destroy',id))
 };
 
 </script>
 
 <template>
-    <Head title="Machines" />
+    <Head title="Vehicles" />
 <admin>
 <div class="flex justify-between items-center">
     <div>
-        <h1 class="text-2xl font-bold">Machines</h1>
+        <h1 class="text-2xl font-bold">Vehicles</h1>
     </div>
     <div>
-        <create-machine :statuses="statuses">
+        <create-vehicle>
             <template #trigger>
                 <button class="btn-simple btn-medium flex items-center gap-2">
 
                     <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                         <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
                     </svg>
-                    <span> Add Machine</span>
+                    <span> Add Vehicle</span>
                 </button>
             </template>
-        </create-machine>
+        </create-vehicle>
 
     </div>
 </div>
@@ -86,7 +82,7 @@ const deleteMachine=(id:number)=>{
         </div>
     </div>
 
-    <!--machine table-->
+    <!--vehicle table-->
     <div class="border rounded-xl overflow-hidden shadow-sm">
         <div>
             <div class="relative">
@@ -94,7 +90,7 @@ const deleteMachine=(id:number)=>{
                     <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                     <tr>
                         <th scope="col" class="px-2 py-3">
-                            Machine name
+                            Vehicle name
                         </th>
 
                         <th scope="col" class="px-2 py-3">
@@ -106,27 +102,27 @@ const deleteMachine=(id:number)=>{
                     </tr>
                     </thead>
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
-                    <tr class="border-b" v-for="machine in machines.data" :key="machine.id" >
+                    <tr class="border-b" v-for="vehicle in vehicles.data" :key="vehicle.id" >
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
-                            {{machine.name}}
+                            {{vehicle.name}}
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            {{machine.status}}
+                            {{vehicle.status}}
                         </td>
                         <td class="px-2 py-3">
-                            <update-machine :machine="machine" :statuses="statuses">
+                            <!-- <update-vehicle :vehicle="vehicle">
                                 <template #trigger>
                                     <button class="text-green-600">Update</button>
                                 </template>
-                            </update-machine>
+                            </update-vehicle> -->
 
 
                         </td>
                         <td class="px-2 py-3">
                             <prompt-alert
-                                title="Are you sure you want to delete this machine?"
+                                title="Are you sure you want to delete this vehicle?"
                                 description="All related data will be deleted"
-                                @proceed="deleteMachine(machine.id)"
+                                @proceed="deleteVehicle(vehicle.id)"
                             >
                                 <template #trigger>
                                     <button class="text-red-500">Delete</button>
@@ -138,7 +134,7 @@ const deleteMachine=(id:number)=>{
                     </tbody>
                 </table>
                 <!--pagination-->
-                <data-pagination :data="machines"></data-pagination>
+                <data-pagination :data="vehicles"></data-pagination>
             </div>
         </div>
     </div>

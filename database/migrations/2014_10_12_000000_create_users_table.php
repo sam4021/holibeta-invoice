@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->boolean('first_login')->default(false);
             $table->boolean('email_verified')->default(false);
+            $table->softDeletes();
         });
     }
 

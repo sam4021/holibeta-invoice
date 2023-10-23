@@ -26,12 +26,24 @@ class RoleSeeder extends Seeder
                 'guard_name'=>'web'
             ],
             [
-                'name'=>RoleEnum::Supervisor->value,
+                'name'=>RoleEnum::Supplier->value,
                 'guard_name'=>'web'
             ],
             [
-                'name'=>RoleEnum::MachineOperator->value,
+                'name'=>RoleEnum::Customer->value,
                 'guard_name'=>'web'
+            ],
+            [
+                'name' => RoleEnum::Security->value,
+                'guard_name' => 'web'
+            ],
+            [
+                'name' => RoleEnum::Warehouse->value,
+                'guard_name' => 'web'
+            ],
+            [
+                'name' => RoleEnum::Weighbridge->value,
+                'guard_name' => 'web'
             ],
         ];
 

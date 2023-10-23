@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
-use App\Interfaces\MachineInterface;
+use App\Interfaces\VehicleInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Enums\RoleEnum;
+use Illuminate\Support\Facades\Auth;
 
-class AdminMachineController extends Controller
+class AdminVehicleController extends Controller
 {
-    private MachineInterface $machineRepository;
+    private VehicleInterface $vehicleRepository;
 
-    public function __construct(MachineInterface $machineRepository){
-        $this->machineRepository=$machineRepository;
+    public function __construct(VehicleInterface $vehicleRepository){
+        $this->vehicleRepository= $vehicleRepository;
         $this->middleware(['role:'.RoleEnum::Admin->value]);
     }
 
@@ -25,11 +26,10 @@ class AdminMachineController extends Controller
     {
         //
 
-        $machines=$this->machineRepository->getMachines();
+        $vehicles=$this->vehicleRepository->getVehicles();
         $filters = request()->all('search', 'showing');
-        $statuses=StatusEnum::cases();
 
-        return inertia::render('admin/machines/index', compact('machines','filters','statuses'));
+        return inertia::render('admin/vehicles/index', compact('vehicles','filters'));
     }
 
     /**
@@ -49,14 +49,14 @@ class AdminMachineController extends Controller
 
         $validated=$request->validate([
             'name'=>'required|string|max:125',
-            'status'=>'required|string',
         ]);
-        $machine=$this->machineRepository->storeMachine($validated);
+        $validated['created_by'] = Auth::user()->id;
+        $vehicle=$this->vehicleRepository->storeVehicle($validated);
 
-        if ($machine->status()==200) {
-            return redirect()->back()->with('success', 'Machine created successfully');
+        if ($vehicle->status()==200) {
+            return redirect()->back()->with('success', 'Vehicle created successfully');
         } else {
-            return redirect()->back()->with('status', 'Machine creation failed');
+            return redirect()->back()->with('status', 'Vehicle creation failed');
         }
     }
 
@@ -86,11 +86,11 @@ class AdminMachineController extends Controller
             'name'=>'required|string|max:125',
             'status'=>'required|string',
         ]);
-        $machine=$this->machineRepository->updateMachine($validated,$id);
-        if ($machine['status']==200) {
-            return redirect()->back()->with('success', $machine['message']);
+        $vehicle=$this->vehicleRepository->updateVehicle($validated,$id);
+        if ($vehicle['status']==200) {
+            return redirect()->back()->with('success', $vehicle['message']);
         } else {
-            return redirect()->back()->with('status', $machine['message']);
+            return redirect()->back()->with('status', $vehicle['message']);
         }
     }
 
@@ -101,11 +101,11 @@ class AdminMachineController extends Controller
     {
         //
 
-        $machine=$this->machineRepository->machineDelete($id);
-        if ($machine->status()==200) {
-            return redirect()->back()->with('success', 'Machine deleted successfully');
+        $vehicle=$this->vehicleRepository->deleteVehicle($id);
+        if ($vehicle->status()==200) {
+            return redirect()->back()->with('success', 'Vehicle deleted successfully');
         } else {
-            return redirect()->back()->with('status', 'Machine deletion failed');
+            return redirect()->back()->with('status', 'Vehicle deletion failed');
         }
     }
 }

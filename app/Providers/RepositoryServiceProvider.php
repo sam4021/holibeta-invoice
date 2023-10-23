@@ -2,16 +2,12 @@
 
 namespace App\Providers;
 
-use App\Interfaces\MachineInterface;
-use App\Interfaces\ProductInterface;
-use App\Interfaces\ReadingInterface;
-use App\Interfaces\ShiftInterface;
-use App\Repositories\MachineRepository;
+use App\Interfaces\VehicleInterface;
+use App\Repositories\VehicleRepository;
+use App\Interfaces\SupplierInterface;
+use App\Repositories\SupplierRepository;
 use App\Interfaces\UserInterface;
-use App\Repositories\ReadingRepository;
 use App\Repositories\UserRepository;
-use App\Repositories\ProductRepository;
-use App\Repositories\ShiftRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -22,12 +18,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(MachineInterface::class,MachineRepository::class);
+        $this->app->bind(VehicleInterface::class, VehicleRepository::class);
+        $this->app->bind(SupplierInterface::class, SupplierRepository::class);
         $this->app->bind(UserRepository::class, UserInterface::class);
-        $this->app->bind(MachineInterface::class,MachineRepository::class);
-        $this->app->bind(ShiftInterface::class,ShiftRepository::class);
-        $this->app->bind(ProductInterface::class,ProductRepository::class);
-        $this->app->bind(ReadingInterface::class,ReadingRepository::class);
     }
 
     /**

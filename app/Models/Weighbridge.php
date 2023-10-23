@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Weighbridge extends Model
 {
     use HasFactory,SoftDeletes;
+
+    protected $fillable = [
+        'supplier_id', 'created_by', 'weight'
+    ];
 }
