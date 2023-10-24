@@ -14,13 +14,7 @@ class SecurityCheckRepository implements SecurityCheckInterface
 {
 
     public function getSecurityChecks(){
-        $securityChecks=SecurityCheck::with(['product','shift','user','confirmBy','machine'])
-            ->when(request('search'),function ($query){
-                $query->whereHas('product', function ($q){
-                    $q->where('name','like','%'.request('search').'%');
-                });
-
-            })
+        $securityChecks=SecurityCheck::with(['supplier', 'createdBy', 'vehicle'])
             ->when(request('shift'),function ($query){
                 $query->where('shift_id',request('shift'));
             })
@@ -33,12 +27,11 @@ class SecurityCheckRepository implements SecurityCheckInterface
     }
 
     public function getSecurityCheckById(string $id){
-        return new SecurityCheckResource(SecurityCheck::findOrFail($id));
+        return new SecurityCheckResource(SecurityCheck::with(['supplier', 'createdBy', 'vehicle'])->findOrFail($id));
     }
 
     public function  createSecurityCheck($data){
         try {
-
             $securityCheck=SecurityCheck::create([
                 'supplier_id'=>$data['supplier'], 
                 'created_by'=>$data['created_by'], 
@@ -60,21 +53,22 @@ class SecurityCheckRepository implements SecurityCheckInterface
             $securityCheck=SecurityCheck::findOrFail($id);
             $securityCheck->update(
                 [
-                    'name'=>$data['name'],
-                    'description'=>$data['description'],
-                    'product_type_id'=>$data['product_type'],
-                    'product_weight_id'=>$data['product_weight'],
-                    'user_id'=>$data['user_id'],
+                    'supplier_id' => $data['supplier'],
+                    'vehicle_reg_no' => $data['vehicle_reg_no'],
+                    'vehicle_id' => $data['vehicle'],
+                    // 'front_image' => $data['front_image'],
+                    // 'back_image' => $data['back_image'],
+                    // 'side_image' => $data['side_image']
                 ]
             );
             return response()->json(['message'=>'Security Check updated successfully','securityCheck'=>$securityCheck],200);
         }catch (\Exception $exception){
-
+dd($exception->getMessage());
             return response()->json(['message'=>$exception->getMessage()],400);
         }
     }
 
-    public function deleteSecurityCheck(string $id)
+    public function deleteSecurityCheck(int $id)
     {
 
         try {

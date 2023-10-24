@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
     <div @click="show=true">
         <slot name="trigger"></slot>
     </div>
@@ -18,7 +18,7 @@
 
                             <slot name="header">
                                 <div class="font-bold text-sumo-300 text-lg">
-                                    <h6>Create Vehicle</h6>
+                                    <h6>Update Vehicle</h6>
                                 </div>
                             </slot>
                             <div>
@@ -49,7 +49,7 @@
                     <hr>
                     <footer class="p-3.5">
                         <div class="flex justify-end">
-                            <button form="saveFacilities" type="submit" class="btn-primary btn-medium">Save Vehicle</button>
+                            <button form="saveFacilities" type="submit" class="btn-primary btn-medium">Update Vehicle</button>
                         </div>
                     </footer>
                 </div>
@@ -63,7 +63,7 @@ import {watch, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 
 let props=defineProps({
-   
+    vehicle:Object,
 })
 
 const show=ref(false)
@@ -79,11 +79,14 @@ watch(show,(val)=>{
 
 
 let form=useForm({
-    name:'',
+    name:props.vehicle?.name,
+    status:props.vehicle?.status,
+    _method:'PATCH'
+
 })
 
 const submit = () => {
-    form.post(route('vehicles.store'),{
+    form.post(route('vehicles.update',props.vehicle?.id),{
         preserveScroll:true,
         onSuccess:()=>{
             show.value=false
@@ -96,4 +99,4 @@ const submit = () => {
 
 <style scoped>
 
-</style> -->
+</style>

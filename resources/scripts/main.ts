@@ -15,7 +15,7 @@ createInertiaApp({
             .mixin({ methods: { route: window.route } })
             .mount(el)
     },
-    title: title => `${title} | Machine Reading`,
+    title: title => `${title} | Smart Farm Inventory`,
     progress: {
         // The delay after which the progress bar will appear
         // during navigation, in milliseconds.

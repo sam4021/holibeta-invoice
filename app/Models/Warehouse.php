@@ -13,4 +13,14 @@ class Warehouse extends Model
     protected $fillable = [
         'supplier_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no'
     ];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Suppliers::class, 'supplier_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

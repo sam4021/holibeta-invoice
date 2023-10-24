@@ -18,7 +18,7 @@
 
                             <slot name="header">
                                 <div class="font-bold text-sumo-300 text-lg">
-                                    <h6>{{product.name}}</h6>
+                                    <h6>Update Vehicle</h6>
                                 </div>
                             </slot>
                             <div>
@@ -34,9 +34,24 @@
                     <hr>
                     <div class="p-3.5">
 
+                        <form @submit.prevent="submit" id="saveFacilities">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label for="name" class="text-sm font-medium text-gray-700">Vehicle name</label>
+                                    <input v-model="form.name" type="text" id="name" name="name" class="sumo-input my-2">
+                                    <div class="sumo-error" v-if="form.errors.name">
+                                        {{ form.errors.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-
-
+                    <hr>
+                    <footer class="p-3.5">
+                        <div class="flex justify-end">
+                            <button form="saveFacilities" type="submit" class="btn-primary btn-medium">Update Vehicle</button>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </Transition>
@@ -45,9 +60,12 @@
 
 <script setup lang="ts">
 import {watch, ref} from "vue";
-defineProps({
-    product:Object
+import {useForm} from "@inertiajs/vue3";
+
+let props=defineProps({
+    vehicle:Object,
 })
+
 const show=ref(false)
 
 watch(show,(val)=>{
@@ -58,6 +76,25 @@ watch(show,(val)=>{
     }
 })
 
+
+
+let form=useForm({
+    name:props.vehicle?.name,
+    status:props.vehicle?.status,
+    _method:'PATCH'
+
+})
+
+const submit = () => {
+    form.post(route('vehicles.update',props.vehicle?.id),{
+        preserveScroll:true,
+        onSuccess:()=>{
+            show.value=false
+            form.reset()
+
+        }
+    })
+}
 </script>
 
 <style scoped>

@@ -15,7 +15,7 @@ let form=useForm({
 <section>
     <div class="h-screen flex place-content-center p-3">
         <div class="self-center border rounded-lg p-3 md:p-8 w-full md:w-3/5 lg:w-2/5 overflow-hidden bg-white">
-            <h1 class="text-center font-bold text-xl text-sky-600">MACHINE READING</h1>
+            <h1 class="text-center font-bold text-xl text-sky-600">SMART FARM INVENTORY</h1>
             <h2 class="my-5 font-medium text-center">Login to proceed</h2>
             <div class="my-5">
                 <form @submit.prevent="form.post(route('authenticate'))" autocomplete="off">
