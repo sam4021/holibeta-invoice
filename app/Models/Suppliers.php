@@ -27,6 +27,6 @@ class Suppliers extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(Vehicle::class, 'created_by'); 
+        return $this->belongsTo(User::class, 'created_by'); 
     }
 }
