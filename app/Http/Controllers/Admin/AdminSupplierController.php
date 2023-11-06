@@ -50,7 +50,9 @@ class AdminSupplierController extends Controller
     {
         //
         $validated=$request->validate([
-           'name'=>'required|string|max:125',
+           'firstname'=>'required|string|max:20',
+           'middlename'=>'nullable|string|max:20',
+           'lastname'=>'required|string|max:20',
             'phone' => 'required|string',
             'email' => 'nullable|string',
             'id_no' => 'nullable|string',
@@ -93,7 +95,9 @@ class AdminSupplierController extends Controller
         //
 
         $validated=$request->validate([
-            'name' => 'required|string|max:125',
+            'firstname'=>'required|string|max:20',
+           'middlename'=>'nullable|string|max:20',
+           'lastname'=>'required|string|max:20',
             'phone' => 'required|string',
             'email' => 'nullable|string',
             'id_no' => 'nullable|string',

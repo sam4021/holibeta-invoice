@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use File;
 use App\Http\Controllers\Controller;
+use App\Interfaces\DriverInterface;
 use App\Interfaces\VehicleInterface;
 use App\Interfaces\SupplierInterface;
 use App\Interfaces\SecurityCheckInterface;
@@ -15,16 +16,18 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminSecurityCheckController extends Controller
 {
+    private $driverRepository;
     private $vehicleRepository;
     private $supplierRepository;
     private $securityCheckRepository;
     private $securityPath;
-    public function __construct(VehicleInterface $vehicleRepository, SupplierInterface $supplierRepository, SecurityCheckInterface $securityCheckRepository)
+    public function __construct(DriverInterface $driverRepository,VehicleInterface $vehicleRepository, SupplierInterface $supplierRepository, SecurityCheckInterface $securityCheckRepository)
     {
+        $this->driverRepository = $driverRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->supplierRepository = $supplierRepository;
         $this->securityCheckRepository = $securityCheckRepository;
-        $this->securityPath = public_path() . '/images/security-check/';
+        $this->securityPath = public_path() . '/images/delivery/';
         File::isDirectory($this->securityPath) or File::makeDirectory($this->securityPath, 0777, true, true);
     }
     /**
@@ -35,7 +38,7 @@ class AdminSecurityCheckController extends Controller
         //
         $securityChecks=$this->securityCheckRepository->getSecurityChecks();
         $filters=request()->all('search','showing','shift','machine');
-        return inertia::render('admin/security-check/index', compact(
+        return inertia::render('admin/delivery/index', compact(
             'securityChecks',
             'filters',
         ));
@@ -46,10 +49,10 @@ class AdminSecurityCheckController extends Controller
      */
     public function create()
     {
-        //
         $suppliers= $this->supplierRepository->getSuppliers();
         $vehicles= $this->vehicleRepository->getVehicles();
-        return inertia::render('admin/security-check/create',compact('suppliers','vehicles'));
+        $drivers=$this->driverRepository->getDrivers();
+        return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers'));
     }
 
     /**
@@ -59,12 +62,15 @@ class AdminSecurityCheckController extends Controller
     {
         //
         $validated=$request->validate([
-            'supplier'=>'required|integer|exists:suppliers,id', 
-            'vehicle_reg_no'=>'required', 
-            'vehicle'=>'required|integer|exists:vehicles,id', 
+            'stepOne'=>'required',
+            'stepOne.supplier'=>'required|integer|exists:suppliers,id', 
+            'stepOne.vehicle_reg_no'=>'required', 
+            'stepOne.vehicle'=>'required|integer|exists:vehicles,id', 
+            'stepOne.timeslot'=> 'required',  
             'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', 
             'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', 
-            'side_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048' 
+            'side_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048' ,
+            'driver'=> 'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
         if ($request->hasFile('front_image')) {
@@ -93,9 +99,9 @@ class AdminSecurityCheckController extends Controller
         }
         $securityCheck=$this->securityCheckRepository->createSecurityCheck($validated);
         if($securityCheck->status()==200){
-            return redirect()->route('security-check.index')->with('success','Security Check added successfully');
+            return redirect()->route('delivery.index')->with('success','Delivery added successfully');
         }else{
-            return redirect()->back()->with('status','Error adding a Security Check');
+            return redirect()->back()->with('status','Error adding a Delivery');
         }
     }
 
@@ -105,7 +111,7 @@ class AdminSecurityCheckController extends Controller
     public function show(string $id)
     {
         $securityCheck = $this->securityCheckRepository->getSecurityCheckById($id);
-        return inertia::render('admin/security-check/show', compact('securityCheck'));
+        return inertia::render('admin/delivery/show', compact('securityCheck'));
     }
 
     /**
@@ -116,7 +122,7 @@ class AdminSecurityCheckController extends Controller
         $securityCheck = $this->securityCheckRepository->getSecurityCheckById($id);
         $suppliers = $this->supplierRepository->getSuppliers();
         $vehicles = $this->vehicleRepository->getVehicles();
-        return inertia::render('admin/security-check/edit', compact('securityCheck', 'suppliers', 'vehicles'));
+        return inertia::render('admin/delivery/edit', compact('securityCheck', 'suppliers', 'vehicles'));
     }
 
     /**
@@ -132,9 +138,9 @@ class AdminSecurityCheckController extends Controller
 
         $securityCheck=$this->securityCheckRepository->updateSecurityCheck($validated,$id);
         if ($securityCheck->status()==200){
-            return redirect()->route('security-check.index')->with('success', 'Security Check updated successfully');
+            return redirect()->route('delivery.index')->with('success', 'Delivery updated successfully');
         }else{
-            return redirect()->back()->with('status', 'Security Check could not be updated');
+            return redirect()->back()->with('status', 'Delivery could not be updated');
         }
     }
 
@@ -145,9 +151,28 @@ class AdminSecurityCheckController extends Controller
     {
         $securityCheck = $this->securityCheckRepository->deleteSecurityCheck($id);
         if ($securityCheck->status() == 200) {
-            return redirect()->route('security-check.index')->with('success', 'Security Check deleted successfully');
+            return redirect()->route('delivery.index')->with('success', 'Delivery deleted successfully');
         } else {
-            return redirect()->back()->with('error', 'Security Check could not be deleted');
+            return redirect()->back()->with('error', 'Delivery could not be deleted');
         }
+    }
+
+    public function stepOne(Request $request){
+
+        //validated property setup step 1
+        $validated=$request->validate([
+            'supplier'=>'required|integer|exists:suppliers,id', 
+            'vehicle_reg_no'=>'required', 
+            'vehicle'=>'required|integer|exists:vehicles,id', 
+            'timeslot'=> 'required', 
+        ]);
+    }
+
+    public function stepTwo(Request $request){
+        $validated=$request->validate([
+            'property_owner'=>'required|integer',
+            'portfolio'=>'required|integer'
+        ]);
+        return redirect()->back();
     }
 }

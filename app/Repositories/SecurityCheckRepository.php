@@ -33,16 +33,19 @@ class SecurityCheckRepository implements SecurityCheckInterface
     public function  createSecurityCheck($data){
         try {
             $securityCheck=SecurityCheck::create([
-                'supplier_id'=>$data['supplier'], 
+                'supplier_id'=>$data['stepOne']['supplier'], 
                 'created_by'=>$data['created_by'], 
-                'vehicle_reg_no'=>$data['vehicle_reg_no'], 
-                'vehicle_id'=>$data['vehicle'], 
+                'vehicle_reg_no'=>$data['stepOne']['vehicle_reg_no'], 
+                'vehicle_id'=>$data['stepOne']['vehicle'], 
                 'front_image'=>$data['front_image'], 
                 'back_image'=>$data['back_image'], 
-                'side_image'=>$data['side_image']
+                'side_image'=>$data['side_image'],
+                'driver'=>$data['driver'],
+                'timeslot'=>$data['stepOne']['timeslot']
             ]);
             return response()->json(['message'=>'Security Check created successfully','securityCheck'=>$securityCheck],200);
         }catch (\Exception $exception){
+            dd($exception);
             return response()->json(['message'=>$exception->getMessage()],400);
         }
     }

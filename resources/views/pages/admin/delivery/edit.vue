@@ -20,9 +20,9 @@ let form=useForm({
     back_image: "",
     side_image: ""
 })
-let front_image_old = '/images/security-check/'+props.securityCheck.data.front_image
-let side_image_old = '/images/security-check/'+props.securityCheck.data.side_image
-let back_image_old = '/images/security-check/'+props.securityCheck.data.back_image
+let front_image_old = '/images/delivery/'+props.securityCheck.data.front_image
+let side_image_old = '/images/delivery/'+props.securityCheck.data.side_image
+let back_image_old = '/images/delivery/'+props.securityCheck.data.back_image
 </script>
 
 <template>
@@ -33,7 +33,7 @@ let back_image_old = '/images/security-check/'+props.securityCheck.data.back_ima
                 <h1 class="text-2xl font-bold">Edit Security Check</h1>
             </div>
             <div class="my-5">
-                <form @submit.prevent="form.patch(route('security-check.update',securityCheck.data.id))">
+                <form @submit.prevent="form.patch(route('delivery.update',securityCheck.data.id))">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
                             <label class="sumo-label" for="supplier"

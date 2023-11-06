@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supplier_id')->index();
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->string('warehouse_code',10)->unique();
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
             $table->integer('no_of_bags');
-            $table->decimal('weight_per_bag', 10, 2);
             $table->string('barcode_no');
+            $table->string('moisture_content');
+            $table->unsignedBigInteger('security_check_id')->index();
+            $table->foreign('security_check_id')->references('id')->on('security_checks');
             $table->softDeletes();
             $table->timestamps();
         });

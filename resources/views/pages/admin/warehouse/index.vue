@@ -14,7 +14,6 @@ let props=defineProps({
         required: true
     },
     filters: Object as PropType<Filters>,
-    suppliers: Object
 })
 console.log(props);
 
@@ -47,8 +46,7 @@ const deleteWarehouse=(id:number)=>{
         <h1 class="text-2xl font-bold">Warehouses</h1>
     </div>
     <div>
-        <create-warehouse :suppliers="suppliers">
-            <template #trigger>
+        <Link :href="route('warehouse.create')">
                 <button class="btn-simple btn-medium flex items-center gap-2">
 
                     <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -56,8 +54,7 @@ const deleteWarehouse=(id:number)=>{
                     </svg>
                     <span> Add Warehouse</span>
                 </button>
-            </template>
-        </create-warehouse>
+            </Link>
 
     </div>
 </div>
@@ -93,7 +90,7 @@ const deleteWarehouse=(id:number)=>{
                     <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                     <tr>
                         <th scope="col" class="px-2 py-3">
-                            Supplier
+                            Security Check
                         </th>
                         <th scope="col" class="px-2 py-3">
                            Barcode No
@@ -112,7 +109,7 @@ const deleteWarehouse=(id:number)=>{
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                     <tr class="border-b" v-for="warehouse in warehouses.data" :key="warehouse.id" >
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
-                            {{warehouse.supplier.name}}
+                            {{warehouse.securityCheck.code}}
                         </th>
                         <td class="px-2 py-3 capitalize">
                             {{warehouse.barcode_no}}

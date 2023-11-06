@@ -14,6 +14,7 @@ let props=defineProps({
     },
     filters: Object as PropType<Filters>,
 })
+console.log(props);
 
 
 
@@ -24,32 +25,32 @@ const clearFilter=()=>{
 }
 
 watch([search,showing],()=>{
-    router.get(route('security-check.index', {
+    router.get(route('delivery.index', {
         search: search.value,
         showing: showing.value,
     },{preserveScroll:true,preserveState:true}))
 })
 
 const deleteSecurityCheck=(id:number)=>{
-    router.delete(route('security-check.destroy',id))
+    router.delete(route('delivery.destroy',id))
 };
 </script>
 
 <template>
-    <Head title="Security Check" />
+    <Head title="Delivery" />
 <admin>
     <div class="flex justify-between items-center">
         <div>
-            <h1 class="text-2xl font-bold">Security Check</h1>
+            <h1 class="text-2xl font-bold">Delivery</h1>
         </div>
         <div>
-            <Link :href="route('security-check.create')">
+            <Link :href="route('delivery.create')">
                 <button class="btn-simple btn-medium flex items-center gap-2">
 
                     <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                         <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
                     </svg>
-                    <span> Add Security Check</span>
+                    <span> Add Delivery</span>
                 </button>
             </Link>
 
@@ -87,6 +88,9 @@ const deleteSecurityCheck=(id:number)=>{
                     <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                     <tr>
                         <th scope="col" class="px-2 py-3">
+                            Code
+                        </th>
+                        <th scope="col" class="px-2 py-3">
                             Supplier
                         </th>
                         <th scope="col" class="px-2 py-3">
@@ -102,6 +106,9 @@ const deleteSecurityCheck=(id:number)=>{
                     </thead>
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                     <tr class="border-b" v-for="securityCheck in securityChecks.data" :key="securityCheck.id" >
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                            {{securityCheck.code}}
+                        </th>
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
                             {{securityCheck.supplier.name}}
                         </th>
@@ -135,12 +142,12 @@ const deleteSecurityCheck=(id:number)=>{
                                             </prompt-alert>
                                         </li>
                                         <li>
-                                            <Link :href="route('security-check.edit',securityCheck.id)">
+                                            <Link :href="route('delivery.edit',securityCheck.id)">
                                                 <button class="text-green-600 p-2">Update</button>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link :href="route('security-check.show',securityCheck.id)">
+                                            <Link :href="route('delivery.show',securityCheck.id)">
                                                 <button class="p-2">Details</button>
                                             </Link>
                                         </li>

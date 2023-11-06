@@ -18,7 +18,7 @@ class WarehouseResource extends JsonResource
             'id'=>$this->id,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'supplier'=>new SupplierResource($this->whenLoaded('supplier')), 
+            'securityCheck'=>new SecurityCheckResource($this->whenLoaded('securityCheck')), 
             'created_by'=>new UserResource($this->whenLoaded('createdBy')),
             'no_of_bags' => $this->no_of_bags,
             'weight_per_bag' => $this->weight_per_bag,

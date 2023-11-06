@@ -100,6 +100,16 @@ const logout=()=>{
                     </Link>
                 </li> -->
                 <li>
+                    <Link :href="route('drivers.index')" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group"
+                          :class="{ 'bg-gray-100 text-sky-700': $page.component === 'admin/drivers/index' }"
+                    >
+                        <svg class="h-5 fill-gray-900 group-hover:fill-sky-700" :class="{ 'fill-sky-700': $page.component === 'admin/users/index' }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M232.1 256c0-8.75-7.188-16-15.94-16h-16C191.4 240 184.1 247.3 184.1 256l.0625 16c0 8.75 7.25 16 16 16h16c8.75 0 16-7.25 16-16L232.1 256zM168.1 304h-16c-8.75 0-16 7.25-16 16l-.0625 16c0 8.75 7.312 16 16.06 16h16c8.75 0 15.94-7.25 15.94-16L184.1 320C184.1 311.3 176.9 304 168.1 304zM264.1 304h-16c-8.75 0-16 7.25-16 16l-.0625 16c0 8.75 7.312 16 16.06 16h16c8.75 0 15.94-7.25 15.94-16l.0625-16C280.1 311.3 272.9 304 264.1 304zM136.1 256c0-8.75-7.188-16-15.94-16h-16C95.38 240 88.06 247.3 88.06 256l.0625 16c0 8.75 7.25 16 16 16h16c8.75 0 16-7.25 16-16L136.1 256zM511.3 378.8L487.9 215c-4.512-31.52-31.5-54.93-63.34-54.93l-224.4 .0566v-32L288.1 128.1c17.6 0 32.01-14.4 32.01-32V32c0-17.6-14.4-32-32-32h-224c-17.6 0-32 14.4-32 32v63.96c0 17.6 14.4 32 32 32L152.1 128v32L87.61 159.1C55.77 159.1 28.74 183.4 24.22 214.9l-23.58 164.6C.2168 382.5 0 385.5 0 388.5V480c0 17.67 14.33 32 31.1 32H479.1c17.67 0 31.1-14.33 31.1-32L512 387.9C512 384.8 511.7 381.8 511.3 378.8zM80.12 80v-32h191.1v32H80.12zM71.74 221.7C72.86 213.8 79.67 207.9 87.59 207.9l336.1 .0918c7.908 0 14.71 5.904 15.84 13.73L463.6 384H48.49L71.74 221.7zM464 464h-416v-32h416V464zM328.1 256c0-8.75-7.188-16-15.94-16h-16c-8.75 0-16.06 7.25-16.06 16l.0625 16c0 8.75 7.25 16 16 16h16c8.75 0 16-7.25 16-16L328.1 256zM408.1 240h-16c-8.75 0-16.06 7.25-16.06 16l.0625 16c0 8.75 7.25 16 16 16h16c8.75 0 16-7.25 16-16L424.1 256C424.1 247.3 416.9 240 408.1 240zM360.1 304h-16c-8.75 0-16 7.25-16 16l-.0625 16c0 8.75 7.312 16 16.06 16h16c8.75 0 15.94-7.25 15.94-16l.0625-16C376.1 311.3 368.9 304 360.1 304z"/>
+                        </svg>
+                        <span class="ml-3">Drivers</span>
+                    </Link>
+                </li>
+                <li>
                     <Link :href="route('vehicles.index')" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group"
                           :class="{ 'bg-gray-100 text-sky-700': $page.component === 'admin/vehicles/index' }"
                     >
@@ -120,15 +130,15 @@ const logout=()=>{
                     </Link>
                 </li>
                 <li>
-                    <Link :href="route('security-check.index')" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group"
-                          :class="{ 'bg-gray-100 text-sky-700': $page.component === 'admin/security-check/index' }"
+                    <Link :href="route('delivery.index')" class="flex items-center p-2 text-gray-900 rounded-lg hover:text-sky-700  hover:bg-gray-100 group"
+                          :class="{ 'bg-gray-100 text-sky-700': $page.component === 'admin/delivery/index' }"
                     >
 
                         <svg class="h-5 fill-gray-900 group-hover:fill-sky-700" :class="{ 'fill-sky-700': $page.component === 'admin/security-check/index' }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                             <path d="M80 256v64c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V256c0-17.67-14.33-32-32-32h-160C94.33 224 80 238.3 80 256zM365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0H64C28.65 0 0 28.65 0 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160L224 128c0 17.67 14.33 32 32 32h79.1V448zM96 128h80C184.8 128 192 120.8 192 112S184.8 96 176 96H96C87.16 96 80 103.2 80 112S87.16 128 96 128zM96 192h80C184.8 192 192 184.8 192 176S184.8 160 176 160H96C87.16 160 80 167.2 80 176S87.16 192 96 192zM288 384h-80c-8.844 0-16 7.156-16 16s7.156 16 16 16H288c8.844 0 16-7.156 16-16S296.8 384 288 384z"/>
                         </svg>
 
-                        <span class="ml-3">Security Check</span>
+                        <span class="ml-3">Delivery</span>
                     </Link>
                 </li>
                 <li>

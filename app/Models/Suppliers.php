@@ -13,14 +13,14 @@ class Suppliers extends Model
     use HasFactory,SoftDeletes, Sluggable, SluggableScopeHelpers;
 
     protected $fillable = [
-        'name', 'created_by', 'supplier_code', 'status', 'phone', 'email', 'id_no', 'age_limits'
+        'firstname','middlename','lastname', 'created_by', 'supplier_code', 'status', 'phone', 'email', 'id_no', 'age_limits'
     ];
 
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'name',
+                'source' => ['firstname','middlename','lastname']
             ],
         ];
     }

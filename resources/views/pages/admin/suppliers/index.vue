@@ -14,6 +14,7 @@ let props=defineProps({
     },
     filters: Object as PropType<Filters>,
 })
+console.log(props);
 
 const search = ref<String>(props.filters.search);
 const showing = ref<Number>(props.filters.showing??10);
@@ -85,10 +86,10 @@ const deleteSupplier=(id:number)=>{
                     <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                     <tr>
                         <th scope="col" class="px-2 py-3">
-                            Machine name
+                            Code
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Weight
+                            Name
                         </th>
                         <th scope="col" class="px-2 py-3">
                             Status
@@ -101,13 +102,13 @@ const deleteSupplier=(id:number)=>{
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                     <tr class="border-b" v-for="supplier in suppliers.data" :key="supplier.id" >
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
-                            {{supplier.name}}
+                            {{supplier.supplier_code}}
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            
+                            {{supplier.name}}
                         </td>
                         <td class="px-2 py-3 capitalize">
-                            
+                            {{supplier.statusView}}
                         </td>
                         <td class="px-2 py-3">
                             <custom-dropdown>

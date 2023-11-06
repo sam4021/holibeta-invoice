@@ -8,7 +8,9 @@ defineProps({
 });
 const user = computed(() => usePage().props.auth.id);
 let form = useForm({
-    name: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
     phone: "",
     email: "",
     id_no: "",
@@ -27,18 +29,48 @@ let form = useForm({
                 <form @submit.prevent="form.post(route('suppliers.store'))">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
-                            <label class="sumo-label" for="supplier_name"
-                                >Supplier name:</label
+                            <label class="sumo-label" for="firstname"
+                                >First name:</label
                             >
                             <input
-                                v-model="form.name"
-                                placeholder="Enter supplier name"
+                                v-model="form.firstname"
+                                placeholder="Enter First name"
                                 type="text"
-                                id="supplier_name"
+                                id="firstname"
                                 class="sumo-input my-2"
                             />
-                            <div class="sumo-error" v-if="form.errors.name">
-                                {{ form.errors.name }}
+                            <div class="sumo-error" v-if="form.errors.firstname">
+                                {{ form.errors.firstname }}
+                            </div>
+                        </div>
+                        <div>
+                            <label class="sumo-label" for="middlename"
+                                >Middle name:</label
+                            >
+                            <input
+                                v-model="form.middlename"
+                                placeholder="Enter Middle name"
+                                type="text"
+                                id="middlename"
+                                class="sumo-input my-2"
+                            />
+                            <div class="sumo-error" v-if="form.errors.middlename">
+                                {{ form.errors.middlename }}
+                            </div>
+                        </div>
+                        <div>
+                            <label class="sumo-label" for="lastname"
+                                >Last name:</label
+                            >
+                            <input
+                                v-model="form.lastname"
+                                placeholder="Enter Last name"
+                                type="text"
+                                id="lastname"
+                                class="sumo-input my-2"
+                            />
+                            <div class="sumo-error" v-if="form.errors.lastname">
+                                {{ form.errors.lastname }}
                             </div>
                         </div>
                         <div>

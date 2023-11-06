@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('security_checks', function (Blueprint $table) {
             $table->id();
+            $table->string('security_check_code',10)->unique();
             $table->unsignedBigInteger('supplier_id')->index();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('created_by')->index();
@@ -23,6 +24,9 @@ return new class extends Migration
             $table->string('front_image',125)->nullable();
             $table->string('back_image',125)->nullable();
             $table->string('side_image',125)->nullable();
+            $table->unsignedBigInteger('driver')->index();
+            $table->foreign('driver')->references('id')->on('drivers');
+            $table->string('timeslot',50);
             $table->softDeletes();
             $table->timestamps();
         });

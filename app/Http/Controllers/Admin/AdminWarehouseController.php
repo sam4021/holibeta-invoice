@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\VehicleInterface;
 use App\Interfaces\SupplierInterface;
 use App\Interfaces\WarehouseInterface;
+use App\Interfaces\SecurityCheckInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +18,12 @@ class AdminWarehouseController extends Controller
 {
     private $supplierRepository;
     private $warehouseRepository;
-    public function __construct(WarehouseInterface $warehouseRepository, SupplierInterface $supplierRepository)
+    private $securityCheckRepository;
+    public function __construct(WarehouseInterface $warehouseRepository, SupplierInterface $supplierRepository,SecurityCheckInterface $securityCheckRepository)
     {
         $this->supplierRepository = $supplierRepository;
         $this->warehouseRepository = $warehouseRepository;
+        $this->securityCheckRepository = $securityCheckRepository;
     }
     /**
      * Display a listing of the resource.
@@ -43,7 +46,7 @@ class AdminWarehouseController extends Controller
     public function create()
     {
         //
-        $suppliers= $this->supplierRepository->getSuppliers();
+        $suppliers= $this->securityCheckRepository->getSecurityChecks();
         return inertia::render('admin/warehouse/create',compact('suppliers'));
     }
 
@@ -56,8 +59,8 @@ class AdminWarehouseController extends Controller
         $validated=$request->validate([
             'supplier'=>'required|integer|exists:suppliers,id',
             'no_of_bags'=>'required',
-            'weight_per_bag' => 'required',
-            'barcode_no' => 'required', 
+            'moisture_content' => 'required',
+            'bags'=>'required|array',
         ]);
         $validated['created_by'] = Auth::user()->id;
         $warehouse=$this->warehouseRepository->createWarehouse($validated);

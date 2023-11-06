@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('name',125);
+            $table->string('firstname',20);
+            $table->string('middlename',20)->nullable();
+            $table->string('lastname',20);
             $table->string('slug',125)->unique();
             $table->string('supplier_code',6)->unique();
             $table->integer('status')->default(1);

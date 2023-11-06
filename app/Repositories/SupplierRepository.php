@@ -13,7 +13,7 @@ class SupplierRepository implements SupplierInterface
     public function getSuppliers(){
         $suppliers= Suppliers::query()
             ->when(request('search'),function ($query){
-                $query->where('name','like','%'.request('search').'%');
+                $query->where('firstname','like','%'.request('search').'%');
             })
             ->paginate(request('showing')??10);
 
@@ -27,17 +27,19 @@ class SupplierRepository implements SupplierInterface
         return new SupplierResource(Suppliers::where('slug',$slug)->firstOrFail());
     }
 
-    public function createSupplier(array $attributes){
+    public function createSupplier(array $data){
         try {
             $supplierCode = Str::upper(Str::random(6));
             $supplier= Suppliers::create([
-                'name' => $attributes['name'],
-                'created_by' => $attributes['created_by'],
+                'firstname' => $data['firstname'],
+                'middlename' => $data['middlename'],
+                'lastname' => $data['lastname'],
+                'created_by' => $data['created_by'],
                 'supplier_code' => $supplierCode,
-                'phone' => $attributes['phone'],
-                'email' => $attributes['email'],
-                'id_no' => $attributes['id_no'],
-                'age_limits' => $attributes['age_limits']
+                'phone' => $data['phone'],
+                'email' => $data['email'],
+                'id_no' => $data['id_no'],
+                'age_limits' => $data['age_limits']
             ]);
             return response()->json(['message'=> 'Supplier created successfully', 'supplier'=> $supplier],200);
         }catch (\Exception $exception){
@@ -52,7 +54,9 @@ class SupplierRepository implements SupplierInterface
             $supplier= Suppliers::findOrFail($id);
             $supplier->update(
                 [
-                    'name' => $data['name'],
+                    'firstname' => $data['firstname'],
+                    'middlename' => $data['middlename'],
+                    'lastname' => $data['lastname'],
                     'phone' => $data['phone'],
                     'email' => $data['email'],
                     'id_no' => $data['id_no'],

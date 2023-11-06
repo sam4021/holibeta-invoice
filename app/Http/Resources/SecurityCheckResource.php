@@ -24,7 +24,9 @@ class SecurityCheckResource extends JsonResource
             'vehicle'=>new VehicleResource($this->whenLoaded('vehicle')), 
             'front_image'=>$this->front_image, 
             'back_image'=>$this->back_image, 
-            'side_image'=>$this->side_image
+            'side_image'=>$this->side_image,
+            'code'=>$this->security_check_code,
+            'driver'=>new DriverResource($this->whenLoaded('driver')), 
         ];
     }
 }

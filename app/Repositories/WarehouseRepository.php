@@ -5,14 +5,16 @@ namespace App\Repositories;
 use App\Http\Resources\WarehouseResource;
 use App\Interfaces\WarehouseInterface;
 use App\Models\Warehouse;
+use App\Models\WarehouseBags;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class WarehouseRepository implements WarehouseInterface
 {
 
     public function getWarehouses(){
-        $warehouse= Warehouse::with(['supplier', 'createdBy'])
+        $warehouse= Warehouse::with(['createdBy','securityCheck'])
             ->paginate(request('showing')??10);
 
         return WarehouseResource::collection($warehouse);
@@ -23,16 +25,24 @@ class WarehouseRepository implements WarehouseInterface
     }
 
     public function  createWarehouse($data){
-        try {
+        try {//dd($data);
             $warehouse= Warehouse::create([
-                'supplier_id'=>$data['supplier'], 
+                'security_check_id'=>$data['supplier'], 
                 'created_by'=>$data['created_by'],
                 'no_of_bags' => $data['no_of_bags'],
-                'weight_per_bag' => $data['weight_per_bag'],
-                'barcode_no' => $data['barcode_no']
+                'barcode_no' => Str::upper(Str::random(6)),
+                'moisture_content'=>$data['moisture_content']
             ]);
-            return response()->json(['message'=> 'Warehouse Check created successfully', 'warehouse'=> $warehouse],200);
+            foreach ($data['bags'] as $bag) {
+                WarehouseBags::create([
+                    'warehouse_id'=>$warehouse->id, 
+                    'weight'=>$bag['weight'],
+                    'created_by'=>$data['created_by'],
+                ]);
+            }
+            return response()->json(['message'=> 'Warehouse created successfully', 'warehouse'=> $warehouse],200);
         }catch (\Exception $exception){
+            dd($exception);
             return response()->json(['message'=>$exception->getMessage()],400);
         }
     }
@@ -43,10 +53,8 @@ class WarehouseRepository implements WarehouseInterface
             $warehouse= Warehouse::findOrFail($id);
             $warehouse->update(
                 [
-                    'supplier_id' => $data['supplier'],
+                    'security_check_id' => $data['supplier'],
                     'no_of_bags' => $data['no_of_bags'],
-                    'weight_per_bag' => $data['weight_per_bag'],
-                    'barcode_no' => $data['barcode_no']
                 ]
             );
             return response()->json(['message'=> 'Warehouse updated successfully', 'warehouse'=> $warehouse],200);
