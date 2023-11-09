@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->decimal('weight', 10, 2);
             $table->string('moisture_content');
+            $table->string('visual_inspection');
+            $table->string('visual_inspection_comment');
+            $table->string('visual_inspection_image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

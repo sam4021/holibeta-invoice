@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminGrainController;
 use App\Http\Controllers\Admin\AdminDriverController;
 use App\Http\Controllers\Admin\AdminVehicleController;
 use App\Http\Controllers\Admin\AdminSecurityCheckController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\AdminRolesController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['auth','verified','update_password','role:Admin']], function (){
+    Route::resource('admin/grains', AdminGrainController::class);
     Route::resource('admin/drivers', AdminDriverController::class);
     Route::resource('admin/vehicles', AdminVehicleController::class);
     Route::resource('admin/suppliers', AdminSupplierController::class);

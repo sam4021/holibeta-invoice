@@ -22,7 +22,9 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email')->nullable();
             $table->string('id_no',50)->nullable();
-            $table->string('age_limits',50)->nullable();
+            $table->string('county', 50);
+            $table->string('subcounty', 50);
+            $table->string('ward', 50);
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
             $table->softDeletes();

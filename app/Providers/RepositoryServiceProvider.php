@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Interfaces\GrainInterface;
+use App\Repositories\GrainRepository;
 use App\Interfaces\VehicleInterface;
 use App\Repositories\VehicleRepository;
 use App\Interfaces\SupplierInterface;
@@ -26,6 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(GrainInterface::class, GrainRepository::class);
         $this->app->bind(VehicleInterface::class, VehicleRepository::class);
         $this->app->bind(SupplierInterface::class, SupplierRepository::class);
         $this->app->bind(SecurityCheckInterface::class, SecurityCheckRepository::class);

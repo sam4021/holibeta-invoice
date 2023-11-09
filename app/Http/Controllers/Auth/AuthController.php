@@ -47,7 +47,7 @@ class AuthController extends Controller
             'otp_code'=>$token
         ]);
         //event for email verification
-      // $user->notify(new EmailVerificationNotification($token));
+      $user->notify(new EmailVerificationNotification($token));
        Auth::login($user);
        return redirect()->route('verify');
     }

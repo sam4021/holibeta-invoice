@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
-class Vehicle extends Model
+class Grains extends Model
 {
-    use HasFactory,SoftDeletes, Sluggable, SluggableScopeHelpers;
+    use HasFactory, SoftDeletes, Sluggable, SluggableScopeHelpers;
 
     protected $fillable = [
         'name'

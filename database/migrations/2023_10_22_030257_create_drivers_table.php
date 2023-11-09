@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug',150)->unique();
             $table->string('id_no',50);
             $table->string('id_image');
+            $table->string('driver_image');
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
             $table->softDeletes();
