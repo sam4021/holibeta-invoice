@@ -13,7 +13,7 @@ class Driver extends Model
     use HasFactory,SoftDeletes, Sluggable, SluggableScopeHelpers;
 
     protected $fillable = [
-        'firstname','middlename','lastname', 'created_by', 'id_no', 'id_image'
+        'firstname','middlename','lastname', 'created_by', 'id_no', 'id_image', 'driver_image'
     ];
 
     public function sluggable(): array

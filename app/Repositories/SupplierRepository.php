@@ -39,7 +39,9 @@ class SupplierRepository implements SupplierInterface
                 'phone' => $data['phone'],
                 'email' => $data['email'],
                 'id_no' => $data['id_no'],
-                'age_limits' => $data['age_limits']
+                'county' => $data['county'],
+                'subcounty' => $data['subcounty'],
+                'ward' => $data['ward']
             ]);
             return response()->json(['message'=> 'Supplier created successfully', 'supplier'=> $supplier],200);
         }catch (\Exception $exception){
@@ -60,7 +62,9 @@ class SupplierRepository implements SupplierInterface
                     'phone' => $data['phone'],
                     'email' => $data['email'],
                     'id_no' => $data['id_no'],
-                    'age_limits' => $data['age_limits']
+                    'county' => $data['county'],
+                    'subcounty' => $data['subcounty'],
+                    'ward' => $data['ward']
                 ]
             );
             return response()->json(['message'=> 'Supplier updated successfully', 'supplier'=> $supplier],200);

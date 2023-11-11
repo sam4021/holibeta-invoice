@@ -155,7 +155,11 @@ const deleteWeighbridge = (id: number) => {
                             </update-weighbridge> -->
                                 </td>
                                 <td class="px-2 py-3">
-                                    <prompt-alert
+                                    <div class="flex gap-3">
+                                        <Link :href="route('weighbridge.show',weighbridge.id)" class="text-green-500">
+                                            View
+                                        </Link>
+<prompt-alert
                                         title="Are you sure you want to delete this weighbridge?"
                                         description="All related data will be deleted"
                                         @proceed="
@@ -168,6 +172,8 @@ const deleteWeighbridge = (id: number) => {
                                             </button>
                                         </template>
                                     </prompt-alert>
+                                    </div>
+                                    
                                 </td>
                             </tr>
                         </tbody>

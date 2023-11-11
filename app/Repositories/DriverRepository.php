@@ -17,6 +17,12 @@ class DriverRepository implements DriverInterface
         return DriverResource::collection($drivers);
     }
 
+    public function getDriverById($id)
+    {
+        $driver = Driver::find($id);
+        return new DriverResource($driver);
+    }
+
     public function storeDriver($data){
         try {
             $driver= Driver::create([
@@ -25,6 +31,7 @@ class DriverRepository implements DriverInterface
                 'lastname'=> $data['lastname'],
                 'id_no'=> $data['id_no'],
                 'id_image'=> $data['id_image'],
+                'driver_image'=>$data['driver_image'],
                 'created_by'=>$data['created_by']
             ]);
             return response()->json([

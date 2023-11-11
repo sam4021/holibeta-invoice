@@ -8,13 +8,15 @@ defineProps({
 });
 const user = computed(() => usePage().props.auth.id);
 let form = useForm({
-    firstname: "",
-    middlename: "",
-    lastname: "",
-    phone: "",
-    email: "",
-    id_no: "",
-    age_limits: "",
+    firstname:'',
+    middlename:'',
+    lastname:'', 
+    phone:'', 
+    email:'', 
+    id_no:'', 
+    county:'', 
+    subcounty:'', 
+    ward:''
 });
 </script>
 
@@ -134,24 +136,19 @@ let form = useForm({
                             </div>
                         </div>
                         <div>
-                            <label
-                                for="age_limits"
-                                class="text-sm font-medium text-gray-700"
-                                >Age Limits</label
-                            >
-                            <input
-                                v-model="form.age_limits"
-                                placeholder="Enter Age Limits"
-                                type="text"
-                                id="age_limits"
-                                class="sumo-input my-2"
-                            />
-                            <div
-                                class="sumo-error"
-                                v-if="form.errors.age_limits"
-                            >
-                                {{ form.errors.age_limits }}
-                            </div>
+                            <label for="county" class="text-sm font-medium text-gray-700">County</label>
+                            <input v-model="form.county" placeholder="Enter County " type="text" id="county" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.county"> {{ form.errors.county }} </div>
+                        </div>
+                        <div>
+                            <label for="subcounty" class="text-sm font-medium text-gray-700">Subcounty</label>
+                            <input v-model="form.subcounty" placeholder="Enter Subcounty" type="text" id="subcounty" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.subcounty"> {{ form.errors.subcounty }} </div>
+                        </div>
+                        <div>
+                            <label for="ward" class="text-sm font-medium text-gray-700">Ward</label>
+                            <input v-model="form.ward" placeholder="Enter Ward" type="text" id="ward" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.ward"> {{ form.errors.ward }} </div>
                         </div>
                     </div>
                     

@@ -147,8 +147,6 @@ const deleteDriver=(id:number)=>{
                                             </Link>
                                         </li>
                                     </ul>
-
-
                                 </div>
                             </custom-dropdown>
 

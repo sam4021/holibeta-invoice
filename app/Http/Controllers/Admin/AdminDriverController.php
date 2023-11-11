@@ -55,7 +55,8 @@ class AdminDriverController extends Controller
             'middlename'=>'nullable|string|max:20',
             'lastname'=>'required|string|max:20',
             'id_no'=>'required|string|max:125',
-            'id_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', 
+            'id_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
+            'driver_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
         ]);
         $validated['created_by'] = Auth::user()->id;
         if ($request->hasFile('id_image')) {
@@ -65,6 +66,14 @@ class AdminDriverController extends Controller
             $image_resize = Image::make($id_image->getRealPath());
             $image_resize->save($this->driverPath . $filename);
             $validated['id_image'] = $filename;
+        }
+        if ($request->hasFile('driver_image')) {
+            $driver_image       = $request->file('driver_image');
+            $extension = $driver_image->getClientOriginalExtension();
+            $filename = 'driver_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($driver_image->getRealPath());
+            $image_resize->save($this->driverPath . $filename);
+            $validated['driver_image'] = $filename;
         }
         $driver=$this->driverRepository->storeDriver($validated);
 
@@ -80,7 +89,8 @@ class AdminDriverController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $driver = $this->driverRepository->getDriverById($id);
+        return inertia::render('admin/drivers/show', compact('driver'));
     }
 
     /**

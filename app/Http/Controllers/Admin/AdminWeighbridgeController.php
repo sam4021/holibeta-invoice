@@ -16,10 +16,13 @@ class AdminWeighbridgeController extends Controller
 {
     private $supplierRepository;
     private $weighbridgeRepository;
+    private $weighbridgePath;
     public function __construct(SupplierInterface $supplierRepository, WeighbridgeInterface $weighbridgeRepository)
     {
         $this->supplierRepository = $supplierRepository;
         $this->weighbridgeRepository = $weighbridgeRepository;
+        $this->weighbridgePath = public_path() . '/images/weighbridge/';
+        File::isDirectory($this->weighbridgePath) or File::makeDirectory($this->weighbridgePath, 0777, true, true);
     }
     /**
      * Display a listing of the resource.
@@ -52,12 +55,22 @@ class AdminWeighbridgeController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validated=$request->validate([
             'supplier'=>'required|integer|exists:suppliers,id', 
             'weight'=>'required',
-            'moisture_content'=>'required'
+            'moisture_content'=>'required',
+            'visual_inspection' => 'required',
+            'visual_inspection_comment' => 'required',
+            'visual_inspection_image' => 'required',
         ]);
+        if ($request->hasFile('visual_inspection_image')) {
+            $visual_inspection_image       = $request->file('visual_inspection_image');
+            $extension = $visual_inspection_image->getClientOriginalExtension();
+            $filename = 'visual_inspection_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($visual_inspection_image->getRealPath());
+            $image_resize->save($this->weighbridgePath . $filename);
+            $validated['visual_inspection_image'] = $filename;
+        }
         $validated['created_by'] = Auth::user()->id;
         $weighbridge=$this->weighbridgeRepository->createWeighbridge($validated);
         if($weighbridge->status()==200){

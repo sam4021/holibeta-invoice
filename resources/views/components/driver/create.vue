@@ -64,10 +64,17 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label for="email" class="text-sm font-medium text-gray-700">ID Image</label>
+                                    <label for="id_image" class="text-sm font-medium text-gray-700">ID Image</label>
                                     <input @input="form.id_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image" type="file">
                                     <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
                                         <span class="text-xs">{{form.errors.id_image }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="driver_image" class="text-sm font-medium text-gray-700">Driver Image</label>
+                                    <input @input="form.driver_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="driver_image" type="file">
+                                    <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.driver_image }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +117,8 @@ let form=useForm({
     middlename:'',
     lastname:'',
     id_no:'',
-    id_image:''
+    id_image:'',
+    driver_image:''
 })
 
 const submit = () => {

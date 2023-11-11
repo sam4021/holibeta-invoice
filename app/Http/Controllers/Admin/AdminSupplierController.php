@@ -50,13 +50,15 @@ class AdminSupplierController extends Controller
     {
         //
         $validated=$request->validate([
-           'firstname'=>'required|string|max:20',
-           'middlename'=>'nullable|string|max:20',
-           'lastname'=>'required|string|max:20',
+            'firstname'=>'required|string|max:20',
+            'middlename'=>'nullable|string|max:20',
+            'lastname'=>'required|string|max:20',
             'phone' => 'required|string',
             'email' => 'nullable|string',
             'id_no' => 'nullable|string',
-            'age_limits' => 'nullable|string'
+            'county' => 'required|string',
+            'subcounty' => 'required|string',
+            'ward' => 'required|string',
         ]);
         $validated['created_by'] = Auth::user()->id;
         $supplier=$this->supplierRepository->createSupplier($validated);

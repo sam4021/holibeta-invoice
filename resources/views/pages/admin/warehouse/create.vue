@@ -27,8 +27,9 @@ watch(()=>form.no_of_bags,()=>{
 })
 
 const addRow=()=> {
-    itemForm.id = Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36)
-    transactionItem.value.push(itemForm)
+    var weight = '';
+    var id = Math.floor(Math.random() * 400);
+    transactionItem.value.push({id:id,weight:weight})
 }
 const removeItem=(item:string)=>{
     transactionItem.value=transactionItem.value.filter(element =>element.id!==item)

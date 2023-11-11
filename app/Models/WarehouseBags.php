@@ -31,7 +31,7 @@ class WarehouseBags extends Model
         self::creating(static function (WarehouseBags $warehouse) {
             $old_warehouse = WarehouseBags::latest()->first();
             if ($old_warehouse){
-                $old_code = explode('-',$old_warehouse->warehouse_code)[1];
+                $old_code = explode('-',$old_warehouse->bag_code)[1];
                 $new_code = str_pad((int)$old_code+1, 3, '0', STR_PAD_LEFT);
                 $warehouse->bag_code ='EFWHB-'.$new_code;
             }else{

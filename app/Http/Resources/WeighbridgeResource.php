@@ -22,6 +22,9 @@ class WeighbridgeResource extends JsonResource
             'created_by'=>new UserResource($this->whenLoaded('createdBy')),
             'weight' => $this->weight,
             'moisture_content' => $this->moisture_content,
+            'visual_inspection' => $this->visual_inspection,
+            'visual_inspection_comment' => $this->visual_inspection_comment, 
+            'visual_inspection_image' => $this->visual_inspection_image
         ];
     }
 }

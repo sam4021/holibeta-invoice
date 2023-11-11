@@ -64,6 +64,31 @@
                                         {{ form.errors.moisture_content }}
                                     </div>
                                 </div>
+                                <div>
+                                    <label for="visual_inspection" class="text-sm font-medium text-gray-700">Visual Inspection</label>
+                                    <select v-model="form.visual_inspection" class="sumo-input my-2">
+                                    <option :value="null">Choose Inspection Status</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Bad">Bad</option>
+                                    </select>
+                                    <div class="sumo-error" v-if="form.errors.visual_inspection">
+                                        {{ form.errors.visual_inspection }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="visual_inspection_image" class="text-sm font-medium text-gray-700">Visual Inspection Image</label>
+                                    <input @input="form.visual_inspection_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="visual_inspection_image" type="file">
+                                    <div v-if="form.errors.visual_inspection_image" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.visual_inspection_image }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="visual_inspection_comment" class="text-sm font-medium text-gray-700">Visual Inspection Comment</label>
+                                    <textarea v-model="form.visual_inspection_comment" type="text" id="visual_inspection_comment" class="sumo-input my-2"></textarea>
+                                    <div class="sumo-error" v-if="form.errors.visual_inspection_comment">
+                                        {{ form.errors.visual_inspection_comment }}
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -100,7 +125,10 @@ watch(show,(val)=>{
 let form=useForm({
     supplier:null, 
     weight:"", 
-    moisture_content:""
+    moisture_content:"",
+    visual_inspection:null,
+    visual_inspection_comment:"",
+    visual_inspection_image:""
 })
 
 const submit = () => {
