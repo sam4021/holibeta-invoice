@@ -58,7 +58,7 @@
                                 </div>
                                 <div>
                                     <label for="id_no" class="text-sm font-medium text-gray-700">ID Number</label>
-                                    <input v-model="form.id_no" type="text" id="id_no" class="sumo-input my-2">
+                                    <input v-model="form.id_no" type="number" maxlength="10" id="id_no" class="sumo-input my-2">
                                     <div class="sumo-error" v-if="form.errors.id_no">
                                         {{ form.errors.id_no }}
                                     </div>

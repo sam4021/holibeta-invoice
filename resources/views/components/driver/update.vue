@@ -15,7 +15,6 @@
                 <div class="bg-white lg:w-1/2 w-full rounded-xl">
                     <header class="p-3">
                         <div class="flex justify-between">
-
                             <slot name="header">
                                 <div class="font-bold text-sumo-300 text-lg">
                                     <h6>Update Driver</h6>
@@ -29,7 +28,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </header>
                     <hr>
                     <div class="p-3.5">
@@ -66,10 +64,19 @@
                                 </div>
                                 <div>
                                     <label for="email" class="text-sm font-medium text-gray-700">ID Image</label>
-                                    <input @input="form.id_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image" type="file">
+                                    <input @input="form.new_id_no=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image" type="file">
                                     <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                        <span class="text-xs">{{form.errors.id_image }}</span>
+                                        <span class="text-xs">{{form.errors.new_id_no }}</span>
                                     </div>
+                                    <img :src="'/images/driver/'+form.id_image">
+                                </div>
+                                <div>
+                                    <label for="email" class="text-sm font-medium text-gray-700">ID Image</label>
+                                    <input @input="form.new_driver_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image" type="file">
+                                    <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.new_driver_image }}</span>
+                                    </div>
+                                    <img :src="'/images/driver/'+form.driver_image">
                                 </div>
                             </div>
                         </form>
@@ -111,6 +118,10 @@ let form=useForm({
     middlename:props.driver?.middlename,
     lastname:props.driver?.lastname,
     id_no:props.driver?.id_no,
+    id_image:props.driver?.id_image,
+    new_id_image:'',
+    driver_image:props.driver?.driver_image,
+    new_driver_image:'',
     _method:'PATCH'
 
 })

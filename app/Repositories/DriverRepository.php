@@ -19,7 +19,7 @@ class DriverRepository implements DriverInterface
 
     public function getDriverById($id)
     {
-        $driver = Driver::find($id);
+        $driver = Driver::findBySlugOrFail($id);
         return new DriverResource($driver);
     }
 

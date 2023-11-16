@@ -55,9 +55,7 @@ const deleteDriver=(id:number)=>{
                     </button>
                 </template>
             </create-driver>
-
         </div>
-
     </div>
     <div>
         <div class="flex justify-between my-5">
@@ -121,15 +119,9 @@ const deleteDriver=(id:number)=>{
                                 <div>
                                     <ul class="divide-y">
                                         <li>
-                                            <prompt-alert
-                                                title="Are you sure you want to delete this Driver?"
-                                                description="All related data will be deleted"
-                                                @proceed="deleteDriver(driver.id)"
-                                            >
-                                                <template #trigger>
-                                                    <button class="text-red-500 p-2">Delete</button>
-                                                </template>
-                                            </prompt-alert>
+                                            <Link :href="route('drivers.show',driver.slug)">
+                                                <button class="p-2">Details</button>
+                                            </Link>
                                         </li>
                                         <li>
                                             <update-driver :driver="driver">
@@ -142,15 +134,19 @@ const deleteDriver=(id:number)=>{
                                            
                                         </li>
                                         <li>
-                                            <Link :href="route('drivers.show',driver.slug)">
-                                                <button class="p-2">Details</button>
-                                            </Link>
+                                            <prompt-alert
+                                                title="Are you sure you want to delete this Driver?"
+                                                description="All related data will be deleted"
+                                                @proceed="deleteDriver(driver.id)"
+                                            >
+                                                <template #trigger>
+                                                    <button class="text-red-500 p-2">Delete</button>
+                                                </template>
+                                            </prompt-alert>
                                         </li>
                                     </ul>
                                 </div>
                             </custom-dropdown>
-
-
                         </td>
                     </tr>
                     </tbody>
