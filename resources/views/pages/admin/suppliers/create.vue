@@ -31,9 +31,7 @@ let form = useForm({
                 <form @submit.prevent="form.post(route('suppliers.store'))">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
-                            <label class="sumo-label" for="firstname"
-                                >First name:</label
-                            >
+                            <label class="sumo-label" for="firstname">First name:</label>
                             <input
                                 v-model="form.firstname"
                                 placeholder="Enter First name"
@@ -46,9 +44,7 @@ let form = useForm({
                             </div>
                         </div>
                         <div>
-                            <label class="sumo-label" for="middlename"
-                                >Middle name:</label
-                            >
+                            <label class="sumo-label" for="middlename">Middle name:</label>
                             <input
                                 v-model="form.middlename"
                                 placeholder="Enter Middle name"
@@ -61,9 +57,7 @@ let form = useForm({
                             </div>
                         </div>
                         <div>
-                            <label class="sumo-label" for="lastname"
-                                >Last name:</label
-                            >
+                            <label class="sumo-label" for="lastname">Last name:</label>
                             <input
                                 v-model="form.lastname"
                                 placeholder="Enter Last name"
@@ -124,7 +118,7 @@ let form = useForm({
                             <input
                                 v-model="form.id_no"
                                 placeholder="Enter ID Number"
-                                type="text"
+                                type="number"
                                 id="id_no"
                                 class="sumo-input my-2"
                             />

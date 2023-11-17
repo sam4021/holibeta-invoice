@@ -3,10 +3,12 @@
 import Admin from "@/views/layouts/admin.vue";
 import {Head, Link} from "@inertiajs/vue3";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
-defineProps({
+let props =defineProps({
     driver:Object
 })
-
+console.log(props);
+let id_image = '/images/driver/'+props.driver.data.id_image
+let driver_image= '/images/driver/'+props.driver.data.driver_image
 const deleteDriver=(id:number)=>{
     router.delete(route('drivers.destroy',id))
 };
@@ -46,28 +48,29 @@ const deleteDriver=(id:number)=>{
 
     <div class="my-5">
         <div class="shadow p-4 bg-white rounded-md">
-            <div class="grid gap-3 grid-cols-3">
+            <div class="grid gap-3 grid-cols-2">
                 <div class="my-3">
                     <table class="text-sm font-medium">
                         <tr>
                             <th class="text-start">Name:</th>
                             <td class="px-3">{{ driver.data.name }}</td>
                         </tr>
-                    </table>
-                </div>
-                <div class="my-3">
-                    <table class="text-sm font-medium">
                         <tr>
-                            <th class="text-start">Name:</th>
-                            <td class="px-3">{{ driver.data.name }}</td>
+                            <th class="text-start">Id No:</th>
+                            <td class="px-3">{{ driver.data.id_no }}</td>
                         </tr>
                     </table>
                 </div>
+                
                 <div class="my-3">
                     <table class="text-sm font-medium">
                         <tr>
-                            <th class="text-start">Name:</th>
-                            <td class="px-3">{{ driver.data.name }}</td>
+                            <th class="text-start">Id Image:</th>
+                            <td class="px-3"><img :src="id_image" class="w-28"></td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Driver Image:</th>
+                            <td class="px-3"><img :src="driver_image" class="w-28"></td>
                         </tr>
                     </table>
                 </div>

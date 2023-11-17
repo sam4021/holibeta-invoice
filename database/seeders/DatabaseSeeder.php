@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             GrainSeeder::class,
             VehicleSeeder::class,
+            CountySeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 
