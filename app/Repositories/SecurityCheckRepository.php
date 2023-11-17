@@ -36,11 +36,13 @@ class SecurityCheckRepository implements SecurityCheckInterface
                 'supplier_id'=>$data['stepOne']['supplier'], 
                 'created_by'=>$data['created_by'], 
                 'vehicle_reg_no'=>$data['stepOne']['vehicle_reg_no'], 
-                'vehicle_id'=>$data['stepOne']['vehicle'], 
+                'vehicle_id'=>$data['stepOne']['vehicle'],
+                'grain_id'=>$data['stepOne']['grain'],
                 'front_image'=>$data['front_image'], 
                 'back_image'=>$data['back_image'], 
                 'side_image'=>$data['side_image'],
-                'driver'=>$data['driver'],
+                'top_image'=>$data['top_image'],
+                'driver_id'=>$data['driver'],
                 'timeslot'=>$data['stepOne']['timeslot']
             ]);
             return response()->json(['message'=>'Security Check created successfully','securityCheck'=>$securityCheck],200);
@@ -57,11 +59,16 @@ class SecurityCheckRepository implements SecurityCheckInterface
             $securityCheck->update(
                 [
                     'supplier_id' => $data['supplier'],
+                    'created_by' => $data['created_by'],
                     'vehicle_reg_no' => $data['vehicle_reg_no'],
                     'vehicle_id' => $data['vehicle'],
+                    'grain_id' => $data['grain'],
                     // 'front_image' => $data['front_image'],
                     // 'back_image' => $data['back_image'],
-                    // 'side_image' => $data['side_image']
+                    // 'side_image' => $data['side_image'],
+                    // 'top_image' => $data['top_image'],
+                    // 'driver_id' => $data['driver'],
+                    'timeslot' => $data['timeslot']
                 ]
             );
             return response()->json(['message'=>'Security Check updated successfully','securityCheck'=>$securityCheck],200);

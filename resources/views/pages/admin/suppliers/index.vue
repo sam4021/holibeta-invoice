@@ -123,24 +123,13 @@ const deleteSupplier=(id:number)=>{
                                 <div>
                                     <ul class="divide-y">
                                         <li>
-                                            <prompt-alert
-                                                title="Are you sure you want to delete this supplier?"
-                                                description="All related data will be deleted"
-                                                @proceed="deleteSupplier(supplier.id)"
-                                            >
-                                                <template #trigger>
-                                                    <button class="text-red-500 p-2">Delete</button>
-                                                </template>
-                                            </prompt-alert>
+                                            <Link :href="route('suppliers.show',supplier.slug)">
+                                                <button class="p-2">Details</button>
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link :href="route('suppliers.edit',supplier.id)">
                                                 <button class="text-green-600 p-2">Update</button>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link :href="route('suppliers.show',supplier.slug)">
-                                                <button class="p-2">Details</button>
                                             </Link>
                                         </li>
                                     </ul>

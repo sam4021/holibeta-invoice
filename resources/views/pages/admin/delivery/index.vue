@@ -6,6 +6,7 @@ import {ref, PropType, watch} from "vue";
 import DataPagination from "@/views/components/general-components/data-pagination.vue";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
 import CustomDropdown from "@/views/components/general-components/custom-dropdown.vue";
+import moment from "moment";
 
 let props=defineProps({
     securityChecks: {
@@ -80,7 +81,6 @@ const deleteSecurityCheck=(id:number)=>{
             </div>
         </div>
     </div>
-
     <div class="border rounded-xl  shadow-sm">
         <div>
             <div class="relative">
@@ -94,10 +94,10 @@ const deleteSecurityCheck=(id:number)=>{
                             Supplier
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Vehicle
+                            Grain
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            vehicle reg no
+                            Date
                         </th>
                         <th scope="col" class="px-2 py-3 text-end">
                             Action
@@ -113,10 +113,10 @@ const deleteSecurityCheck=(id:number)=>{
                             {{securityCheck.supplier.name}}
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            {{ securityCheck.vehicle.name }}
+                            {{ securityCheck.grain.name }}
                         </td>
                         <td class="px-2 py-3 capitalize">
-                            {{ securityCheck.vehicle_reg_no }}
+                            {{ moment(securityCheck.created_at).format("DD MMM, YYYY h:MM a") }}
                         </td>
                         <td class="px-2 py-3">
                             <custom-dropdown>
@@ -131,24 +131,13 @@ const deleteSecurityCheck=(id:number)=>{
                                 <div>
                                     <ul class="divide-y">
                                         <li>
-                                            <prompt-alert
-                                                title="Are you sure you want to delete this supplier?"
-                                                description="All related data will be deleted"
-                                                @proceed="deleteSecurityCheck(securityCheck.id)"
-                                            >
-                                                <template #trigger>
-                                                    <button class="text-red-500 p-2">Delete</button>
-                                                </template>
-                                            </prompt-alert>
+                                            <Link :href="route('delivery.show',securityCheck.id)">
+                                                <button class="p-2">Details</button>
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link :href="route('delivery.edit',securityCheck.id)">
                                                 <button class="text-green-600 p-2">Update</button>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link :href="route('delivery.show',securityCheck.id)">
-                                                <button class="p-2">Details</button>
                                             </Link>
                                         </li>
                                     </ul>

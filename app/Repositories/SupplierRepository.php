@@ -24,7 +24,7 @@ class SupplierRepository implements SupplierInterface
         return new SupplierResource(Suppliers::findOrFail($id));
     }
     public function supplierBySlug(string $slug){
-        return new SupplierResource(Suppliers::where('slug',$slug)->firstOrFail());
+        return new SupplierResource(Suppliers::findBySlugOrFail($slug));
     }
 
     public function createSupplier(array $data){
@@ -39,8 +39,8 @@ class SupplierRepository implements SupplierInterface
                 'phone' => $data['phone'],
                 'email' => $data['email'],
                 'id_no' => $data['id_no'],
-                'county' => $data['county'],
-                'subcounty' => $data['subcounty'],
+                'county_id' => $data['county'],
+                'subcounty_id' => $data['subcounty'],
                 'ward' => $data['ward']
             ]);
             return response()->json(['message'=> 'Supplier created successfully', 'supplier'=> $supplier],200);
@@ -50,9 +50,9 @@ class SupplierRepository implements SupplierInterface
         }
     }
 
-    public function updateSupplier(array $data, string $id){
+    public function updateSupplier(array $data, string $id)
+    {
         try {
-
             $supplier= Suppliers::findOrFail($id);
             $supplier->update(
                 [
@@ -62,8 +62,8 @@ class SupplierRepository implements SupplierInterface
                     'phone' => $data['phone'],
                     'email' => $data['email'],
                     'id_no' => $data['id_no'],
-                    'county' => $data['county'],
-                    'subcounty' => $data['subcounty'],
+                    'county_id' => $data['county'],
+                    'subcounty_id' => $data['subcounty'],
                     'ward' => $data['ward']
                 ]
             );

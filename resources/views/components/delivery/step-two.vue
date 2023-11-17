@@ -50,7 +50,14 @@
                                 </div>
                             </div>
                             <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Top/Side Image</label>
+                                <label for="email" class="text-sm font-medium text-gray-700">Top Image</label>
+                                <input @input="stepTwo.top_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
+                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.top_image }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="text-sm font-medium text-gray-700">Side Image</label>
                                 <input @input="stepTwo.side_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
                                 <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
                                     <span class="text-xs">{{form.errors.side_image }}</span>
@@ -93,7 +100,8 @@ const stepTwo=useStorage('stepTwo',{
     driver:undefined,
     front_image: "",
     back_image: "",
-    side_image: ""
+    side_image: "",
+    top_image:"",
 })
 const stepOne=useStorage('stepOne',{})
 
@@ -102,6 +110,7 @@ let form=useForm({
     front_image: "",
     back_image: "",
     side_image: "",
+    top_image:"",
     stepOne:stepOne.value,
 })
 const submit=()=>{
@@ -109,6 +118,7 @@ const submit=()=>{
     form.front_image= stepTwo.value.front_image;
     form.back_image= stepTwo.value.back_image;
     form.side_image= stepTwo.value.side_image;
+    form.top_image= stepTwo.value.top_image;
     form.post(route('delivery.store'),{
         onSuccess:()=>{
             localStorage.removeItem('stepOne')

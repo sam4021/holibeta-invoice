@@ -22,11 +22,14 @@ class SecurityCheckResource extends JsonResource
             'created_by'=>new UserResource($this->whenLoaded('createdBy')), 
             'vehicle_reg_no'=>$this->vehicle_reg_no, 
             'vehicle'=>new VehicleResource($this->whenLoaded('vehicle')), 
+            'grain'=>new GrainResource($this->grain),
+            'driver'=>new DriverResource($this->driver),
+            'timeslot'=>$this->timeslot,
             'front_image'=>$this->front_image, 
             'back_image'=>$this->back_image, 
             'side_image'=>$this->side_image,
+            'top_image' => $this->top_image,
             'code'=>$this->security_check_code,
-            'driver'=>new DriverResource($this->whenLoaded('driver')), 
         ];
     }
 }

@@ -7,9 +7,7 @@
                     <div class="my-5">
                         <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-3">
                             <div>
-                                <label class="sumo-label" for="supplier"
-                                    >Supplier:</label
-                                >
+                                <label class="sumo-label" for="supplier">Supplier:</label>
                                 <select v-model="stepOne.supplier"
                                     id="supplier"
                                     class="sumo-input my-2">
@@ -33,6 +31,18 @@
                                 </div>
                             </div>
                             <div>
+                                <label class="sumo-label" for="vehicle">Grains:</label>
+                                <select v-model="stepOne.grain"
+                                    id="vehicle"
+                                    class="sumo-input my-2">
+                                    <option :value="null">Select Grain</option>
+                                    <option :value="grain.id" :key="grain.id" v-for="grain in grains.data">{{grain.name}}</option>
+                                </select>
+                                <div class="sumo-error" v-if="form.errors.grain">
+                                    {{ form.errors.grain }}
+                                </div>
+                            </div>
+                            <div>
                                 <label for="vehicle_reg_no" class="text-sm font-medium text-gray-700">Vehicle Reg No</label>
                                 <input
                                     v-model="stepOne.vehicle_reg_no"
@@ -41,10 +51,7 @@
                                     id="vehicle_reg_no"
                                     class="sumo-input my-2"
                                 />
-                                <div
-                                    class="sumo-error"
-                                    v-if="form.errors.vehicle_reg_no"
-                                >
+                                <div class="sumo-error" v-if="form.errors.vehicle_reg_no">
                                     {{ form.errors.vehicle_reg_no }}
                                 </div>
                             </div>
@@ -88,7 +95,8 @@ import { useStorage } from '@vueuse/core'
 
 defineProps({
     vehicles:Object,
-    suppliers:Object
+    suppliers:Object,
+    grains: Object
 })
 
 const stepOne=useStorage('stepOne',{
@@ -96,6 +104,7 @@ const stepOne=useStorage('stepOne',{
     vehicle_reg_no: "",
     vehicle: null,
     timeslot:null,
+    grain:null
 })
 const step=useStorage('step',1)
 const search=ref('')
@@ -105,6 +114,7 @@ let form=useForm({
     vehicle_reg_no: "",
     vehicle: null,
     timeslot:null,
+    grain:null
 })
 
 const submit=()=>{
@@ -112,6 +122,7 @@ const submit=()=>{
     form.vehicle_reg_no= stepOne.value.vehicle_reg_no;
     form.vehicle= stepOne.value.vehicle;
     form.timeslot= stepOne.value.timeslot;
+    form.grain= stepOne.value.grain;
     
     form.post(route('delivery.step-one'),{
         onSuccess:()=>{

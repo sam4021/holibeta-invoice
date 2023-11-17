@@ -24,8 +24,11 @@ return new class extends Migration
             $table->string('front_image',125)->nullable();
             $table->string('back_image',125)->nullable();
             $table->string('side_image',125)->nullable();
-            $table->unsignedBigInteger('driver')->index();
-            $table->foreign('driver')->references('id')->on('drivers');
+            $table->string('top_image', 125)->nullable();
+            $table->unsignedBigInteger('driver_id')->index();
+            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->unsignedBigInteger('grain_id')->index();
+            $table->foreign('grain_id')->references('id')->on('grains');
             $table->string('timeslot',50);
             $table->softDeletes();
             $table->timestamps();

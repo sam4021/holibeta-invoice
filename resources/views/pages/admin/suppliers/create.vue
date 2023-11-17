@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import Admin from "@/views/layouts/admin.vue";
 import { Head, useForm, usePage } from "@inertiajs/vue3";
-import { computed } from "vue";
+import { computed,ref, onMounted } from "vue";
+import CountySelect from "@/views/components/general-components/county-select.vue";
+import SubcountySelect from "@/views/components/general-components/subcounty-select.vue";
+import {useLocationStore} from "@/scripts/store/locationStore";
 
 defineProps({
     vehicles: Object,
 });
+const locationStore=useLocationStore()
+const search=ref('')
+locationStore.getCounties(search.value)
+locationStore.getDefaultCounty()
 const user = computed(() => usePage().props.auth.id);
 let form = useForm({
     firstname:'',
@@ -18,6 +25,22 @@ let form = useForm({
     subcounty:'', 
     ward:''
 });
+
+onMounted(()=>{
+    if (locationStore.default_county){
+        locationStore.getSubcounties(locationStore.default_county.id)
+    }
+})
+
+const submit=()=>{
+    form.subcounty=locationStore.subcounty.id
+    form.county=locationStore.default_county.id
+    form.post(route('suppliers.store'),{
+     onSuccess:()=>{
+         form.reset()
+     }
+ })
+}
 </script>
 
 <template>
@@ -28,7 +51,7 @@ let form = useForm({
                 <h1 class="text-2xl font-bold">Add a Supplier</h1>
             </div>
             <div class="my-5">
-                <form @submit.prevent="form.post(route('suppliers.store'))">
+                <form @submit.prevent="submit">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
                             <label class="sumo-label" for="firstname">First name:</label>
@@ -70,11 +93,7 @@ let form = useForm({
                             </div>
                         </div>
                         <div>
-                            <label
-                                for="phone"
-                                class="text-sm font-medium text-gray-700"
-                                >Phone</label
-                            >
+                            <label for="phone" class="text-sm font-medium text-gray-700">Phone</label>
                             <input
                                 v-model="form.phone"
                                 placeholder="Enter Phone Number"
@@ -82,19 +101,12 @@ let form = useForm({
                                 id="phone"
                                 class="sumo-input my-2"
                             />
-                            <div
-                                class="sumo-error"
-                                v-if="form.errors.phone"
-                            >
+                            <div class="sumo-error" v-if="form.errors.phone">
                                 {{ form.errors.phone }}
                             </div>
                         </div>
                         <div>
-                            <label
-                                for="email"
-                                class="text-sm font-medium text-gray-700"
-                                >Email</label
-                            >
+                            <label for="email" class="text-sm font-medium text-gray-700">Email</label>
                             <input
                                 v-model="form.email"
                                 placeholder="Enter Email"
@@ -102,10 +114,7 @@ let form = useForm({
                                 id="email"
                                 class="sumo-input my-2"
                             />
-                            <div
-                                class="sumo-error"
-                                v-if="form.errors.email"
-                            >
+                            <div class="sumo-error" v-if="form.errors.email">
                                 {{ form.errors.email }}
                             </div>
                         </div>
@@ -131,12 +140,22 @@ let form = useForm({
                         </div>
                         <div>
                             <label for="county" class="text-sm font-medium text-gray-700">County</label>
-                            <input v-model="form.county" placeholder="Enter County " type="text" id="county" class="sumo-input my-2"/>
+                            <county-select
+                                           placeholder="Select County"
+                                           :searchable="true"></county-select>
                             <div class="sumo-error" v-if="form.errors.county"> {{ form.errors.county }} </div>
                         </div>
                         <div>
-                            <label for="subcounty" class="text-sm font-medium text-gray-700">Subcounty</label>
-                            <input v-model="form.subcounty" placeholder="Enter Subcounty" type="text" id="subcounty" class="sumo-input my-2"/>
+                            <label class="sumo-label flex items-center gap-2">
+                                <span>Subcounty</span>
+                                <svg v-if="locationStore.loading && !locationStore.subcounties" class="w-5 fill-sumo-300 animate-pulse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"/></svg>
+                            </label>
+                            <label for="subcounty" class="text-sm font-medium text-gray-700"></label>
+                            <subcounty-select
+                                           placeholder="Select city"
+                                        :searchable="true"
+                                        :disabled="!locationStore.default_county"
+                                        class="my-2"></subcounty-select>
                             <div class="sumo-error" v-if="form.errors.subcounty"> {{ form.errors.subcounty }} </div>
                         </div>
                         <div>

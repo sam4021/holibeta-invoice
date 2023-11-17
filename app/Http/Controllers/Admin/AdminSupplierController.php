@@ -47,17 +47,16 @@ class AdminSupplierController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {    
         $validated=$request->validate([
             'firstname'=>'required|string|max:20',
             'middlename'=>'nullable|string|max:20',
             'lastname'=>'required|string|max:20',
             'phone' => 'required|string',
             'email' => 'nullable|string',
-            'id_no' => 'nullable|string',
-            'county' => 'required|string',
-            'subcounty' => 'required|string',
+            'id_no' => 'nullable',
+            'county' => 'required',
+            'subcounty' => 'required',
             'ward' => 'required|string',
         ]);
         $validated['created_by'] = Auth::user()->id;
@@ -75,7 +74,7 @@ class AdminSupplierController extends Controller
     public function show(string $id)
     {
         //
-        $supplier=new SupplierResource(Suppliers::findBySlugOrFail($id));
+        $supplier= $this->supplierRepository->supplierBySlug($id);
         return inertia::render('admin/suppliers/show',compact('supplier'));
     }
 
@@ -84,8 +83,7 @@ class AdminSupplierController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $supplier= Suppliers::findOrFail($id);
+        $supplier=$this->supplierRepository->supplierById($id);
         return inertia::render('admin/suppliers/edit',compact('supplier'));
     }
 

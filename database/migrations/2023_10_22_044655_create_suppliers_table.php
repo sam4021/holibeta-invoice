@@ -17,13 +17,15 @@ return new class extends Migration
             $table->string('middlename',20)->nullable();
             $table->string('lastname',20);
             $table->string('slug',125)->unique();
-            $table->string('supplier_code',6)->unique();
+            $table->string('supplier_code',15)->unique();
             $table->integer('status')->default(1);
             $table->string('phone');
             $table->string('email')->nullable();
             $table->string('id_no',50)->nullable();
-            $table->string('county', 50);
-            $table->string('subcounty', 50);
+            $table->unsignedBigInteger('county_id')->index();
+            $table->foreign('county_id')->references('id')->on('counties');
+            $table->unsignedBigInteger('subcounty_id')->index();
+            $table->foreign('subcounty_id')->references('id')->on('subcounties');
             $table->string('ward', 50);
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');

@@ -28,8 +28,8 @@ class SupplierResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'id_no' => $this->id_no,
-            'county' => $this->county,
-            'subcounty' => $this->subcounty,
+            'county' => new CountyResource($this->county),
+            'subcounty' => new SubcountyResource($this->subcounty),
             'ward' => $this->ward
         ];
     }

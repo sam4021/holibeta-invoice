@@ -21,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/get/products',[ApiController::class,'getProducts']);
+Route::get('get/counties', [ApiController::class, 'getCounties']);
+Route::get('get/sub-counties/{id}', [ApiController::class, 'getSubcounties']);
+Route::get('get/default_county', [ApiController::class, 'getDefaultCounty']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use File;
 use App\Http\Controllers\Controller;
+use App\Interfaces\GrainInterface;
 use App\Interfaces\DriverInterface;
 use App\Interfaces\VehicleInterface;
 use App\Interfaces\SupplierInterface;
@@ -16,13 +17,15 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminSecurityCheckController extends Controller
 {
+    private $grainRepository;
     private $driverRepository;
     private $vehicleRepository;
     private $supplierRepository;
     private $securityCheckRepository;
     private $securityPath;
-    public function __construct(DriverInterface $driverRepository,VehicleInterface $vehicleRepository, SupplierInterface $supplierRepository, SecurityCheckInterface $securityCheckRepository)
+    public function __construct(GrainInterface $grainRepository, DriverInterface $driverRepository,VehicleInterface $vehicleRepository, SupplierInterface $supplierRepository, SecurityCheckInterface $securityCheckRepository)
     {
+        $this->grainRepository = $grainRepository;
         $this->driverRepository = $driverRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->supplierRepository = $supplierRepository;
@@ -52,7 +55,8 @@ class AdminSecurityCheckController extends Controller
         $suppliers= $this->supplierRepository->getSuppliers();
         $vehicles= $this->vehicleRepository->getVehicles();
         $drivers=$this->driverRepository->getDrivers();
-        return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers'));
+        $grains = $this->grainRepository->getGrains();
+        return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers', 'grains'));
     }
 
     /**
@@ -60,16 +64,17 @@ class AdminSecurityCheckController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validated=$request->validate([
             'stepOne'=>'required',
             'stepOne.supplier'=>'required|integer|exists:suppliers,id', 
             'stepOne.vehicle_reg_no'=>'required', 
             'stepOne.vehicle'=>'required|integer|exists:vehicles,id', 
-            'stepOne.timeslot'=> 'required',  
-            'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', 
-            'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', 
-            'side_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048' ,
+            'stepOne.timeslot'=> 'required',
+            'stepOne.grain' => 'required',  
+            'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
+            'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
+            'top_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg' ,
+            'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             'driver'=> 'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
@@ -97,6 +102,14 @@ class AdminSecurityCheckController extends Controller
             $image_resize->save($this->securityPath . $filename);
             $validated['side_image'] = $filename;
         }
+        if ($request->hasFile('top_image')) {
+            $top_image       = $request->file('top_image');
+            $extension = $top_image->getClientOriginalExtension();
+            $filename = 'top_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($top_image->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['top_image'] = $filename;
+        }
         $securityCheck=$this->securityCheckRepository->createSecurityCheck($validated);
         if($securityCheck->status()==200){
             return redirect()->route('delivery.index')->with('success','Delivery added successfully');
@@ -122,7 +135,9 @@ class AdminSecurityCheckController extends Controller
         $securityCheck = $this->securityCheckRepository->getSecurityCheckById($id);
         $suppliers = $this->supplierRepository->getSuppliers();
         $vehicles = $this->vehicleRepository->getVehicles();
-        return inertia::render('admin/delivery/edit', compact('securityCheck', 'suppliers', 'vehicles'));
+        $grains = $this->grainRepository->getGrains();
+        $drivers=$this->driverRepository->getDrivers();
+        return inertia::render('admin/delivery/edit', compact('securityCheck', 'suppliers', 'vehicles', 'grains', 'drivers'));
     }
 
     /**
@@ -130,15 +145,51 @@ class AdminSecurityCheckController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated=$request->validate([
+        $validated = $request->validate([
             'supplier' => 'required|integer|exists:suppliers,id',
             'vehicle_reg_no' => 'required',
             'vehicle' => 'required|integer|exists:vehicles,id',
+            'timeslot' => 'required',
+            'grain' => 'required',
+            'driver' => 'required'
         ]);
+        $validated['created_by'] = Auth::user()->id;
+        if ($request->hasFile('front_image')) {
+            $front_image       = $request->file('front_image');
+            $extension = $front_image->getClientOriginalExtension();
+            $filename = 'front_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($front_image->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['front_image'] = $filename;
+        }
+        if ($request->hasFile('back_image')) {
+            $back_image       = $request->file('back_image');
+            $extension = $back_image->getClientOriginalExtension();
+            $filename = 'back_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($back_image->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['back_image'] = $filename;
+        }
+        if ($request->hasFile('side_image')) {
+            $side_image       = $request->file('side_image');
+            $extension = $side_image->getClientOriginalExtension();
+            $filename = 'side_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($side_image->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['side_image'] = $filename;
+        }
+        if ($request->hasFile('top_image')) {
+            $top_image       = $request->file('top_image');
+            $extension = $top_image->getClientOriginalExtension();
+            $filename = 'top_image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($top_image->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['top_image'] = $filename;
+        }
 
         $securityCheck=$this->securityCheckRepository->updateSecurityCheck($validated,$id);
         if ($securityCheck->status()==200){
-            return redirect()->route('delivery.index')->with('success', 'Delivery updated successfully');
+            return redirect()->route('delivery.show',$id)->with('success', 'Delivery updated successfully');
         }else{
             return redirect()->back()->with('status', 'Delivery could not be updated');
         }
@@ -158,13 +209,13 @@ class AdminSecurityCheckController extends Controller
     }
 
     public function stepOne(Request $request){
-
         //validated property setup step 1
         $validated=$request->validate([
             'supplier'=>'required|integer|exists:suppliers,id', 
             'vehicle_reg_no'=>'required', 
             'vehicle'=>'required|integer|exists:vehicles,id', 
             'timeslot'=> 'required', 
+            'grain'=> 'required', 
         ]);
     }
 

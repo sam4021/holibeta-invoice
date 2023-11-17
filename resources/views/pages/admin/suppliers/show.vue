@@ -45,36 +45,59 @@ const deleteSupplier=(id:number)=>{
     </div>
 
     <div class="my-5">
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Name:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.name}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Supplier Code:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.supplier_code}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Phone:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.phone}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Email:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.email}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">status:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.status}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">ID Number:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.id_no}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Age Limits:</span>
-            <span class="text-gray-800 font-medium capitalize">{{supplier.data.age_limits}}</span>
-        </div>
+        <div class="shadow p-4 bg-white rounded-md">
+            <div class="grid gap-3 grid-cols-3">
+                <div class="my-3">
+                    <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">Name:</th>
+                            <td class="px-3">{{ supplier.data.name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Supplier Code:</th>
+                            <td class="px-3">{{ supplier.data.supplier_code }}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="my-3">
+                    <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">Phone:</th>
+                            <td class="px-3">{{supplier.data.phone}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Email:</th>
+                            <td class="px-3">{{supplier.data.email}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">ID Number:</th>
+                            <td class="px-3">{{supplier.data.id_no}}</td>
+                        </tr>
+                    </table>
+                </div>
 
+                <div class="my-3">
+                    <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">County:</th>
+                            <td class="px-3">{{supplier.data.county.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Subcounty:</th>
+                            <td class="px-3">{{supplier.data.subcounty.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Ward:</th>
+                            <td class="px-3">{{supplier.data.ward}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+ 
+ 
 </admin>
 </template>
 
