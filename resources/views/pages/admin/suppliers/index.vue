@@ -92,6 +92,9 @@ const deleteSupplier=(id:number)=>{
                             Name
                         </th>
                         <th scope="col" class="px-2 py-3">
+                            Location
+                        </th>
+                        <th scope="col" class="px-2 py-3">
                             Status
                         </th>
                         <th scope="col" class="px-2 py-3 text-end">
@@ -106,6 +109,9 @@ const deleteSupplier=(id:number)=>{
                         </th>
                         <td class="px-2 py-3 capitalize">
                             {{supplier.name}}
+                        </td>
+                        <td class="px-2 py-3 capitalize">
+                            {{supplier.county.name}}, {{supplier.subcounty.name}}
                         </td>
                         <td class="px-2 py-3 capitalize">
                             {{supplier.statusView}}
