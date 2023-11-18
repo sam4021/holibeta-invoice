@@ -14,7 +14,7 @@ console.log(props)
 const search=ref('')
 const locationStore=useLocationStore()
 locationStore.getCounties(search.value)
-locationStore.getDefaultCounty()
+
 
 let form=useForm({
     firstname:props.supplier?.data.firstname,
@@ -32,7 +32,7 @@ let form=useForm({
 const submit=()=>{
     form.subcounty=locationStore.subcounty.id
     form.county=locationStore.default_county.id
-    form.patch(route('suppliers.update',supplier.id),{
+    form.patch(route('suppliers.update',props.supplier?.data.id),{
      onSuccess:()=>{
          form.reset()
      }
@@ -40,10 +40,9 @@ const submit=()=>{
 }
 
 onMounted(()=>{
-    if (locationStore.default_county){
-        locationStore.getSubcounties(locationStore.default_county.id)
-    }
-    locationStore.subcounty = props.supplier?.subcounty
+    locationStore.default_county=props.supplier?.data.county    
+    locationStore.getSubcounties(props.supplier?.data.county.id)    
+    locationStore.subcounty = props.supplier?.data.subcounty
 })
 </script>
 
@@ -105,7 +104,8 @@ onMounted(()=>{
                             <label for="county" class="text-sm font-medium text-gray-700">County</label>
                             <county-select
                                            placeholder="Select County"
-                                           :searchable="true"></county-select>
+                                           :searchable="true"
+                                        class="my-2"></county-select>
                             <div class="sumo-error" v-if="form.errors.county"> {{ form.errors.county }} </div>
                         </div>
                         <div>
@@ -115,7 +115,7 @@ onMounted(()=>{
                             </label>
                             <label for="subcounty" class="text-sm font-medium text-gray-700"></label>
                             <subcounty-select
-                                           placeholder="Select city"
+                                           placeholder="Select Subcounty"
                                         :searchable="true"
                                         :disabled="!locationStore.default_county"
                                         class="my-2"></subcounty-select>
@@ -150,7 +150,7 @@ onMounted(()=>{
                             type="submit"
                             class="btn-primary flex gap-2 items-center"
                         >
-                            <span>Save Supplier</span>
+                            <span>Update Supplier</span>
                             <svg
                                 v-if="form.processing"
                                 class="fill-white w-5 animate-ping"

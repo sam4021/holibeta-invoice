@@ -94,14 +94,17 @@ class AdminSupplierController extends Controller
     {
         //
 
-        $validated=$request->validate([
-            'firstname'=>'required|string|max:20',
-           'middlename'=>'nullable|string|max:20',
-           'lastname'=>'required|string|max:20',
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:20',
+            'middlename' => 'nullable|string|max:20',
+            'lastname' => 'required|string|max:20',
             'phone' => 'required|string',
             'email' => 'nullable|string',
-            'id_no' => 'nullable|string',
-            'age_limits' => 'nullable|string'
+            'id_no' => 'nullable',
+            'county' => 'required',
+            'subcounty' => 'required',
+            'ward' => 'required|string',
+            'status'=> 'required'
         ]);
 
         $supplier=$this->supplierRepository->updateSupplier($validated,$id);

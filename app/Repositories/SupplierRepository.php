@@ -20,6 +20,18 @@ class SupplierRepository implements SupplierInterface
         return SupplierResource::collection($suppliers);
     }
 
+    public function getActiveSuppliers()
+    {
+        $suppliers = Suppliers::query()
+            ->where('status',1)
+            ->when(request('search'), function ($query) {
+                $query->where('firstname', 'like', '%' . request('search') . '%');
+            })
+            ->paginate(request('showing') ?? 10);
+
+        return SupplierResource::collection($suppliers);
+    }
+
     public function supplierById(string $id){
         return new SupplierResource(Suppliers::findOrFail($id));
     }
@@ -64,7 +76,8 @@ class SupplierRepository implements SupplierInterface
                     'id_no' => $data['id_no'],
                     'county_id' => $data['county'],
                     'subcounty_id' => $data['subcounty'],
-                    'ward' => $data['ward']
+                    'ward' => $data['ward'],
+                    'status'=>$data['status']
                 ]
             );
             return response()->json(['message'=> 'Supplier updated successfully', 'supplier'=> $supplier],200);

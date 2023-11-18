@@ -11,7 +11,7 @@ class WarehouseBags extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'created_by', 'bag_code', 'warehouse_id', 'barcode_no','weight'
+        'created_by', 'bag_code', 'warehouse_id', 'barcode_no','weight', 'grain_id'
     ];
 
     public function warehouse()
@@ -22,6 +22,11 @@ class WarehouseBags extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function grain()
+    {
+        return $this->belongsTo(Grains::class, 'grain_id');
     }
 
     protected static function booted(): void

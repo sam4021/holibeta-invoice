@@ -7,6 +7,8 @@ import debounce from "lodash";
 import DataPagination from "@/views/components/general-components/data-pagination.vue";
 // import UpdateVehicle from "@/views/components/vehicle/update-vehicle.vue";
 import CreateWeighbridge from "@/views/components/weighbridge/create.vue";
+import CustomDropdown from "@/views/components/general-components/custom-dropdown.vue";
+
 let props = defineProps({
     weighbridges: {
         type: Object as PropType<Weighbridge[]>,
@@ -107,13 +109,11 @@ const deleteWeighbridge = (id: number) => {
         <div class="border rounded-xl overflow-hidden shadow-sm">
             <div>
                 <div class="relative">
-                    <table
-                        class="w-full text-sm text-left text-gray-700 font-medium"
-                    >
+                    <table class="w-full text-sm text-left text-gray-700 font-medium">
                         <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                             <tr>
-                                <th scope="col" class="px-2 py-3">Supplier</th>
-
+                                <th scope="col" class="px-2 py-3">Code</th>
+                                <th scope="col" class="px-2 py-3">Supplier</th> 
                                 <th scope="col" class="px-2 py-3">
                                     Created By
                                 </th>
@@ -132,12 +132,12 @@ const deleteWeighbridge = (id: number) => {
                                 v-for="weighbridge in weighbridges.data"
                                 :key="weighbridge.id"
                             >
-                                <th
-                                    scope="row"
-                                    class="px-2 py-3 font-semibold whitespace-nowrap"
-                                >
-                                    {{ weighbridge.supplier.name }}
+                                <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                                    {{ weighbridge.code }}
                                 </th>
+                                <td class="px-2 py-3 capitalize">
+                                    {{ weighbridge.supplier.name }}
+                                </td>
                                 <td class="px-2 py-3 capitalize">
                                     {{ weighbridge.created_by.name }}
                                 </td>
@@ -155,24 +155,26 @@ const deleteWeighbridge = (id: number) => {
                             </update-weighbridge> -->
                                 </td>
                                 <td class="px-2 py-3">
-                                    <div class="flex gap-3">
-                                        <Link :href="route('weighbridge.show',weighbridge.id)" class="text-green-500">
-                                            View
-                                        </Link>
-<prompt-alert
-                                        title="Are you sure you want to delete this weighbridge?"
-                                        description="All related data will be deleted"
-                                        @proceed="
-                                            deleteWeighbridge(weighbridge.id)
-                                        "
-                                    >
-                                        <template #trigger>
-                                            <button class="text-red-500">
-                                                Delete
-                                            </button>
-                                        </template>
-                                    </prompt-alert>
-                                    </div>
+                                    <custom-dropdown>
+                                <template #trigger>
+                                    <button class="flex gap-2 items-center">
+                                       <span> More</span>
+                                        <svg class="h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512">
+                                            <path d="M64 112c26.5 0 48-21.5 48-48S90.5 16 64 16S16 37.5 16 64S37.5 112 64 112zM64 400c-26.5 0-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48S90.5 400 64 400zM64 208C37.5 208 16 229.5 16 256S37.5 304 64 304s48-21.5 48-48S90.5 208 64 208z"/>
+                                        </svg>
+                                    </button>
+                                </template>
+                                <div>
+                                    <ul class="divide-y">
+                                        <li>
+                                            <Link :href="route('weighbridge.show',weighbridge.id)">
+                                                <button class="p-2">Details</button>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </custom-dropdown>
+                                    
                                     
                                 </td>
                             </tr>

@@ -32,7 +32,7 @@ class AdminWeighbridgeController extends Controller
         //
         $weighbridges=$this->weighbridgeRepository->getWeighbridges();
         $filters=request()->all('search','showing','shift','machine');
-        $suppliers = $this->supplierRepository->getSuppliers();
+        $suppliers = $this->supplierRepository->getActiveSuppliers();
         return inertia::render('admin/weighbridge/index', compact(
             'weighbridges',
             'filters',
@@ -46,7 +46,7 @@ class AdminWeighbridgeController extends Controller
     public function create()
     {
         //
-        $suppliers= $this->supplierRepository->getSuppliers();
+        $suppliers= $this->supplierRepository->getActiveSuppliers();
         return inertia::render('admin/weighbridge/create',compact('suppliers'));
     }
 

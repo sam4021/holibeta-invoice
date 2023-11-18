@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('weighbridges', function (Blueprint $table) {
             $table->id();
+            $table->string('weighbridge_code', 10)->unique();
             $table->unsignedBigInteger('supplier_id')->index();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('created_by')->index();

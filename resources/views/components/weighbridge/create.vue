@@ -40,12 +40,14 @@
                             <label class="sumo-label" for="supplier"
                                 >Supplier:</label
                             >
-                            <select v-model="form.supplier"
-                                id="supplier"
-                                class="sumo-input my-2">
-                                <option :value="null">Select Supplier</option>
-                                <option :value="supplier.id" :key="supplier.id" v-for="supplier in suppliers.data">{{supplier.name}}</option>
-                            </select>
+                            <vue-select
+                                    :searchable="true"
+                                    v-model:selected="form.supplier"
+                                    :options="suppliers.data"
+                                    placeholder="Select Supplier"
+                                    class=""
+                                ></vue-select>
+                            
                             <div class="sumo-error" v-if="form.errors.supplier">
                                 {{ form.errors.supplier }}
                             </div>
@@ -58,7 +60,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label for="moisture_content" class="text-sm font-medium text-gray-700">Moisture Content</label>
+                                    <label for="moisture_content" class="text-sm font-medium text-gray-700">Moisture Content (%)</label>
                                     <input v-model="form.moisture_content" type="text" id="name" name="moisture_content" class="sumo-input my-2">
                                     <div class="sumo-error" v-if="form.errors.moisture_content">
                                         {{ form.errors.moisture_content }}
@@ -68,8 +70,8 @@
                                     <label for="visual_inspection" class="text-sm font-medium text-gray-700">Visual Inspection</label>
                                     <select v-model="form.visual_inspection" class="sumo-input my-2">
                                     <option :value="null">Choose Inspection Status</option>
-                                    <option value="Good">Good</option>
-                                    <option value="Bad">Bad</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Reject">Reject</option>
                                     </select>
                                     <div class="sumo-error" v-if="form.errors.visual_inspection">
                                         {{ form.errors.visual_inspection }}
@@ -107,6 +109,7 @@
 <script setup lang="ts">
 import {watch, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
+import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props=defineProps({
    suppliers: Object

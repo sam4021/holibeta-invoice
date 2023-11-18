@@ -18,6 +18,7 @@ class WeighbridgeResource extends JsonResource
             'id'=>$this->id,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
+            'code'=>$this->weighbridge_code,
             'supplier'=>new SupplierResource($this->whenLoaded('supplier')), 
             'created_by'=>new UserResource($this->whenLoaded('createdBy')),
             'weight' => $this->weight,

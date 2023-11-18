@@ -31,7 +31,7 @@ class AdminWarehouseController extends Controller
     public function index()
     {
         $warehouses=$this->warehouseRepository->getWarehouses();
-        $suppliers = $this->supplierRepository->getSuppliers();
+        $suppliers = $this->supplierRepository->getActiveSuppliers();
         $filters=request()->all('search','showing');
         return inertia::render('admin/warehouse/index', compact(
             'warehouses',

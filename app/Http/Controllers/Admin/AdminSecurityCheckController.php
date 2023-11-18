@@ -52,8 +52,8 @@ class AdminSecurityCheckController extends Controller
      */
     public function create()
     {
-        $suppliers= $this->supplierRepository->getSuppliers();
-        $vehicles= $this->vehicleRepository->getVehicles();
+        $suppliers= $this->supplierRepository->getActiveSuppliers();
+        $vehicles= $this->vehicleRepository->getAllVehicles();
         $drivers=$this->driverRepository->getDrivers();
         $grains = $this->grainRepository->getGrains();
         return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers', 'grains'));

@@ -96,7 +96,7 @@ const submit=()=>{
                             <label for="phone" class="text-sm font-medium text-gray-700">Phone</label>
                             <input
                                 v-model="form.phone"
-                                placeholder="Enter Phone Number"
+                                placeholder="0712*****"
                                 type="text"
                                 id="phone"
                                 class="sumo-input my-2"
@@ -107,13 +107,11 @@ const submit=()=>{
                         </div>
                         <div>
                             <label for="email" class="text-sm font-medium text-gray-700">Email</label>
-                            <input
-                                v-model="form.email"
-                                placeholder="Enter Email"
+                            <input v-model="form.email"
+                                placeholder="johndoe@email.com"
                                 type="email"
                                 id="email"
-                                class="sumo-input my-2"
-                            />
+                                class="sumo-input my-2"/>
                             <div class="sumo-error" v-if="form.errors.email">
                                 {{ form.errors.email }}
                             </div>
@@ -142,7 +140,7 @@ const submit=()=>{
                             <label for="county" class="text-sm font-medium text-gray-700">County</label>
                             <county-select
                                            placeholder="Select County"
-                                           :searchable="true"></county-select>
+                                           :searchable="true" class="my-2"></county-select>
                             <div class="sumo-error" v-if="form.errors.county"> {{ form.errors.county }} </div>
                         </div>
                         <div>
@@ -152,7 +150,7 @@ const submit=()=>{
                             </label>
                             <label for="subcounty" class="text-sm font-medium text-gray-700"></label>
                             <subcounty-select
-                                           placeholder="Select city"
+                                           placeholder="Select Subcounty"
                                         :searchable="true"
                                         :disabled="!locationStore.default_county"
                                         class="my-2"></subcounty-select>

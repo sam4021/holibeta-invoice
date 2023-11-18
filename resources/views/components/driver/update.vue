@@ -71,7 +71,7 @@
                                     <img :src="'/images/driver/'+form.id_image">
                                 </div>
                                 <div>
-                                    <label for="email" class="text-sm font-medium text-gray-700">ID Image</label>
+                                    <label for="email" class="text-sm font-medium text-gray-700">Driver Image</label>
                                     <input @input="form.new_driver_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image" type="file">
                                     <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
                                         <span class="text-xs">{{form.errors.new_driver_image }}</span>

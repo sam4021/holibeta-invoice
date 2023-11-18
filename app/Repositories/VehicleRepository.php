@@ -17,6 +17,12 @@ class VehicleRepository implements VehicleInterface
         return VehicleResource::collection($vehicles);
     }
 
+    public function getAllVehicles()
+    {
+        $vehicles = Vehicle::all();
+        return VehicleResource::collection($vehicles);
+    }
+
     public function storeVehicle($data){
         try {
             $vehicle= Vehicle::create([

@@ -133,17 +133,6 @@ const deleteDriver=(id:number)=>{
                                             </update-driver>
                                            
                                         </li>
-                                        <li>
-                                            <prompt-alert
-                                                title="Are you sure you want to delete this Driver?"
-                                                description="All related data will be deleted"
-                                                @proceed="deleteDriver(driver.id)"
-                                            >
-                                                <template #trigger>
-                                                    <button class="text-red-500 p-2">Delete</button>
-                                                </template>
-                                            </prompt-alert>
-                                        </li>
                                     </ul>
                                 </div>
                             </custom-dropdown>

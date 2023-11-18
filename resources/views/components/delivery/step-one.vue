@@ -20,12 +20,13 @@
                             </div>
                             <div>
                                 <label class="sumo-label" for="vehicle">Vehicle:</label>
-                                <select v-model="stepOne.vehicle"
-                                    id="vehicle"
-                                    class="sumo-input my-2">
-                                    <option :value="null">Select Vehicle</option>
-                                    <option :value="vehicle.id" :key="vehicle.id" v-for="vehicle in vehicles.data">{{vehicle.name}}</option>
-                                </select>
+                                <vue-select
+                                    :searchable="true"
+                                    v-model:selected="stepOne.vehicle"
+                                    :options="vehicles.data"
+                                    placeholder="Select Vehicle"
+                                    class=""
+                                ></vue-select>
                                 <div class="sumo-error" v-if="form.errors.vehicle">
                                     {{ form.errors.vehicle }}
                                 </div>
@@ -92,6 +93,7 @@
 import {ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import { useStorage } from '@vueuse/core'
+import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 defineProps({
     vehicles:Object,
