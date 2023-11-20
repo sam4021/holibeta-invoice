@@ -8,7 +8,6 @@ let props=defineProps({
     securityCheck:Object,
     vehicles: Object,
     suppliers: Object,
-    grains: Object,
     drivers: Object,
 })
 console.log(props);
@@ -19,7 +18,6 @@ let form=useForm({
     vehicle_reg_no: props.securityCheck?.data.vehicle_reg_no,
     vehicle: props.securityCheck?.data.vehicle.id,    
     timeslot: props.securityCheck?.data.timeslot,
-    grain: props.securityCheck?.data.grain.id,
     driver:props.securityCheck?.data.driver.id,
     front_image: "",
     back_image: "",
@@ -65,18 +63,6 @@ let top_image_old = '/images/delivery/'+props.securityCheck.data.top_image
                                 </select>
                                 <div class="sumo-error" v-if="form.errors.vehicle">
                                     {{ form.errors.vehicle }}
-                                </div>
-                            </div>
-                            <div>
-                                <label class="sumo-label" for="vehicle">Grains:</label>
-                                <select v-model="form.grain"
-                                    id="vehicle"
-                                    class="sumo-input my-2">
-                                    <option :value="null">Select Grain</option>
-                                    <option :value="grain.id" :key="grain.id" v-for="grain in grains.data">{{grain.name}}</option>
-                                </select>
-                                <div class="sumo-error" v-if="form.errors.grain">
-                                    {{ form.errors.grain }}
                                 </div>
                             </div>
                             <div>

@@ -11,7 +11,7 @@ class SecurityCheck extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_id', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code', 'grain_id'
+        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_id', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code'
     ];
 
     public function supplier()
@@ -32,11 +32,6 @@ class SecurityCheck extends Model
     public function driver()
     {
         return $this->belongsTo(Driver::class, 'driver_id');
-    }
-
-    public function grain()
-    {
-        return $this->belongsTo(Grains::class, 'grain_id');
     }
 
     protected static function booted(): void

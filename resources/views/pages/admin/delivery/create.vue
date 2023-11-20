@@ -9,8 +9,7 @@ import StepTwo from "@/views/components/delivery/step-two.vue";
 let props = defineProps({
     vehicles: Object,
     suppliers: Object,
-    drivers: Object,
-    grains: Object
+    drivers: Object
 });
 console.log(props);
 const step=useStorage('step',1)
@@ -105,7 +104,7 @@ const submit=()=>{
                         <div v-if="step===1">
                             <h2 class="font-slab font-bold text-xl">Step 1: Security Check</h2>
                             <div class="px-2">
-                                <step-one  :suppliers="suppliers" :vehicles="vehicles" :grains="grains"></step-one>
+                                <step-one  :suppliers="suppliers" :vehicles="vehicles"></step-one>
                             </div>
                         </div>
 

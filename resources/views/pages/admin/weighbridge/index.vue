@@ -15,8 +15,9 @@ let props = defineProps({
         required: true,
     },
     filters: Object as PropType<Filters>,
-    suppliers: Object,
+    deliveries: Object,
 });
+console.log(props);
 
 const search = ref<String>(props.filters.search);
 const showing = ref<Number>(props.filters.showing ?? 10);
@@ -50,7 +51,7 @@ const deleteWeighbridge = (id: number) => {
                 <h1 class="text-2xl font-bold">Weighbridges</h1>
             </div>
             <div>
-                <create-weighbridge :suppliers="suppliers">
+                <create-weighbridge :deliveries="deliveries.data">
                     <template #trigger>
                         <button
                             class="btn-simple btn-medium flex items-center gap-2"
@@ -113,7 +114,7 @@ const deleteWeighbridge = (id: number) => {
                         <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                             <tr>
                                 <th scope="col" class="px-2 py-3">Code</th>
-                                <th scope="col" class="px-2 py-3">Supplier</th> 
+                                <th scope="col" class="px-2 py-3">Delivery</th> 
                                 <th scope="col" class="px-2 py-3">
                                     Created By
                                 </th>
@@ -136,7 +137,7 @@ const deleteWeighbridge = (id: number) => {
                                     {{ weighbridge.code }}
                                 </th>
                                 <td class="px-2 py-3 capitalize">
-                                    {{ weighbridge.supplier.name }}
+                                    {{ weighbridge.delivery.code }}
                                 </td>
                                 <td class="px-2 py-3 capitalize">
                                     {{ weighbridge.created_by.name }}

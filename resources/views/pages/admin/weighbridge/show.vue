@@ -32,7 +32,7 @@ const deleteWeighbridge=(id:number)=>{
            </div>
             <div>
                 <prompt-alert
-                    title="Are you sure you want to delete this supplier?"
+                    title="Are you sure you want to delete this Weighbridge?"
                     description="All related data will be deleted"
                     @proceed="deleteWeighbridge(weighbridge.data.id)"
                 >
@@ -46,8 +46,8 @@ const deleteWeighbridge=(id:number)=>{
 
     <div class="my-5">
         <div class="flex items-center gap-2">
-            <span class="text-gray-600">Supplier:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.supplier.name}}</span>
+            <span class="text-gray-600">Delivery:</span>
+            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.delivery.code}}</span>
         </div>
         <div class="flex items-center gap-2">
             <span class="text-gray-600">Created By:</span>

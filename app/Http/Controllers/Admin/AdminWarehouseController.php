@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use File;
 use App\Http\Controllers\Controller;
 use App\Interfaces\VehicleInterface;
+use App\Interfaces\GrainInterface;
 use App\Interfaces\SupplierInterface;
 use App\Interfaces\WarehouseInterface;
 use App\Interfaces\SecurityCheckInterface;
@@ -16,11 +17,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminWarehouseController extends Controller
 {
+    private $grainRepository;
     private $supplierRepository;
     private $warehouseRepository;
     private $securityCheckRepository;
-    public function __construct(WarehouseInterface $warehouseRepository, SupplierInterface $supplierRepository,SecurityCheckInterface $securityCheckRepository)
+    public function __construct(GrainInterface $grainRepository, WarehouseInterface $warehouseRepository, SupplierInterface $supplierRepository,SecurityCheckInterface $securityCheckRepository)
     {
+        $this->grainRepository = $grainRepository;
         $this->supplierRepository = $supplierRepository;
         $this->warehouseRepository = $warehouseRepository;
         $this->securityCheckRepository = $securityCheckRepository;
@@ -46,8 +49,9 @@ class AdminWarehouseController extends Controller
     public function create()
     {
         //
+        $grains = $this->grainRepository->getGrains();
         $suppliers= $this->securityCheckRepository->getSecurityChecks();
-        return inertia::render('admin/warehouse/create',compact('suppliers'));
+        return inertia::render('admin/warehouse/create',compact('suppliers','grains'));
     }
 
     /**

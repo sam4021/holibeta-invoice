@@ -38,6 +38,7 @@ class WarehouseRepository implements WarehouseInterface
                     'warehouse_id'=>$warehouse->id, 
                     'weight'=>$bag['weight'],
                     'created_by'=>$data['created_by'],
+                    'grain_id' => $bag['grain'],
                 ]);
             }
             return response()->json(['message'=> 'Warehouse created successfully', 'warehouse'=> $warehouse],200);

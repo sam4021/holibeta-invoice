@@ -37,19 +37,17 @@
                         <form @submit.prevent="submit" id="saveFacilities">
                             <div class="mx-6 grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div>
-                            <label class="sumo-label" for="supplier"
-                                >Supplier:</label
-                            >
+                            <label class="sumo-label" for="delivery">Delivery:</label>
                             <vue-select
                                     :searchable="true"
-                                    v-model:selected="form.supplier"
-                                    :options="suppliers.data"
-                                    placeholder="Select Supplier"
+                                    v-model:selected="form.delivery"
+                                    :options="deliveries.data"
+                                    placeholder="Select Delivery"
                                     class=""
                                 ></vue-select>
                             
-                            <div class="sumo-error" v-if="form.errors.supplier">
-                                {{ form.errors.supplier }}
+                            <div class="sumo-error" v-if="form.errors.delivery">
+                                {{ form.errors.delivery }}
                             </div>
                         </div>
                                 <div>
@@ -112,7 +110,7 @@ import {useForm} from "@inertiajs/vue3";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props=defineProps({
-   suppliers: Object
+    deliveries: Object
 })
 
 const show=ref(false)
@@ -126,7 +124,7 @@ watch(show,(val)=>{
 })
 
 let form=useForm({
-    supplier:null, 
+    delivery:null, 
     weight:"", 
     moisture_content:"",
     visual_inspection:null,

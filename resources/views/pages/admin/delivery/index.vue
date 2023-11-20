@@ -113,7 +113,7 @@ const deleteSecurityCheck=(id:number)=>{
                             {{securityCheck.supplier.name}}
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            {{ securityCheck.grain.name }}
+                            
                         </td>
                         <td class="px-2 py-3 capitalize">
                             {{ moment(securityCheck.created_at).format("DD MMM, YYYY h:MM a") }}

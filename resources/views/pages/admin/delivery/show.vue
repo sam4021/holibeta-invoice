@@ -79,7 +79,7 @@ const deleteSecurityCheck=(id:number)=>{
                     <table class="text-sm font-medium">
                         <tr>
                             <th class="text-start">Grain:</th>
-                            <td class="px-3">{{securityCheck.data.grain.name}}</td>
+                            <td class="px-3"></td>
                         </tr>
                         <tr>
                             <th class="text-start">Timeslot:</th>

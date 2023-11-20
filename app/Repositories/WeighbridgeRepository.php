@@ -13,20 +13,20 @@ class WeighbridgeRepository implements WeighbridgeInterface
 {
 
     public function getWeighbridges(){
-        $weighbridges= Weighbridge::with(['supplier', 'createdBy'])
+        $weighbridges= Weighbridge::with(['delivery', 'createdBy'])
             ->paginate(request('showing')??10);
 
         return WeighbridgeResource::collection($weighbridges);
     }
 
     public function getWeighbridgeById(string $id){
-        return new WeighbridgeResource(Weighbridge::with(['supplier', 'createdBy'])->findOrFail($id));
+        return new WeighbridgeResource(Weighbridge::with(['delivery', 'createdBy'])->findOrFail($id));
     }
 
     public function  createWeighbridge($data){
         try {
             $weighbridge= Weighbridge::create([
-                'supplier_id'=>$data['supplier'], 
+                'delivery_id'=>$data['delivery'], 
                 'created_by'=>$data['created_by'], 
                 'weight'=>$data['weight'],
                 'moisture_content'=>$data['moisture_content'],
@@ -46,7 +46,7 @@ class WeighbridgeRepository implements WeighbridgeInterface
             $weighbridge= Weighbridge::findOrFail($id);
             $weighbridge->update(
                 [
-                    'supplier_id' => $data['supplier'],
+                    'delivery_id' => $data['delivery'],
                     'weight' => $data['weight'],
                     'moisture_content'=>$data['moisture_content'] 
                 ]

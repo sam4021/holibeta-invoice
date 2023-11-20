@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 
 use File;
 use App\Http\Controllers\Controller;
-use App\Interfaces\GrainInterface;
 use App\Interfaces\DriverInterface;
 use App\Interfaces\VehicleInterface;
 use App\Interfaces\SupplierInterface;
@@ -17,15 +16,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminSecurityCheckController extends Controller
 {
-    private $grainRepository;
     private $driverRepository;
     private $vehicleRepository;
     private $supplierRepository;
     private $securityCheckRepository;
     private $securityPath;
-    public function __construct(GrainInterface $grainRepository, DriverInterface $driverRepository,VehicleInterface $vehicleRepository, SupplierInterface $supplierRepository, SecurityCheckInterface $securityCheckRepository)
+    public function __construct(DriverInterface $driverRepository,VehicleInterface $vehicleRepository, SupplierInterface $supplierRepository, SecurityCheckInterface $securityCheckRepository)
     {
-        $this->grainRepository = $grainRepository;
         $this->driverRepository = $driverRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->supplierRepository = $supplierRepository;
@@ -55,8 +52,7 @@ class AdminSecurityCheckController extends Controller
         $suppliers= $this->supplierRepository->getActiveSuppliers();
         $vehicles= $this->vehicleRepository->getAllVehicles();
         $drivers=$this->driverRepository->getDrivers();
-        $grains = $this->grainRepository->getGrains();
-        return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers', 'grains'));
+        return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers'));
     }
 
     /**
@@ -69,8 +65,7 @@ class AdminSecurityCheckController extends Controller
             'stepOne.supplier'=>'required|integer|exists:suppliers,id', 
             'stepOne.vehicle_reg_no'=>'required', 
             'stepOne.vehicle'=>'required|integer|exists:vehicles,id', 
-            'stepOne.timeslot'=> 'required',
-            'stepOne.grain' => 'required',  
+            'stepOne.timeslot'=> 'required', 
             'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'top_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg' ,
@@ -135,9 +130,8 @@ class AdminSecurityCheckController extends Controller
         $securityCheck = $this->securityCheckRepository->getSecurityCheckById($id);
         $suppliers = $this->supplierRepository->getSuppliers();
         $vehicles = $this->vehicleRepository->getVehicles();
-        $grains = $this->grainRepository->getGrains();
         $drivers=$this->driverRepository->getDrivers();
-        return inertia::render('admin/delivery/edit', compact('securityCheck', 'suppliers', 'vehicles', 'grains', 'drivers'));
+        return inertia::render('admin/delivery/edit', compact('securityCheck', 'suppliers', 'vehicles', 'drivers'));
     }
 
     /**
@@ -150,7 +144,6 @@ class AdminSecurityCheckController extends Controller
             'vehicle_reg_no' => 'required',
             'vehicle' => 'required|integer|exists:vehicles,id',
             'timeslot' => 'required',
-            'grain' => 'required',
             'driver' => 'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
@@ -215,7 +208,6 @@ class AdminSecurityCheckController extends Controller
             'vehicle_reg_no'=>'required', 
             'vehicle'=>'required|integer|exists:vehicles,id', 
             'timeslot'=> 'required', 
-            'grain'=> 'required', 
         ]);
     }
 

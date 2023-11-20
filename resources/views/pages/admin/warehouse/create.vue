@@ -5,7 +5,8 @@ import { computed,watch } from "vue";
 import {useStorage} from "@vueuse/core";
 
 defineProps({
-    suppliers: Object,
+    suppliers: Object,,
+    grains: Object
 });
 const user = computed(() => usePage().props.auth.id);
 let form = useForm({
@@ -18,6 +19,7 @@ let form = useForm({
 let itemForm = useForm({
     'weight':'',
     'id':'',
+    'grain':null
 })
 
 watch(()=>form.no_of_bags,()=>{
@@ -28,8 +30,9 @@ watch(()=>form.no_of_bags,()=>{
 
 const addRow=()=> {
     var weight = '';
+    var grain = null;
     var id = Math.floor(Math.random() * 400);
-    transactionItem.value.push({id:id,weight:weight})
+    transactionItem.value.push({id:id,weight:weight,grain:grain})
 }
 const removeItem=(item:string)=>{
     transactionItem.value=transactionItem.value.filter(element =>element.id!==item)
@@ -121,7 +124,7 @@ const submit = () => {
                                         <th scope="col" class="px-2 py-3">
                                             Weight
                                         </th>
-                                        
+                                        <th>Grain</th>
                                         <th scope="col" class="px-2 py-3 w-12">
                                             Action
                                         </th>
@@ -131,6 +134,14 @@ const submit = () => {
                                     <tr v-for="(item, index) in transactionItem" :key="index">
                                         <td class="pr-6 pl-2">
                                             <input type="text" class="sumo-input my-3" v-model="item.weight" required>                                     
+                                        </td>
+                                        <td>
+                                            <select v-model="item.grain"
+                                                id="vehicle"
+                                                class="sumo-input my-2">
+                                                <option :value="null">Select Grain</option>
+                                                <option :value="grain.id" :key="grain.id" v-for="grain in grains.data">{{grain.name}}</option>
+                                            </select>
                                         </td>
                                         <td class="pr-2">
                                             <button type="button" @click="removeItem(item.id)" class="text-red-600 flex gap-2 items-center">
