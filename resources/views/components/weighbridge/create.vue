@@ -41,7 +41,7 @@
                             <vue-select
                                     :searchable="true"
                                     v-model:selected="form.delivery"
-                                    :options="deliveries.data"
+                                    :options="deliveries"
                                     placeholder="Select Delivery"
                                     class=""
                                 ></vue-select>
@@ -84,7 +84,7 @@
                                 </div>
                                 <div>
                                     <label for="visual_inspection_comment" class="text-sm font-medium text-gray-700">Visual Inspection Comment</label>
-                                    <textarea v-model="form.visual_inspection_comment" type="text" id="visual_inspection_comment" class="sumo-input my-2"></textarea>
+                                    <textarea v-model="form.visual_inspection_comment" type="text" id="visual_inspection_comment" class="sumo-textarea my-2"></textarea>
                                     <div class="sumo-error" v-if="form.errors.visual_inspection_comment">
                                         {{ form.errors.visual_inspection_comment }}
                                     </div>

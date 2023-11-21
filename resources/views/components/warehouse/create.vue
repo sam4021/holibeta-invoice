@@ -15,7 +15,6 @@
                 <div class="bg-white lg:w-1/2 w-full rounded-xl">
                     <header class="p-3">
                         <div class="flex justify-between">
-
                             <slot name="header">
                                 <div class="font-bold text-sumo-300 text-lg">
                                     <h6>Create Warehouse</h6>

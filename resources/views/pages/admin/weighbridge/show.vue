@@ -3,6 +3,7 @@
 import Admin from "@/views/layouts/admin.vue";
 import {Head, Link} from "@inertiajs/vue3";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
+import moment from "moment"
 let props = defineProps({
     weighbridge:Object
 })
@@ -45,30 +46,59 @@ const deleteWeighbridge=(id:number)=>{
     </div>
 
     <div class="my-5">
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Delivery:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.delivery.code}}</span>
+        <div class="shadow p-4 bg-white rounded-md">
+            <div class="grid gap-3 grid-cols-2">
+                <div class="my-3">
+                    <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">Delivery:</th>
+                            <td class="px-3">
+                                <Link :href="route('delivery.show', weighbridge.data.delivery.id)"
+                                              class="flex items-center gap-1">
+                                            {{  weighbridge.data.delivery.code }}
+                                            <svg class="h-3 fill-sumo-700" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                                                <path
+                                                    d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                            </svg>
+                                        </Link>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Created By:</th>
+                            <td class="px-3">{{weighbridge.data.created_by.name}}</td>
+                        </tr>                        
+                        <tr>
+                            <th class="text-start">Date:</th>
+                            <td class="px-3">{{ moment(weighbridge.data.created_at).format("DD MMM, YYYY h:MM a") }}</td>
+                        </tr>                      
+                    </table>
+                </div>
+                
+                <div class="my-3">
+                    <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">Weight:</th>
+                            <td class="px-3">{{weighbridge.data.weight}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Moisture Content:</th>
+                            <td class="px-3">{{weighbridge.data.moisture_content}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Visual Inspection:</th>
+                            <td class="px-3">{{weighbridge.data.visual_inspection}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Visual Inspection Comment:</th>
+                            <td class="px-3">{{weighbridge.data.visual_inspection_comment}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Created By:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.created_by.name}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">weight:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.weight}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">moisture_content:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.moisture_content}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Visual Inspection:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.visual_inspection}}</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-gray-600">Visual Inspection Comment:</span>
-            <span class="text-gray-800 font-medium capitalize">{{weighbridge.data.visual_inspection_comment}}</span>
-        </div>
+        
 
     </div>
 </admin>

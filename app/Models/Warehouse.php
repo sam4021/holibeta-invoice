@@ -11,17 +11,22 @@ class Warehouse extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'security_check_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content'
+        'weighbridge_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content'
     ];
 
-    public function securityCheck()
+    public function weighbridge()
     {
-        return $this->belongsTo(SecurityCheck::class, 'security_check_id');
+        return $this->belongsTo(Weighbridge::class, 'weighbridge_id');
     }
 
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function bags()
+    {
+        return $this->hasMany(WarehouseBags::class,'warehouse_id');
     }
 
     protected static function booted(): void

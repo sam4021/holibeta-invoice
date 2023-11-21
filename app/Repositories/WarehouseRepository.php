@@ -9,25 +9,27 @@ use App\Models\WarehouseBags;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class WarehouseRepository implements WarehouseInterface
 {
 
     public function getWarehouses(){
-        $warehouse= Warehouse::with(['createdBy','securityCheck'])
+        $warehouse= Warehouse::with(['createdBy', 'weighbridge'])
             ->paginate(request('showing')??10);
 
         return WarehouseResource::collection($warehouse);
     }
 
     public function getWarehouseById(string $id){
-        return new WarehouseResource(Warehouse::with(['supplier', 'createdBy'])->findOrFail($id));
+        return new WarehouseResource(Warehouse::with(['weighbridge', 'createdBy'])->findOrFail($id));
     }
 
     public function  createWarehouse($data){
+        DB::beginTransaction();
         try {//dd($data);
             $warehouse= Warehouse::create([
-                'security_check_id'=>$data['supplier'], 
+                'weighbridge_id'=>$data['weighbridge'], 
                 'created_by'=>$data['created_by'],
                 'no_of_bags' => $data['no_of_bags'],
                 'barcode_no' => Str::upper(Str::random(6)),
@@ -41,8 +43,10 @@ class WarehouseRepository implements WarehouseInterface
                     'grain_id' => $bag['grain'],
                 ]);
             }
+            DB::commit();
             return response()->json(['message'=> 'Warehouse created successfully', 'warehouse'=> $warehouse],200);
         }catch (\Exception $exception){
+            DB::rollBack();
             dd($exception);
             return response()->json(['message'=>$exception->getMessage()],400);
         }
@@ -54,7 +58,7 @@ class WarehouseRepository implements WarehouseInterface
             $warehouse= Warehouse::findOrFail($id);
             $warehouse->update(
                 [
-                    'security_check_id' => $data['supplier'],
+                    'weighbridge_id' => $data['weighbridge'],
                     'no_of_bags' => $data['no_of_bags'],
                 ]
             );

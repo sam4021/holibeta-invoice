@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class WeighbridgeResource extends JsonResource
+class WarehouseBagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,14 +19,13 @@ class WeighbridgeResource extends JsonResource
             'id'=>$this->id,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'code'=>$this->weighbridge_code,
-            'delivery'=>new SecurityCheckResource($this->whenLoaded('delivery')), 
+            'grain'=>new GrainResource($this->grain),
+            'warehouse' => new WarehouseResource($this->whenLoaded('warehouse')), 
             'created_by'=>new UserResource($this->whenLoaded('createdBy')),
+            'no_of_bags' => $this->no_of_bags,
             'weight' => $this->weight,
-            'moisture_content' => $this->moisture_content,
-            'visual_inspection' => $this->visual_inspection,
-            'visual_inspection_comment' => $this->visual_inspection_comment, 
-            'visual_inspection_image' => $this->visual_inspection_image
+            'code' => $this->bag_code,
+            'barcode_no'=> $this->barcode_no
         ];
     }
 }

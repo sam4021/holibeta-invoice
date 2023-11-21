@@ -19,6 +19,14 @@ class WeighbridgeRepository implements WeighbridgeInterface
         return WeighbridgeResource::collection($weighbridges);
     }
 
+    public function getAllWeighbridges()
+    {
+        $weighbridges = Weighbridge::with(['delivery', 'createdBy'])
+        ->get();
+
+        return WeighbridgeResource::collection($weighbridges);
+    }
+
     public function getWeighbridgeById(string $id){
         return new WeighbridgeResource(Weighbridge::with(['delivery', 'createdBy'])->findOrFail($id));
     }

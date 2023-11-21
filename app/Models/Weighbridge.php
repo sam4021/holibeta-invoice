@@ -11,12 +11,12 @@ class Weighbridge extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'supplier_id', 'created_by', 'weight', 'moisture_content', 'visual_inspection', 'visual_inspection_comment', 'visual_inspection_image', 'weighbridge_code'
+        'delivery_id', 'created_by', 'weight', 'moisture_content', 'visual_inspection', 'visual_inspection_comment', 'visual_inspection_image', 'weighbridge_code'
     ];
 
-    public function supplier()
+    public function delivery()
     {
-        return $this->belongsTo(Suppliers::class, 'supplier_id');
+        return $this->belongsTo(SecurityCheck::class, 'delivery_id');
     }    
 
     public function createdBy()

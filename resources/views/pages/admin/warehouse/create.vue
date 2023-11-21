@@ -1,36 +1,58 @@
 <script setup lang="ts">
 import Admin from "@/views/layouts/admin.vue";
 import { Head, useForm, usePage } from "@inertiajs/vue3";
-import { computed,watch } from "vue";
+import { computed,watch, onMounted, ref } from "vue";
 import {useStorage} from "@vueuse/core";
+import VueSelect from "@/views/components/general-components/vue-select.vue";
 
-defineProps({
-    suppliers: Object,,
+let props = defineProps({
+    weighbridges: Object,
     grains: Object
 });
-const user = computed(() => usePage().props.auth.id);
+console.log(props)
 let form = useForm({
-    supplier:null, 
+    weighbridge:null, 
     no_of_bags:"", 
     moisture_content:"", 
-    bags:""
+    bags:"",
+    same_grain: 'No',
+    main_grain: null
 });
+let grain=ref(null)
+let grainShow=ref(false)
 
 let itemForm = useForm({
     'weight':'',
     'id':'',
-    'grain':null
+    'grain':grain.value
 })
 
 watch(()=>form.no_of_bags,()=>{
     if(form.no_of_bags){
-        
+        removeAllItems()
+        for (let i = 0; i < form.no_of_bags; i++) {
+            addRow();
+        }
+    }
+})
+
+watch(()=>form.same_grain,()=>{
+    if(form.same_grain && form.same_grain=='Yes'){
+        grainShow.value=true
+    } else{
+        grainShow.value=false
+    }
+});
+
+watch(()=>form.main_grain,()=>{
+    if(form.main_grain){
+        grain.value=form.main_grain
     }
 })
 
 const addRow=()=> {
     var weight = '';
-    var grain = null;
+    var grain = form.main_grain;
     var id = Math.floor(Math.random() * 400);
     transactionItem.value.push({id:id,weight:weight,grain:grain})
 }
@@ -56,6 +78,10 @@ const submit = () => {
         }
     })
 }
+
+onMounted(() => {
+    removeAllItems()
+})
 </script>
 
 <template>
@@ -67,24 +93,17 @@ const submit = () => {
             </div>
             <div class="my-5">
                 <form @submit.prevent="submit" id="saveFacilities">
-                    <div class="mx-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="mx-6 grid grid-cols-1 md:grid-cols-4 gap-3">
                         <div>
-                            <label class="sumo-label" for="supplier">Security Check:</label>
-                            <select v-model="form.supplier"
-                                id="supplier"
+                            <label class="sumo-label" for="weighbridges">Weighbridges:</label>
+                            <select v-model="form.weighbridge"
+                                id="weighbridges"
                                 class="sumo-input my-2">
-                                <option :value="null">Select Security Check</option>
-                                <option :value="supplier.id" :key="supplier.id" v-for="supplier in suppliers.data">{{supplier.code}}</option>
+                                <option :value="null">Select Weighbridge</option>
+                                <option :value="weighbridge.id" :key="weighbridge.id" v-for="weighbridge in weighbridges.data">{{weighbridge.code}}</option>
                             </select>
-                            <div class="sumo-error" v-if="form.errors.supplier">
-                                {{ form.errors.supplier }}
-                            </div>
-                        </div>
-                        <div>
-                            <label for="no_of_bags" class="text-sm font-medium text-gray-700">No of Bags</label>
-                            <input v-model="form.no_of_bags" type="text" id="name" name="no_of_bags" class="sumo-input my-2">
-                            <div class="sumo-error" v-if="form.errors.no_of_bags">
-                                {{ form.errors.no_of_bags }}
+                            <div class="sumo-error" v-if="form.errors.weighbridge">
+                                {{ form.errors.weighbridge }}
                             </div>
                         </div>
                         <div>
@@ -94,12 +113,42 @@ const submit = () => {
                                 {{ form.errors.moisture_content }}
                             </div>
                         </div>
-                        <div class="col-span-3">
-                            <div>
-                            <div class="sumo-error" v-if="form.errors.bags">
-                                {{ form.errors.bags }}
+                        <div>
+                            <label for="moisture_content" class="text-sm font-medium text-gray-700">Same Grain?</label>
+                            <div class="flex gap-4 mt-4">
+                                <div class="flex items-center">
+                                    <input id="default-radio-1" type="radio" value="Yes" v-model="form.same_grain" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input checked id="default-radio-2" type="radio" value="No" v-model="form.same_grain" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                                </div>
                             </div>
                         </div>
+                        <div v-if="grainShow">
+                            <label for="moisture_content" class="text-sm font-medium text-gray-700">Grain</label>
+                            <vue-select
+                                :searchable="true"
+                                v-model:selected="form.main_grain"
+                                :options="grains.data"
+                                placeholder="Select Grain"
+                                class=""
+                            ></vue-select>
+                        </div>
+                        <div>
+                            <label for="no_of_bags" class="text-sm font-medium text-gray-700">No of Bags</label>
+                            <input v-model="form.no_of_bags" type="text" id="name" name="no_of_bags" class="sumo-input my-2">
+                            <div class="sumo-error" v-if="form.errors.no_of_bags">
+                                {{ form.errors.no_of_bags }}
+                            </div>
+                        </div>
+                        <div class="col-span-3">
+                            <div>
+                                <div class="sumo-error" v-if="form.errors.bags">
+                                    {{ form.errors.bags }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-1 my-5">
@@ -133,15 +182,16 @@ const submit = () => {
                                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                                     <tr v-for="(item, index) in transactionItem" :key="index">
                                         <td class="pr-6 pl-2">
-                                            <input type="text" class="sumo-input my-3" v-model="item.weight" required>                                     
+                                            <input type="number" class="sumo-input my-3" v-model="item.weight" required>                                     
                                         </td>
                                         <td>
-                                            <select v-model="item.grain"
-                                                id="vehicle"
-                                                class="sumo-input my-2">
-                                                <option :value="null">Select Grain</option>
-                                                <option :value="grain.id" :key="grain.id" v-for="grain in grains.data">{{grain.name}}</option>
-                                            </select>
+                                            <vue-select
+                                                :searchable="true"
+                                                v-model:selected="item.grain"
+                                                :options="grains.data"
+                                                placeholder="Select Grain"
+                                                class=""
+                                            ></vue-select>
                                         </td>
                                         <td class="pr-2">
                                             <button type="button" @click="removeItem(item.id)" class="text-red-600 flex gap-2 items-center">
