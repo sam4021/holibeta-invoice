@@ -24,6 +24,11 @@ class Weighbridge extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class, 'weighbridge_id');
+    }
+
     protected static function booted(): void
     {
         parent::booted();

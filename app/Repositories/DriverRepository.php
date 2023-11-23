@@ -83,4 +83,9 @@ class DriverRepository implements DriverInterface
             ]);
         }
     }
+
+    public function getDriversCount()
+    {
+        return number_format(Driver::count());
+    }
 }

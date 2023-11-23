@@ -102,6 +102,9 @@ const deleteWarehouse=(id:number)=>{
                             No of Bags
                         </th>
                         <th>
+                            Grains
+                        </th>
+                        <th>
                             Created By
                         </th>
                         <th scope="col" class="px-2 py-3" colspan="2">
@@ -130,6 +133,11 @@ const deleteWarehouse=(id:number)=>{
                         </td>
                         <td>
                             {{ warehouse.no_of_bags }}
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <span v-for="grain in warehouse.grains" :key="grain.id" class="text-xs">{{ grain.name }} , </span>
+                            </div>  
                         </td>
                         <td>
                             {{ warehouse.created_by.name }}

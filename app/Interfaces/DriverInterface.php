@@ -10,5 +10,5 @@ interface DriverInterface
     public function storeDriver($data);
     public function updateDriver($data, $id);
     public function deleteDriver($id);
-
+    public function getDriversCount();
 }

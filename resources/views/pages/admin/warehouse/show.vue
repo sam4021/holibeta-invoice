@@ -115,6 +115,7 @@ const deleteWarehouse=(id:number)=>{
                         <th>
                             Grain
                         </th>
+                        <th>Status</th>
                         <th scope="col" class="px-2 py-3" colspan="2">
                             Action
                         </th>
@@ -122,17 +123,22 @@ const deleteWarehouse=(id:number)=>{
                     </thead>
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                     <tr class="border-b" v-for="bag in warehouse.data.bags" :key="bag.id" >
-                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-xs">
                             {{bag.code}}
                         </th>
-                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-xs">
                             {{bag.weight}}
                         </th>
-                        <td class="px-2 py-3">
-{{bag.grain.name}}
+                        <td class="px-2 py-3 text-xs">
+                            {{bag.grain.name}}          
+                        </td>
+                        <td class="px-2 py-3 text-xs">
+                            {{ bag.currentStatus }}
                         </td>
                         <td class="px-2 py-3">
-                            <button class="p-2">Details</button>
+                            <Link :href="route('warehouse.bag',bag.id)">
+                            <button class="p-2 text-green-800">Details</button>
+                            </Link>
                         </td>
                     </tr>
                     </tbody>

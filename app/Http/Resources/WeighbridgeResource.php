@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,7 +26,8 @@ class WeighbridgeResource extends JsonResource
             'moisture_content' => $this->moisture_content,
             'visual_inspection' => $this->visual_inspection,
             'visual_inspection_comment' => $this->visual_inspection_comment, 
-            'visual_inspection_image' => $this->visual_inspection_image
+            'visual_inspection_image' => $this->visual_inspection_image,
+            'warehouse' => new WarehouseResource($this->warehouse) 
         ];
     }
 }

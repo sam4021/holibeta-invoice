@@ -29,6 +29,17 @@ class Warehouse extends Model
         return $this->hasMany(WarehouseBags::class,'warehouse_id');
     }
 
+    public function grains()
+    {
+        $grains=[];
+        foreach ($this->bags as $bag) {
+            if (!in_array($bag->grain, $grains)) {
+                array_push($grains, $bag->grain);
+            }
+        }
+        return $grains;
+    }
+
     protected static function booted(): void
     {
         parent::booted();

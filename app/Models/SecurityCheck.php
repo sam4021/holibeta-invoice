@@ -34,6 +34,22 @@ class SecurityCheck extends Model
         return $this->belongsTo(Driver::class, 'driver_id');
     }
 
+    public function weighbridge()
+    {
+        return $this->hasOne(Weighbridge::class, 'delivery_id');
+    }
+
+    public function grains()
+    {
+        if (isset($this->weighbridge->warehouse)) {
+           if ($this->weighbridge->warehouse->grains()) {
+                return $this->weighbridge->warehouse->grains();
+           }
+            return [];
+        }
+        return [];
+    }
+
     protected static function booted(): void
     {
         parent::booted();

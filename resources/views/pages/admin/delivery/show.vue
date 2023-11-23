@@ -79,7 +79,11 @@ const deleteSecurityCheck=(id:number)=>{
                     <table class="text-sm font-medium">
                         <tr>
                             <th class="text-start">Grain:</th>
-                            <td class="px-3"></td>
+                            <td class="px-3">
+                                <div class="flex gap-2">
+                                <span v-for="grain in securityCheck.data.grains" :key="grain.id" class="text-xs">{{ grain.name }} , </span>
+                            </div>
+                            </td>
                         </tr>
                         <tr>
                             <th class="text-start">Timeslot:</th>

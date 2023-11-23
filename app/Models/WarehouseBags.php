@@ -29,13 +29,58 @@ class WarehouseBags extends Model
         return $this->belongsTo(Grains::class, 'grain_id');
     }
 
+    public function weighbridge()
+    {
+        return $this->warehouse->weighbridge();
+    }
+
+    public function delivery()
+    {
+        return $this->warehouse->weighbridge->delivery();
+    }
+
+    public function supplier()
+    {
+        return $this->warehouse->weighbridge->delivery->supplier();
+    }
+
+    public function vehicle()
+    {
+        return $this->warehouse->weighbridge->delivery->vehicle();
+    }
+
+    public function driver()
+    {
+        return $this->warehouse->weighbridge->delivery->driver();
+    }
+
+    public function status()
+    {
+        return $this->hasMany(WarehouseBagStatus::class, 'warehouse_bag_id');
+    }
+
+    public function latestStatus()
+    {
+        return $this->hasOne(WarehouseBagStatus::class, 'warehouse_bag_id')->latest();
+    }
+
+    public function currentStatus()
+    {
+        $status = $this->join('warehouse_bag_statuses', 'warehouse_bags.id', 'warehouse_bag_statuses.warehouse_bag_id')
+        ->where('warehouse_bags.id', '=', $this->id)
+            ->orderBy('warehouse_bag_statuses.id', 'desc')
+            ->first()->status;
+
+        return $status;
+    }
+
     protected static function booted(): void
     {
         parent::booted();
 
         self::creating(static function (WarehouseBags $warehouse) {
             $old_warehouse = WarehouseBags::orderByDesc('id')->limit(1)->get();
-            if ($old_warehouse){
+            if (count($old_warehouse)){
                 $old_code = explode('-', $old_warehouse[0]->bag_code)[1];
                 $new_code = str_pad((int)$old_code+1, 3, '0', STR_PAD_LEFT);
                 $warehouse->bag_code ='EFWHB-'.$new_code;

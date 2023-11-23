@@ -20,11 +20,13 @@
         "@types/moment": "^2.13.0",
         "@vueuse/components": "^10.4.1",
         "@vueuse/core": "^10.4.1",
+        "apexcharts": "^3.44.0",
         "flowbite": "^1.8.1",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "pinia": "^2.1.7",
         "vue": "^3.2.36",
-        "vue-loader": "^17.2.2"
+        "vue-loader": "^17.2.2",
+        "vue3-apexcharts": "^1.4.4"
     }
 }

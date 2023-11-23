@@ -20,6 +20,8 @@ Route::group(['middleware'=>['auth','verified','update_password','role:Admin']],
     Route::post('/manager/delivery/step-two', [AdminSecurityCheckController::class,'stepTwo'])->name('delivery.step-two');
     Route::post('/manager/delivery/step-one', [AdminSecurityCheckController::class,'stepOne'])->name('delivery.step-one');
     Route::resource('admin/delivery', AdminSecurityCheckController::class);
+    Route::get('admin/warehouse/bags', [AdminWarehouseController::class,'bagDatas'])->name('warehouse.bags');
+    Route::get('admin/warehouse/bag/{id}', [AdminWarehouseController::class, 'bagData'])->name('warehouse.bag');
     Route::resource('admin/warehouse', AdminWarehouseController::class);
     Route::resource('admin/weighbridge', AdminWeighbridgeController::class);
     Route::resource('admin/users',AdminUserController::class,['names' => 'admin.users']);

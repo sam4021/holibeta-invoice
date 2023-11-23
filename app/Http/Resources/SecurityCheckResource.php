@@ -30,6 +30,7 @@ class SecurityCheckResource extends JsonResource
             'top_image' => $this->top_image,
             'code'=>$this->security_check_code,
             'name'=>$this->security_check_code,
+            'grains'=>$this->grains()
         ];
     }
 }

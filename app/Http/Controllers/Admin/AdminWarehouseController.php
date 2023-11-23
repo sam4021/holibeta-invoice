@@ -124,4 +124,24 @@ class AdminWarehouseController extends Controller
             return redirect()->back()->with('error', 'Warehouse could not be deleted');
         }
     }
+
+    public function bagDatas()
+    {
+        $bags = $this->warehouseRepository->getWarehouseBags();
+        $grains = $this->warehouseRepository->getUniqueGrains();
+        $filters = request()->all('search', 'showing', 'grain');
+        return inertia::render('admin/warehouse/bags', compact(
+            'bags',
+            'filters',
+            'grains'
+        ));
+    }
+
+    public function bagData($id)
+    {
+        $bag = $this->warehouseRepository->getWarehouseBag($id);
+        return inertia::render('admin/warehouse/bag', compact(
+            'bag'
+        ));
+    }
 }

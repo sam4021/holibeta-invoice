@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Enums\RoleEnum;
+use App\Interfaces\DriverInterface;
+use App\Interfaces\SupplierInterface;
 
 class AdminController extends Controller
 {
-    public function __construct()
+    private DriverInterface $driverRepository;
+    private $supplierRepository;
+    public function __construct(DriverInterface $driverRepository, SupplierInterface $supplierRepository)
     {
         $this->middleware(['role:'.RoleEnum::Admin->value]);
+        $this->driverRepository = $driverRepository;
+        $this->supplierRepository = $supplierRepository;
     }
 
     /**
@@ -19,8 +25,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
-        return inertia::render('admin/index');
+        $drivers = $this->driverRepository->getDriversCount();
+        $suppliers = $this->supplierRepository->getSuppliersCount();
+        return inertia::render('admin/index',compact('drivers', 'suppliers'));
     }
 
     /**
