@@ -8,6 +8,7 @@ import axios from "axios";
 
 const labels=ref()
 const counts=ref()
+const total=ref(0)
 const unitsLoading=ref(false)
 const options=computed(()=>({
     labels:labels.value,
@@ -29,6 +30,14 @@ const getGrains= async ()=>{
     await  axios.get(`/api/get/grains/count/warehouse`).then((response)=>{
         labels.value=response.data[0]
         counts.value=response.data[1]
+        let sum = 0;
+
+        // calculate sum using forEach() method
+        counts.value.forEach( num => {
+        sum += num;
+        })
+        total.value = sum
+
         unitsLoading.value=false
     }).catch((e)=>console.log(e))
 }
@@ -47,7 +56,7 @@ const getGrains= async ()=>{
             </div>
         </template>
         <div>
-            <h6 class="font-bold text-center"><span class="text-sumo-300">Total units: </span>0</h6>
+            <h6 class="font-bold text-center"><span class="text-sumo-300">Total Bags: </span>{{ total }}</h6>
             <apexchart   type="donut" :options="options" :series="series"></apexchart>
 
         </div>
