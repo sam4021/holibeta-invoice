@@ -27,7 +27,7 @@ class WarehouseRepository implements WarehouseInterface
 
     public function  createWarehouse($data){
         DB::beginTransaction();
-        try {//dd($data);
+        try {//dd($data['bags']);
             $warehouse= Warehouse::create([
                 'weighbridge_id'=>$data['weighbridge'], 
                 'created_by'=>$data['created_by'],
