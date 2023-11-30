@@ -11,6 +11,7 @@ use App\Interfaces\SupplierInterface;
 use App\Interfaces\SecurityCheckInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Enums\VehicleTypeEnum;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -35,7 +36,6 @@ class AdminSecurityCheckController extends Controller
      */
     public function index()
     {
-        //
         $securityChecks=$this->securityCheckRepository->getSecurityChecks();
         $filters=request()->all('search','showing','shift','machine');
         return inertia::render('admin/delivery/index', compact(
@@ -50,9 +50,9 @@ class AdminSecurityCheckController extends Controller
     public function create()
     {
         $suppliers= $this->supplierRepository->getActiveSuppliers();
-        $vehicles= $this->vehicleRepository->getAllVehicles();
         $drivers=$this->driverRepository->getDrivers();
-        return inertia::render('admin/delivery/create',compact('suppliers','vehicles','drivers'));
+        $vehicleTypes = VehicleTypeEnum::cases();
+        return inertia::render('admin/delivery/create',compact('suppliers', 'vehicleTypes','drivers'));
     }
 
     /**
@@ -62,15 +62,15 @@ class AdminSecurityCheckController extends Controller
     {
         $validated=$request->validate([
             'stepOne'=>'required',
-            'stepOne.supplier'=>'required|integer|exists:suppliers,id', 
-            'stepOne.vehicle_reg_no'=>'required', 
-            'stepOne.vehicle'=>'required|integer|exists:vehicles,id', 
+            'stepOne.driver'=>'required|integer|exists:drivers,id', 
+            'stepOne.vehicle_reg_no'=>'required',
+            'stepOne.vehicle_type'=> 'required|string', 
             'stepOne.timeslot'=> 'required', 
             'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'top_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg' ,
             'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
-            'driver'=> 'required'
+            'supplier' => 'required|integer|exists:suppliers,id', 
         ]);
         $validated['created_by'] = Auth::user()->id;
         if ($request->hasFile('front_image')) {
@@ -142,7 +142,7 @@ class AdminSecurityCheckController extends Controller
         $validated = $request->validate([
             'supplier' => 'required|integer|exists:suppliers,id',
             'vehicle_reg_no' => 'required',
-            'vehicle' => 'required|integer|exists:vehicles,id',
+            'vehicle_type' => 'required|string',
             'timeslot' => 'required',
             'driver' => 'required'
         ]);
@@ -204,9 +204,9 @@ class AdminSecurityCheckController extends Controller
     public function stepOne(Request $request){
         //validated property setup step 1
         $validated=$request->validate([
-            'supplier'=>'required|integer|exists:suppliers,id', 
-            'vehicle_reg_no'=>'required', 
-            'vehicle'=>'required|integer|exists:vehicles,id', 
+            'driver' => 'required|integer|exists:drivers,id',
+            'vehicle_reg_no'=>'required',
+            'vehicle_type'=>'required|string', 
             'timeslot'=> 'required', 
         ]);
     }

@@ -7,7 +7,7 @@ import StepOne from "@/views/components/delivery/step-one.vue";
 import StepTwo from "@/views/components/delivery/step-two.vue";
 
 let props = defineProps({
-    vehicles: Object,
+    vehicleTypes: Object,
     suppliers: Object,
     drivers: Object
 });
@@ -48,7 +48,7 @@ const submit=()=>{
                             <svg class="h-5 fill-sumo-300" :class="[(step!==1?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
                         </div>
                         <div class="self-start">
-                            <h3 class="font-bold text-xl font-slab">Step 1: Security Check</h3>
+                            <h3 class="font-bold text-xl font-slab">Step 1: Register Vehicle/Driver</h3>
                             <p class="text-[15px] hidden">General information about the property such as name, type & location</p>
                         </div>
                     </div>
@@ -58,7 +58,7 @@ const submit=()=>{
                             <svg class="h-5 fill-sumo-300" :class="[(step>2?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
                         </div>
                         <div class="self-start">
-                            <h3 class="font-bold text-xl font-slab ">Step 2: Delivery</h3>
+                            <h3 class="font-bold text-xl font-slab ">Step 2: Cargo Registration</h3>
                             <p class="text-[15px] hidden">Add property owner and building manager if available. Add property to a
                                 portfolio</p>
                         </div>
@@ -102,16 +102,16 @@ const submit=()=>{
 
                     <div>
                         <div v-if="step===1">
-                            <h2 class="font-slab font-bold text-xl">Step 1: Security Check</h2>
+                            <h2 class="font-slab font-bold text-xl">Step 1: Register Vehicle/Driver</h2>
                             <div class="px-2">
-                                <step-one  :suppliers="suppliers" :vehicles="vehicles"></step-one>
+                                <step-one :drivers="drivers" :vehicleTypes="vehicleTypes"></step-one>
                             </div>
                         </div>
 
                         <div v-if="step===2">
-                            <h2 class="font-slab font-bold text-xl">Step 2: Delivery</h2>
+                            <h2 class="font-slab font-bold text-xl">Step 2: Cargo Registration</h2>
                             <div class=" px-2">
-                                <step-two :drivers="drivers"></step-two>
+                                <step-two :suppliers="suppliers"></step-two>
                             </div>
                         </div>
                         <!-- <div v-if="step===3">
@@ -133,13 +133,7 @@ const submit=()=>{
                             </div>
                         </div> -->
                     </div>
-
-
-
-
-
                 </div>
-
             </div>
                 <!--  -->
             </div>

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('no_of_bags');
             $table->string('barcode_no');
             $table->string('moisture_content');
-            $table->unsignedBigInteger('weighbridge_id')->index();
-            $table->foreign('weighbridge_id')->references('id')->on('weighbridges');
+            $table->unsignedBigInteger('quality_control_id')->index();
+            $table->foreign('quality_control_id')->references('id')->on('quality_controls');
             $table->softDeletes();
             $table->timestamps();
         });

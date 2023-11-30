@@ -11,7 +11,7 @@ class SecurityCheck extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_id', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code'
+        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code'
     ];
 
     public function supplier()
@@ -22,11 +22,6 @@ class SecurityCheck extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by'); 
-    }
-
-    public function vehicle()
-    {
-        return $this->belongsTo(Vehicle::class, 'vehicle_id'); 
     }
 
     public function driver()

@@ -2,9 +2,7 @@ Suppliers
 - 
 
 
-ki12381884_emsea
-ki12381884_emuser
-oWZna0eL5gY%E^1n
+https://www.positronx.io/how-to-quickly-generate-barcode-in-laravel-application/
 
 http://emsea.legaleducationforum.com
 
