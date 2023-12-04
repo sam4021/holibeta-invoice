@@ -59,6 +59,16 @@ const deleteWarehouse=(id:number)=>{
     </div>
 </div>
     <div>
+        <div class="flex justify-between">
+            <div>
+                <h6 class="font-bold">Available: {{warehouses.data.length}}</h6>
+            </div>
+            <div class="flex justify-end gap-3 self-center">
+                <h6 class="font-semibold">Export Data:</h6>
+                <a :href="route('warehouse.report','pdf')" class="text-sumo-700 font-bold">PDF</a>
+                <a :href="route('warehouse.report','excel')" class="text-sumo-700 font-bold">Excel</a>
+            </div>
+        </div>
         <div class="flex justify-between my-5">
             <div class="flex gap-2">
                 <h6 class="self-center">Showing Entries:</h6>
@@ -93,7 +103,7 @@ const deleteWarehouse=(id:number)=>{
                             Code
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Weighbridge
+                            QC
                         </th>
                         <th scope="col" class="px-2 py-3">
                            Barcode No
@@ -118,8 +128,8 @@ const deleteWarehouse=(id:number)=>{
                             {{warehouse.code}}
                         </th>
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
-                            <Link :href="route('weighbridge.show', warehouse.weighbridge.id)" class="flex items-center gap-1">
-                                {{  warehouse.weighbridge.code }}
+                            <Link :href="route('quality-control.show', warehouse.qc.id)" class="flex items-center gap-1">
+                                {{  warehouse.qc.code }}
                                 <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512">
                                     <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->

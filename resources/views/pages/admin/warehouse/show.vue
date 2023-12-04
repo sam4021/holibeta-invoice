@@ -58,11 +58,11 @@ const deleteWarehouse=(id:number)=>{
                             <td class="px-3">{{warehouse.data.code}}</td>
                         </tr>
                         <tr>
-                            <th class="text-start">Weighbridge:</th>
+                            <th class="text-start">Quality COntrol:</th>
                             <td class="px-3">
-                                <Link :href="route('weighbridge.show', warehouse.data.weighbridge.id)"
+                                <Link :href="route('quality-control.show', warehouse.data.qc.id)"
                                               class="flex items-center gap-1">
-                                            {{  warehouse.data.weighbridge.code }}
+                                            {{  warehouse.data.qc.code }}
                                             <svg class="h-3 fill-sumo-700" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->

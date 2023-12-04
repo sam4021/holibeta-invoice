@@ -11,7 +11,7 @@ class SecurityCheck extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code'
+        'supplier_id', 'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code', 'county_id', 'subcounty_id'
     ];
 
     public function supplier()
@@ -36,13 +36,23 @@ class SecurityCheck extends Model
 
     public function grains()
     {
-        if (isset($this->weighbridge->warehouse)) {
-           if ($this->weighbridge->warehouse->grains()) {
-                return $this->weighbridge->warehouse->grains();
-           }
-            return [];
-        }
+        // if (isset($this->weighbridge->warehouse)) {
+        //    if ($this->weighbridge->warehouse->grains()) {
+        //         return $this->weighbridge->warehouse->grains();
+        //    }
+        //     return [];
+        // }
         return [];
+    }
+
+    public function county()
+    {
+        return $this->belongsTo(County::class, 'county_id');
+    }
+
+    public function subcounty()
+    {
+        return $this->belongsTo(Subcounty::class, 'subcounty_id');
     }
 
     protected static function booted(): void

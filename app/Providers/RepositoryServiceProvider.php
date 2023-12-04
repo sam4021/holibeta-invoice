@@ -14,6 +14,8 @@ use App\Interfaces\WarehouseInterface;
 use App\Repositories\WarehouseRepository;
 use App\Interfaces\WeighbridgeInterface;
 use App\Repositories\WeighbridgeRepository;
+use App\Interfaces\QualityControlInterface;
+use App\Repositories\QualityControlRepository;
 use App\Interfaces\UserInterface;
 use App\Repositories\UserRepository;
 use App\Interfaces\DriverInterface;
@@ -34,6 +36,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SecurityCheckInterface::class, SecurityCheckRepository::class);
         $this->app->bind(WarehouseInterface::class, WarehouseRepository::class);
         $this->app->bind(WeighbridgeInterface::class, WeighbridgeRepository::class);
+        $this->app->bind(QualityControlInterface::class, QualityControlRepository::class);
         $this->app->bind(DriverInterface::class, DriverRepository::class);
         $this->app->bind(UserRepository::class, UserInterface::class);
     }

@@ -95,11 +95,15 @@ const deleteSecurityCheck=(id:number)=>{
                         </tr>
                         <tr>
                             <th class="text-start">Vehicle:</th>
-                            <td class="px-3">{{securityCheck.data.vehicle.name}}</td>
+                            <td class="px-3">{{ securityCheck.data.vehicle_type }}</td>
                         </tr>
                         <tr>
                             <th class="text-start">Vehicle reg no:</th>
                             <td class="px-3">{{securityCheck.data.vehicle_reg_no}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Location:</th>
+                            <td class="px-3">{{securityCheck.data.subcounty.name}}, {{securityCheck.data.county.name}}</td>
                         </tr>
                     </table>
                 </div>

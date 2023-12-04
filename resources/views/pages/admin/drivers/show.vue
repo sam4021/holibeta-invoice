@@ -7,7 +7,8 @@ let props =defineProps({
     driver:Object
 })
 console.log(props);
-let id_image = '/images/driver/'+props.driver.data.id_image
+let id_image_front = '/images/driver/'+props.driver.data.id_image_front
+let id_image_back = '/images/driver/'+props.driver.data.id_image_back
 let driver_image= '/images/driver/'+props.driver.data.driver_image
 const deleteDriver=(id:number)=>{
     router.delete(route('drivers.destroy',id))
@@ -65,8 +66,12 @@ const deleteDriver=(id:number)=>{
                 <div class="my-3">
                     <table class="text-sm font-medium">
                         <tr>
-                            <th class="text-start">Id Image:</th>
-                            <td class="px-3"><img :src="id_image" class="w-28"></td>
+                            <th class="text-start">Id Front:</th>
+                            <td class="px-3"><img :src="id_image_front" class="w-28"></td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Id Back:</th>
+                            <td class="px-3"><img :src="id_image_back" class="w-28"></td>
                         </tr>
                         <tr>
                             <th class="text-start">Driver Image:</th>

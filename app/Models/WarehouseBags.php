@@ -29,29 +29,29 @@ class WarehouseBags extends Model
         return $this->belongsTo(Grains::class, 'grain_id');
     }
 
-    public function weighbridge()
+    public function qualityControl()
     {
-        return $this->warehouse->weighbridge();
+        return $this->warehouse->qualityControl();
     }
 
+    public function weighbridge()
+    {
+        return $this->warehouse->qualityControl->weighbridge();
+    }
+    
     public function delivery()
     {
-        return $this->warehouse->weighbridge->delivery();
+        return $this->weighbridge->delivery();
     }
 
     public function supplier()
     {
-        return $this->warehouse->weighbridge->delivery->supplier();
-    }
-
-    public function vehicle()
-    {
-        return $this->warehouse->weighbridge->delivery->vehicle();
+        return $this->delivery->supplier();
     }
 
     public function driver()
     {
-        return $this->warehouse->weighbridge->delivery->driver();
+        return $this->delivery->driver();
     }
 
     public function status()

@@ -11,12 +11,12 @@ class Warehouse extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'weighbridge_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content'
+        'quality_control_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content'
     ];
 
-    public function weighbridge()
+    public function qualityControl()
     {
-        return $this->belongsTo(Weighbridge::class, 'weighbridge_id');
+        return $this->belongsTo(QualityControl::class, 'quality_control_id');
     }
 
     public function createdBy()

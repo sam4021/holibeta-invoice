@@ -30,7 +30,9 @@ class SecurityCheckResource extends JsonResource
             'top_image' => $this->top_image,
             'code'=>$this->security_check_code,
             'name'=>$this->security_check_code,
-            'grains'=>$this->grains()
+            'grains'=>$this->grains(),
+            'county' => new CountyResource($this->county),
+            'subcounty' => new SubcountyResource($this->subcounty),
         ];
     }
 }

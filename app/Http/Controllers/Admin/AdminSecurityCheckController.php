@@ -70,7 +70,9 @@ class AdminSecurityCheckController extends Controller
             'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'top_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg' ,
             'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
-            'supplier' => 'required|integer|exists:suppliers,id', 
+            'supplier' => 'required|integer|exists:suppliers,id',
+            'county' => 'required' ,
+            'subcounty' => 'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
         if ($request->hasFile('front_image')) {

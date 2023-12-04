@@ -30,7 +30,8 @@ class DriverRepository implements DriverInterface
                 'middlename'=> $data['middlename'],
                 'lastname'=> $data['lastname'],
                 'id_no'=> $data['id_no'],
-                'id_image'=> $data['id_image'],
+                'id_image_front'=> $data['id_image_front'],
+                'id_image_back' => $data['id_image_back'],
                 'driver_image'=>$data['driver_image'],
                 'created_by'=>$data['created_by']
             ]);

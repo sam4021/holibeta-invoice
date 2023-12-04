@@ -18,21 +18,21 @@ class WarehouseRepository implements WarehouseInterface
 {
 
     public function getWarehouses(){
-        $warehouse= Warehouse::with(['createdBy', 'weighbridge'])
+        $warehouse= Warehouse::with(['createdBy', 'qualityControl'])
             ->paginate(request('showing')??10);
 
         return WarehouseResource::collection($warehouse);
     }
 
     public function getWarehouseById(string $id){
-        return new WarehouseResource(Warehouse::with(['weighbridge', 'createdBy'])->findOrFail($id));
+        return new WarehouseResource(Warehouse::with(['qualityControl', 'createdBy'])->findOrFail($id));
     }
 
     public function createWarehouse($data){
         DB::beginTransaction();
         try {//dd($data);
             $warehouse= Warehouse::create([
-                'weighbridge_id'=>$data['weighbridge'], 
+                'quality_control_id'=>$data['quality_control'], 
                 'created_by'=>$data['created_by'],
                 'no_of_bags' => $data['no_of_bags'],
                 'barcode_no' => Str::upper(Str::random(6)),
@@ -62,7 +62,7 @@ class WarehouseRepository implements WarehouseInterface
             $warehouse= Warehouse::findOrFail($id);
             $warehouse->update(
                 [
-                    'weighbridge_id' => $data['weighbridge'],
+                    'quality_control_id' => $data['quality_control'],
                     'no_of_bags' => $data['no_of_bags'],
                 ]
             );

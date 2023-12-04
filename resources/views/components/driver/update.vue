@@ -63,12 +63,20 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label for="email" class="text-sm font-medium text-gray-700">ID Image</label>
-                                    <input @input="form.new_id_no=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image" type="file">
+                                    <label for="id_image_front" class="text-sm font-medium text-gray-700">ID Front</label>
+                                    <input @input="form.new_id_image_front=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image_front" type="file">
                                     <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                        <span class="text-xs">{{form.errors.new_id_no }}</span>
+                                        <span class="text-xs">{{form.errors.new_id_image_front }}</span>
                                     </div>
-                                    <img :src="'/images/driver/'+form.id_image">
+                                    <img :src="'/images/driver/'+form.id_image_front">
+                                </div>
+                                <div>
+                                    <label for="id_image_back" class="text-sm font-medium text-gray-700">ID Back</label>
+                                    <input @input="form.new_id_image_back=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="id_image_back" type="file">
+                                    <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                        <span class="text-xs">{{form.errors.new_id_image_back }}</span>
+                                    </div>
+                                    <img :src="'/images/driver/'+form.id_image_back">
                                 </div>
                                 <div>
                                     <label for="email" class="text-sm font-medium text-gray-700">Driver Image</label>
