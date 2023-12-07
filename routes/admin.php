@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminGrainController;
 use App\Http\Controllers\Admin\AdminQualityControlController;
 use App\Http\Controllers\Admin\AdminDriverController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\Admin\AdminRolesController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admin']], function () {
+    Route::get('admin/report/grain', [AdminReportController::class, 'grain'])->name('report.grain');
+    Route::get('admin/report', [AdminReportController::class,'driver'])->name('reports');
     Route::resource('admin/grains', AdminGrainController::class);
     Route::resource('admin/drivers', AdminDriverController::class);
     Route::resource('admin/vehicles', AdminVehicleController::class);
