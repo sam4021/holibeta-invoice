@@ -128,6 +128,8 @@ const submit=()=>{
                                 type="number"
                                 id="id_no"
                                 class="sumo-input my-2"
+                                minlength="5"
+                                maxlength="10"
                             />
                             <div
                                 class="sumo-error"

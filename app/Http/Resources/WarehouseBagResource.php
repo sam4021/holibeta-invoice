@@ -22,10 +22,16 @@ class WarehouseBagResource extends JsonResource
             'grain'=>new GrainResource($this->grain),
             'warehouse' => new WarehouseResource($this->whenLoaded('warehouse')), 
             'created_by'=>new UserResource($this->whenLoaded('createdBy')),
-            'no_of_bags' => $this->no_of_bags,
             'weight' => $this->weight,
             'code' => $this->bag_code,
-            'barcode_no'=> $this->barcode_no
+            'barcode_no'=> $this->barcode_no,
+            'weighbridge'=> $this->weighbridge,
+            'delivery'=> $this->delivery,
+            'supplier'=> new SupplierResource($this->supplier) ,
+            'vehicle'=>$this->vehicle,
+            'driver' => $this->driver,
+            'status' => $this->status,
+            'currentStatus' => $this->currentStatus()
         ];
     }
 }

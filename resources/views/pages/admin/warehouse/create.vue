@@ -6,12 +6,12 @@ import {useStorage} from "@vueuse/core";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props = defineProps({
-    weighbridges: Object,
+    qcs: Object,
     grains: Object
 });
 console.log(props)
 let form = useForm({
-    weighbridge:null, 
+    quality_control:null, 
     no_of_bags:"", 
     moisture_content:"", 
     bags:"",
@@ -95,15 +95,15 @@ onMounted(() => {
                 <form @submit.prevent="submit" id="saveFacilities">
                     <div class="mx-6 grid grid-cols-1 md:grid-cols-4 gap-3">
                         <div>
-                            <label class="sumo-label" for="weighbridges">Weighbridges:</label>
-                            <select v-model="form.weighbridge"
-                                id="weighbridges"
+                            <label class="sumo-label" for="quality_control">Quality Control:</label>
+                            <select v-model="form.quality_control"
+                                id="quality_control"
                                 class="sumo-input my-2">
-                                <option :value="null">Select Weighbridge</option>
-                                <option :value="weighbridge.id" :key="weighbridge.id" v-for="weighbridge in weighbridges.data">{{weighbridge.code}}</option>
+                                <option :value="null">Select Quality Control</option>
+                                <option :value="qc.id" :key="qc.id" v-for="qc in qcs.data">{{qc.code}}</option>
                             </select>
-                            <div class="sumo-error" v-if="form.errors.weighbridge">
-                                {{ form.errors.weighbridge }}
+                            <div class="sumo-error" v-if="form.errors.quality_control">
+                                {{ form.errors.quality_control }}
                             </div>
                         </div>
                         <div>
@@ -155,12 +155,12 @@ onMounted(() => {
                             <div class="grid grid-cols-2 gap-2">
                                 <h3 class="text-x2 font-bold">Items</h3>
                                 <div class="text-right px-4">
-                                    <button  @click="addRow" type="button" class="font-bold text-sumo-700">
+                                    <!-- <button  @click="addRow" type="button" class="font-bold text-sumo-700">
                                         <svg class="h-4 fill-sumo-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                           <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
                                         </svg>
                                        <span>Add Bag</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="mt-3 text-red-800 text-sm">
@@ -183,7 +183,7 @@ onMounted(() => {
                                     <tr v-for="(item, index) in transactionItem" :key="index">
                                         <td class="pr-6 pl-2">
                                             <input type="number" class="sumo-input my-3" v-model="item.weight" required>                                     
-                                        </td>
+                                        </td>   
                                         <td>
                                             <vue-select
                                                 :searchable="true"

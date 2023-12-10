@@ -57,18 +57,15 @@ class AdminWeighbridgeController extends Controller
         $validated=$request->validate([
             'delivery'=>'required|integer|exists:security_checks,id', 
             'weight'=>'required',
-            'moisture_content'=>'required',
-            'visual_inspection' => 'required',
-            'visual_inspection_comment' => 'required',
-            'visual_inspection_image' => 'required',
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
         ]);
-        if ($request->hasFile('visual_inspection_image')) {
-            $visual_inspection_image       = $request->file('visual_inspection_image');
-            $extension = $visual_inspection_image->getClientOriginalExtension();
-            $filename = 'visual_inspection_image_' . time() . '.' .  $extension;
-            $image_resize = Image::make($visual_inspection_image->getRealPath());
+        if ($request->hasFile('image')) {
+            $image       = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $filename = 'image_' . time() . '.' .  $extension;
+            $image_resize = Image::make($image->getRealPath());
             $image_resize->save($this->weighbridgePath . $filename);
-            $validated['visual_inspection_image'] = $filename;
+            $validated['image'] = $filename;
         }
         $validated['created_by'] = Auth::user()->id;
         $weighbridge=$this->weighbridgeRepository->createWeighbridge($validated);
@@ -106,7 +103,6 @@ class AdminWeighbridgeController extends Controller
         $validated=$request->validate([
             'delivery' => 'required|integer|exists:security_checks,id',
             'weight' => 'required',
-            'moisture_content'=>'required',
         ]);
 
         $weighbridge=$this->weighbridgeRepository->updateWeighbridge($validated,$id);

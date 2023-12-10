@@ -5,9 +5,12 @@ namespace App\Enums;
 enum RoleEnum: string
 {
     case Admin = 'Admin';
-    case Supplier = 'Supplier';
-    case Customer = 'Customer';
-    case Security = 'Security';
-    case Warehouse = 'Warehouse';
-    case Weighbridge = 'Weighbridge';
+    case SecuritySupervisor = 'Security Supervisor';
+    case StoreManager = 'Store Manager';
+    case StoreOfficer = 'Store Officer';
+    case StoreSupervisor = 'Store Supervisor';
+    case GrainInspector = 'Grain Inspector';
+    case LaboratorySupervisor = 'Laboratory Supervisor';
+    case WeighbridgeOperator =  'Weighbridge Operator';
+    case WeighbridgeSupervisor = 'Weighbridge Supervisor';
 }

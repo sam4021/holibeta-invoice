@@ -7,24 +7,25 @@ use File;
 use App\Http\Controllers\Controller;
 use App\Interfaces\VehicleInterface;
 use App\Interfaces\GrainInterface;
-use App\Interfaces\WeighbridgeInterface;
+use App\Interfaces\QualityControlInterface;
 use App\Interfaces\WarehouseInterface;
 use App\Interfaces\SecurityCheckInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Models\Reports;
 
 class AdminWarehouseController extends Controller
 {
     private $grainRepository;
-    private $weighbridgeRepository;
+    private $qcRepository;
     private $warehouseRepository;
     private $securityCheckRepository;
-    public function __construct(GrainInterface $grainRepository, WarehouseInterface $warehouseRepository, WeighbridgeInterface $weighbridgeRepository,SecurityCheckInterface $securityCheckRepository)
+    public function __construct(GrainInterface $grainRepository, WarehouseInterface $warehouseRepository, QualityControlInterface $qcRepository,SecurityCheckInterface $securityCheckRepository)
     {
         $this->grainRepository = $grainRepository;
-        $this->weighbridgeRepository = $weighbridgeRepository;
+        $this->qcRepository = $qcRepository;
         $this->warehouseRepository = $warehouseRepository;
         $this->securityCheckRepository = $securityCheckRepository;
     }
@@ -34,12 +35,12 @@ class AdminWarehouseController extends Controller
     public function index()
     {
         $warehouses=$this->warehouseRepository->getWarehouses();
-        $weighbridges = $this->weighbridgeRepository->getAllWeighbridges();
+        $qcs = $this->qcRepository->getAllQualityControls();
         $filters=request()->all('search','showing');
         return inertia::render('admin/warehouse/index', compact(
             'warehouses',
             'filters',
-            'weighbridges'
+            'qcs'
         ));
     }
 
@@ -50,8 +51,8 @@ class AdminWarehouseController extends Controller
     {
         //
         $grains = $this->grainRepository->getGrains();
-        $weighbridges = $this->weighbridgeRepository->getAllWeighbridges();
-        return inertia::render('admin/warehouse/create',compact('weighbridges','grains'));
+        $qcs = $this->qcRepository->getAllQualityControls();
+        return inertia::render('admin/warehouse/create',compact('qcs','grains'));
     }
 
     /**
@@ -61,7 +62,7 @@ class AdminWarehouseController extends Controller
     {
         //
         $validated=$request->validate([
-            'weighbridge'=> 'required|integer|exists:weighbridges,id',
+            'quality_control'=> 'required|integer|exists:quality_controls,id',
             'no_of_bags'=>'required',
             'moisture_content' => 'required|numeric|between:1,13.5',
             'bags'=>'required|array',
@@ -90,8 +91,8 @@ class AdminWarehouseController extends Controller
     public function edit(string $id)
     {
         $warehouse = $this->warehouseRepository->getWarehouseById($id);
-        $weighbridges = $this->weighbridgeRepository->getAllWeighbridges();
-        return inertia::render('admin/warehouse/edit', compact('warehouse', 'weighbridges'));
+        $qcs = $this->qcRepository->getAllQualityControls();
+        return inertia::render('admin/warehouse/edit', compact('warehouse', 'qcs'));
     }
 
     /**
@@ -100,7 +101,7 @@ class AdminWarehouseController extends Controller
     public function update(Request $request, string $id)
     {
         $validated=$request->validate([
-            'weighbridge' => 'required|integer|exists:weighbridges,id',
+            'quality_control' => 'required|integer|exists:quality_controls,id',
             'moisture_content' => 'required',
         ]);
 
@@ -123,5 +124,36 @@ class AdminWarehouseController extends Controller
         } else {
             return redirect()->back()->with('error', 'Warehouse could not be deleted');
         }
+    }
+
+    public function bagDatas()
+    {
+        $bags = $this->warehouseRepository->getWarehouseBags();
+        $grains = $this->warehouseRepository->getUniqueGrains();
+        $filters = request()->all('search', 'showing', 'grain');
+        return inertia::render('admin/warehouse/bags', compact(
+            'bags',
+            'filters',
+            'grains'
+        ));
+    }
+
+    public function bagData($id)
+    {
+        $bag = $this->warehouseRepository->getWarehouseBag($id);
+        return inertia::render('admin/warehouse/bag', compact(
+            'bag'
+        ));
+    }
+
+    public function exportData($format)
+    {
+        
+        $warehouses = $this->warehouseRepository->getWarehouses();
+        $data = [
+            'warehouses' => $warehouses
+        ];
+        
+        return Reports::generate($format, 'reports.warehouse', $data, 'Warehouse');
     }
 }

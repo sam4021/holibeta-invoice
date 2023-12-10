@@ -37,10 +37,7 @@ class WeighbridgeRepository implements WeighbridgeInterface
                 'delivery_id'=>$data['delivery'], 
                 'created_by'=>$data['created_by'], 
                 'weight'=>$data['weight'],
-                'moisture_content'=>$data['moisture_content'],
-                'visual_inspection'=>$data['visual_inspection'],
-                'visual_inspection_comment'=>$data['visual_inspection_comment'],
-                'visual_inspection_image'=>$data['visual_inspection_image']
+                'image'=>$data['image'],
             ]);
             return response()->json(['message'=> 'Weighbridge created successfully', 'weighbridge'=> $weighbridge],200);
         }catch (\Exception $exception){
@@ -55,8 +52,7 @@ class WeighbridgeRepository implements WeighbridgeInterface
             $weighbridge->update(
                 [
                     'delivery_id' => $data['delivery'],
-                    'weight' => $data['weight'],
-                    'moisture_content'=>$data['moisture_content'] 
+                    'weight' => $data['weight'], 
                 ]
             );
             return response()->json(['message'=> 'Weighbridge updated successfully', 'weighbridge'=> $weighbridge],200);

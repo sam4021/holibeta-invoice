@@ -92,4 +92,9 @@ class SupplierRepository implements SupplierInterface
         $supplier->delete();
         return response()->json(['message'=> 'Supplier deleted successfully'],200);
     }
+
+    public function getSuppliersCount()
+    {
+        return number_format(Suppliers::count());
+    }
 }

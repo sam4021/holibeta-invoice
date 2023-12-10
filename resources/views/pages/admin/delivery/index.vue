@@ -113,7 +113,9 @@ const deleteSecurityCheck=(id:number)=>{
                             {{securityCheck.supplier.name}}
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            
+                            <div class="flex gap-2">
+                                <span v-for="grain in securityCheck.grains" :key="grain.id" class="text-xs">{{ grain.name }} , </span>
+                            </div>
                         </td>
                         <td class="px-2 py-3 capitalize">
                             {{ moment(securityCheck.created_at).format("DD MMM, YYYY h:MM a") }}

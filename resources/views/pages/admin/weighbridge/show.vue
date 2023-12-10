@@ -94,6 +94,10 @@ const deleteWeighbridge=(id:number)=>{
                             <th class="text-start">Visual Inspection Comment:</th>
                             <td class="px-3">{{weighbridge.data.visual_inspection_comment}}</td>
                         </tr>
+                        <tr>
+                            <th></th>
+                            <td><img :src="'/images/weighbridge/'+weighbridge.data.visual_inspection_image"></td>
+                        </tr>
                     </table>
                 </div>
             </div>

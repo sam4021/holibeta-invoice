@@ -21,8 +21,9 @@ class DriverResource extends JsonResource
             'lastname' => $this->lastname, 
             'name'=>$this->firstname.' '.$this->middlename.' '.$this->lastname,
             'created_by' => new UserResource($this->whenLoaded('createdBy')),  
-            'id_no' => $this->id_no, 
-            'id_image' => $this->id_image,
+            'id_no' => $this->id_no,
+            'id_image_front' => $this->id_image_front,
+            'id_image_back' => $this->id_image_back,
             'driver_image' => $this->driver_image,
             'slug' => $this->slug
         ];

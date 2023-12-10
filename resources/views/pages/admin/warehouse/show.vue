@@ -58,11 +58,11 @@ const deleteWarehouse=(id:number)=>{
                             <td class="px-3">{{warehouse.data.code}}</td>
                         </tr>
                         <tr>
-                            <th class="text-start">Weighbridge:</th>
+                            <th class="text-start">Quality COntrol:</th>
                             <td class="px-3">
-                                <Link :href="route('weighbridge.show', warehouse.data.weighbridge.id)"
+                                <Link :href="route('quality-control.show', warehouse.data.qc.id)"
                                               class="flex items-center gap-1">
-                                            {{  warehouse.data.weighbridge.code }}
+                                            {{  warehouse.data.qc.code }}
                                             <svg class="h-3 fill-sumo-700" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
@@ -115,6 +115,7 @@ const deleteWarehouse=(id:number)=>{
                         <th>
                             Grain
                         </th>
+                        <th>Status</th>
                         <th scope="col" class="px-2 py-3" colspan="2">
                             Action
                         </th>
@@ -122,17 +123,22 @@ const deleteWarehouse=(id:number)=>{
                     </thead>
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                     <tr class="border-b" v-for="bag in warehouse.data.bags" :key="bag.id" >
-                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-xs">
                             {{bag.code}}
                         </th>
-                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-xs">
                             {{bag.weight}}
                         </th>
-                        <td class="px-2 py-3">
-{{bag.grain.name}}
+                        <td class="px-2 py-3 text-xs">
+                            {{bag.grain.name}}          
+                        </td>
+                        <td class="px-2 py-3 text-xs">
+                            {{ bag.currentStatus }}
                         </td>
                         <td class="px-2 py-3">
-                            <button class="p-2">Details</button>
+                            <Link :href="route('warehouse.bag',bag.id)">
+                            <button class="p-2 text-green-800">Details</button>
+                            </Link>
                         </td>
                     </tr>
                     </tbody>

@@ -55,17 +55,26 @@ class AdminDriverController extends Controller
             'middlename'=>'nullable|string|max:20',
             'lastname'=>'required|string|max:20',
             'id_no'=>'required|string|max:125',
-            'id_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
+            'id_image_front'=> 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
+            'id_image_back' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
             'driver_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
         ]);
         $validated['created_by'] = Auth::user()->id;
-        if ($request->hasFile('id_image')) {
-            $id_image       = $request->file('id_image');
-            $extension = $id_image->getClientOriginalExtension();
-            $filename = 'id_image_' . time() .'.'.  $extension;
-            $image_resize = Image::make($id_image->getRealPath());
+        if ($request->hasFile('id_image_front')) {
+            $id_image_front       = $request->file('id_image_front');
+            $extension = $id_image_front->getClientOriginalExtension();
+            $filename = 'id_image_front_' . time() .'.'.  $extension;
+            $image_resize = Image::make($id_image_front->getRealPath());
             $image_resize->save($this->driverPath . $filename);
-            $validated['id_image'] = $filename;
+            $validated['id_image_front'] = $filename;
+        }
+        if ($request->hasFile('id_image_back')) {
+            $id_image_back       = $request->file('id_image_back');
+            $extension = $id_image_back->getClientOriginalExtension();
+            $filename = 'id_image_back_' . time() . '.' .  $extension;
+            $image_resize = Image::make($id_image_back->getRealPath());
+            $image_resize->save($this->driverPath . $filename);
+            $validated['id_image_back'] = $filename;
         }
         if ($request->hasFile('driver_image')) {
             $driver_image       = $request->file('driver_image');

@@ -5,31 +5,45 @@
             <div class="my-5">
                 <div>
                     <div class="my-5">
-                        <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-3">
-                            <div>
-                                <label class="sumo-label" for="supplier">Delivery:</label>
-                                <vue-select
-                                    :searchable="true"
-                                    v-model:selected="stepOne.supplier"
-                                    :options="suppliers.data"
-                                    placeholder="Select Supplier"
-                                    class=""
-                                ></vue-select>
-                                <div class="sumo-error" v-if="form.errors.supplier">
-                                    {{ form.errors.supplier }}
+                        <div>
+                                <div>
+                                    <label class="sumo-label font-medium">Add Driver:</label>
+                                    <div class="my-2 md:flex gap-2">
+                                        <vue-select
+                                            :searchable="true"
+                                            v-model:selected="stepOne.driver"
+                                            :options="drivers.data"
+                                            placeholder="Select Driver"
+                                            class="md:w-96"
+                                        ></vue-select>
+                                        <create-driver>
+                                            <template #trigger>
+                                                <button class="btn-simple flex items-center gap-2 text-sumo-300">
+                                                    <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                        <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
+                                                    </svg>
+                                                    <span> New Driver</span>
+                                                </button>
+                                            </template>
+                                        </create-driver>
+                                    </div>
+                                </div>
+                                <div v-if="form.errors.driver" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.driver}}</span>
                                 </div>
                             </div>
+                        <hr class="my-3">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-3">
+                            
+                            
                             <div>
-                                <label class="sumo-label" for="vehicle">Vehicle:</label>
-                                <vue-select
-                                    :searchable="true"
-                                    v-model:selected="stepOne.vehicle"
-                                    :options="vehicles.data"
-                                    placeholder="Select Vehicle"
-                                    class=""
-                                ></vue-select>
-                                <div class="sumo-error" v-if="form.errors.vehicle">
-                                    {{ form.errors.vehicle }}
+                                <label class="sumo-label" for="vehicle">Vehicle Type:</label>
+                                <select v-model="stepOne.vehicle_type" id="timeslot" class="sumo-input my-2">
+                                        <option :value="null" selected>Select Type</option>
+                                        <option v-for="vtype in vehicleTypes" :value="vtype">{{ vtype }}</option>
+                                    </select>
+                                <div class="sumo-error" v-if="form.errors.vehicle_type">
+                                    {{ form.errors.vehicle_type }}
                                 </div>
                             </div>
                             <div>
@@ -49,7 +63,7 @@
                                 <label class="text-sm font-medium text-gray-700" id="timeslot">Timeslot:</label>
                                 <div class="my-2 ">
                                     <select v-model="stepOne.timeslot" id="timeslot" class="sumo-input my-2">
-                                        <option :value="null">Select Timeslot</option>
+                                        <option :value="null" selected>Select Timeslot</option>
                                         <option value="0600-0800">0600-0800</option>
                                         <option value="0800-1000">0800-1000</option>
                                         <option value="1000-1200">1000-1200</option>
@@ -83,32 +97,33 @@ import {ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import { useStorage } from '@vueuse/core'
 import VueSelect from "@/views/components/general-components/vue-select.vue";
+import CreateDriver from "@/views/components/driver/create.vue";
 
 defineProps({
-    vehicles:Object,
-    suppliers:Object
+    vehicleTypes:Object,
+    drivers:Object,
 })
 
 const stepOne=useStorage('stepOne',{
-    supplier: null,
+    driver:undefined,
     vehicle_reg_no: "",
-    vehicle: null,
+    vehicle_type: null,
     timeslot:null
 })
 const step=useStorage('step',1)
 const search=ref('')
 
 let form=useForm({
-    supplier: null,
+    driver:null,
     vehicle_reg_no: "",
-    vehicle: null,
+    vehicle_type: null,
     timeslot:null,
 })
 
 const submit=()=>{
-    form.supplier= stepOne.value.supplier;
+    form.driver= stepOne.value.driver;
     form.vehicle_reg_no= stepOne.value.vehicle_reg_no;
-    form.vehicle= stepOne.value.vehicle;
+    form.vehicle_type= stepOne.value.vehicle_type;
     form.timeslot= stepOne.value.timeslot;
     
     form.post(route('delivery.step-one'),{
