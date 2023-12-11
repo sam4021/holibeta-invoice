@@ -73,13 +73,28 @@ watch([search,showing],()=>{
                     <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                     <tr>
                         <th scope="col" class="px-2 py-3">
-                            Code
+                            Bag Code
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Name
+                            weight
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Location
+                            warehouse
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            QC
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Weighbridge
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Delivery
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Supplier
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Driver
                         </th>
                         <th scope="col" class="px-2 py-3">
                             Status
@@ -92,13 +107,80 @@ watch([search,showing],()=>{
                     <tbody class="[&>*:nth-child(even)]:bg-gray-100">
                     <tr class="border-b" v-for="report in reports.data" :key="report.id" >
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
-                            {{report}}
+                            <Link :href="route('warehouse.bag', report.bag_id)" class="flex items-center gap-1">
+                                {{report.bag_code}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            
+                            {{ report.weight }}
                         </td>
                         <td class="px-2 py-3 capitalize">
-                            
+                            <Link :href="route('grains.show', report.warehouse_id)" class="flex items-center gap-1">
+                                {{report.warehouse_code}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
+                        </td>
+                        <td class="px-2 py-3 capitalize">
+                            <Link :href="route('quality-control.show', report.qc_id)" class="flex items-center gap-1">
+                                {{report.qc_code}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
+                        </td>
+                        <td class="px-2 py-3 capitalize">
+                            <Link :href="route('weighbridge.show', report.weighbridge_id)" class="flex items-center gap-1">
+                                {{report.weighbridge_code}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
+                        </td>
+                        <td class="px-2 py-3 capitalize">
+                            <Link :href="route('delivery.show', report.d_id)" class="flex items-center gap-1">
+                                {{report.d_code}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
+                        </td>
+                        <td class="px-2 py-3 capitalize">
+                            <Link :href="route('suppliers.show', report.supplier_id)" class="flex items-center gap-1">
+                                {{report.fullname}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
+                        </td>
+                        <td class="px-2 py-3 capitalize">
+                            <Link :href="route('drivers.show', report.driver_id)" class="flex items-center gap-1">
+                                {{report.driver_name}}
+                                <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
                         </td>
                         <td class="px-2 py-3 capitalize">
                            

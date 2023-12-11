@@ -29,12 +29,27 @@ class AdminReportController extends Controller
                 })
                 ->join('grains','grains.id','warehouse_bags.grain_id')
                 ->join('warehouses','warehouses.id','warehouse_bags.warehouse_id')
+                ->join('quality_controls', 'quality_controls.id', 'warehouses.quality_control_id')
+                ->join('weighbridges', 'weighbridges.id', 'quality_controls.weighbridge_id')
+                ->join('security_checks', 'security_checks.id', 'weighbridges.delivery_id')
+                ->join('suppliers', 'suppliers.id','security_checks.supplier_id')
+                ->join('drivers', 'drivers.id', 'security_checks.driver_id')
                 ->select([
-                    'warehouse_bags.id as bad_id',
+                    'warehouse_bags.id as bag_id',
                     'warehouse_bags.bag_code',
                     'warehouse_bags.weight',
                     'warehouses.id as warehouse_id',
-                    'warehouses.warehouse_code'])
+                    'warehouses.warehouse_code',
+                    'quality_controls.id as qc_id',
+                    'quality_controls.qc_code as qc_code',
+                    'weighbridges.id as weighbridge_id',
+                    'weighbridges.weighbridge_code as weighbridge_code',
+                    'security_checks.id as d_id',
+                    'security_checks.security_check_code as d_code',
+                    'suppliers.id as supplier_id',
+                    DB::raw("CONCAT(suppliers.firstname,' ',suppliers.lastname) as fullname"),
+                    'drivers.id as driver_id',
+                    DB::raw("CONCAT(drivers.firstname,' ',drivers.lastname) as driver_name")])
                 ->paginate(request('showing')??10);
         $filters = request()->all('search', 'showing');
 
