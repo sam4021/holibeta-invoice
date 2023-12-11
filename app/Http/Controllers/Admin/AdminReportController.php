@@ -23,7 +23,19 @@ class AdminReportController extends Controller
      */
     public function index()
     {
-        $reports=DB::table('')->get();
+        $reports=DB::table('warehouse_bags')
+                ->when(request('search'), function($query){
+                    $query->where('warehouse_bags.bag_code','like','%'.request('search').'%');
+                })
+                ->join('grains','grains.id','warehouse_bags.grain_id')
+                ->join('warehouses','warehouses.id','warehouse_bags.warehouse_id')
+                ->select([
+                    'warehouse_bags.id as bad_id',
+                    'warehouse_bags.bag_code',
+                    'warehouse_bags.weight',
+                    'warehouses.id as warehouse_id',
+                    'warehouses.warehouse_code'])
+                ->paginate(request('showing')??10);
         $filters = request()->all('search', 'showing');
 
         return inertia::render('admin/reports/index', compact('reports','filters'));
