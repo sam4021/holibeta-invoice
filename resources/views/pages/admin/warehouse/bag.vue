@@ -13,16 +13,131 @@ console.log(props);
 const deleteBag=(id:number)=>{
     router.delete(route('warehouse.bag.destroy',id))
 };
+
+const printInfo=()=>{
+    // size is 62mm but use 60 mm with padding of 1 mm 
+    var divContents = document.getElementById("printer").innerHTML; 
+    var myWindow = window.open('', 'Receipt', 'height=400,width=600');
+    myWindow.document.write('<html><head><title>Receipt</title>');
+    /*optional stylesheet*/ //myWindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+    myWindow.document.write('<style type="text/css"> *, html {margin:0;padding:0;} </style>');
+    myWindow.document.write('</head><body>');
+    myWindow.document.write(divContents);
+    myWindow.document.write('</body></html>');
+    myWindow.document.close(); // necessary for IE >= 10
+
+    myWindow.onload=function(){ // necessary if the div contain images
+
+        myWindow.focus(); // necessary for IE >= 10
+        myWindow.print();
+        // myWindow.close();
+    };
+}
 </script>
 
 <template>
     <Head title="Warehouse Bag Data" />
 <admin>
+    <div id="printer" style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);padding: 2mm;margin: 0 auto;width: 44mm;background: #fff;">
+        <div style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);padding: 2mm;margin: 0 auto;width: 44mm;background: #fff;">
+            <center id="top">
+                <div class="logo"></div>
+                <div class="info"> 
+                    <h2>SBISTechs Inc</h2>
+                </div><!--End Info-->
+            </center><!--End InvoiceTop-->
+            <div id="mid">
+                <div class="info">
+                    <h2>Contact Info</h2>
+                    <p> 
+                        Address : street city, state 0000<br>
+                        Email   : JohnDoe@gmail.com<br>
+                        Phone   : 555-555-5555<br>
+                    </p>
+                </div>
+            </div><!--End Invoice Mid-->
+        </div>
+    
+    
+    
+    
+    
+    <div id="bot">
+
+					<div id="table">
+						<table>
+							<tr class="tabletitle">
+								<td class="item"><h2>Item</h2></td>
+								<td class="Hours"><h2>Qty</h2></td>
+								<td class="Rate"><h2>Sub Total</h2></td>
+							</tr>
+
+							<tr class="service">
+								<td class="tableitem"><p class="itemtext">Communication</p></td>
+								<td class="tableitem"><p class="itemtext">5</p></td>
+								<td class="tableitem"><p class="itemtext">$375.00</p></td>
+							</tr>
+
+							<tr class="service">
+								<td class="tableitem"><p class="itemtext">Asset Gathering</p></td>
+								<td class="tableitem"><p class="itemtext">3</p></td>
+								<td class="tableitem"><p class="itemtext">$225.00</p></td>
+							</tr>
+
+							<tr class="service">
+								<td class="tableitem"><p class="itemtext">Design Development</p></td>
+								<td class="tableitem"><p class="itemtext">5</p></td>
+								<td class="tableitem"><p class="itemtext">$375.00</p></td>
+							</tr>
+
+							<tr class="service">
+								<td class="tableitem"><p class="itemtext">Animation</p></td>
+								<td class="tableitem"><p class="itemtext">20</p></td>
+								<td class="tableitem"><p class="itemtext">$1500.00</p></td>
+							</tr>
+
+							<tr class="service">
+								<td class="tableitem"><p class="itemtext">Animation Revisions</p></td>
+								<td class="tableitem"><p class="itemtext">10</p></td>
+								<td class="tableitem"><p class="itemtext">$750.00</p></td>
+							</tr>
+
+
+							<tr class="tabletitle">
+								<td></td>
+								<td class="Rate"><h2>tax</h2></td>
+								<td class="payment"><h2>$419.25</h2></td>
+							</tr>
+
+							<tr class="tabletitle">
+								<td></td>
+								<td class="Rate"><h2>Total</h2></td>
+								<td class="payment"><h2>$3,644.25</h2></td>
+							</tr>
+
+						</table>
+					</div><!--End Table-->
+
+					<div id="legalcopy">
+						<p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices. 
+						</p>
+					</div>
+
+				</div><!--End InvoiceBot-->
+  </div><!--End Invoice-->
     <div class="flex justify-between items-center">
         <div>
             <h1 class="text-2xl font-bold capitalize">Warehouse Bag</h1>
         </div>
         <div class="flex gap-2">
+            <div>
+                   <button class="btn-simple btn-medium flex items-center gap-2" @click="printInfo">
+                       <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                           <path d="M455.7 18.75C443.2 6.252 426.8 0 410.5 0c-16.38 0-32.76 6.25-45.26 18.75L45.11 338.9c-8.568 8.566-14.53 19.39-17.18 31.21l-27.61 122.8C-1.7 502.1 6.159 512 15.95 512c1.047 0 2.116-.1034 3.198-.3202c0 0 84.61-17.95 122.8-26.93c11.54-2.717 21.87-8.523 30.25-16.9l321.2-321.2c24.99-24.99 24.9-65.42-.0898-90.41L455.7 18.75zM138.2 433.9c-2.115 2.115-4.503 3.463-7.308 4.123c-18.17 4.281-47.46 10.71-72.69 16.18l16.55-73.58c.666-2.959 2.15-5.654 4.296-7.803l241.9-241.9l60.13 60.13L138.2 433.9z"/>
+                       </svg>
+                       <span>Print</span>
+                   </button>
+           </div>
            <div>
                <!-- <Link :href="route('warehouse.edit',warehouse.data.id)"> -->
                    <button class="btn-simple btn-medium flex items-center gap-2">
@@ -231,6 +346,8 @@ const deleteBag=(id:number)=>{
             </div>
         
     </div>
+
+    
 </admin>
 </template>
 

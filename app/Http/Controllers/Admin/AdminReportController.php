@@ -27,6 +27,9 @@ class AdminReportController extends Controller
                 ->when(request('search'), function($query){
                     $query->where('warehouse_bags.bag_code','like','%'.request('search').'%');
                 })
+                ->when(request('supplier'), function($query){
+                    $query->where('suppliers.id',request('supplier'));
+                })
                 ->join('grains','grains.id','warehouse_bags.grain_id')
                 ->join('warehouses','warehouses.id','warehouse_bags.warehouse_id')
                 ->join('quality_controls', 'quality_controls.id', 'warehouses.quality_control_id')
