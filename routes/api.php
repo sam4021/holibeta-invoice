@@ -27,3 +27,4 @@ Route::get('get/default_county', [ApiController::class, 'getDefaultCounty']);
 Route::get('get/suppliers/count', [ApiController::class, 'getSuppliersCount']);
 Route::get('get/drivers/count', [ApiController::class, 'getDriversCount']);
 Route::get('get/grains/count/warehouse', [ApiController::class, 'getGrainsWarehouseCount']);
+Route::get('get/banks', [ApiController::class, 'getBanks']);

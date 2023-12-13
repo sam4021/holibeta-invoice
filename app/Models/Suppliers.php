@@ -10,24 +10,24 @@ use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 class Suppliers extends Model
 {
-    use HasFactory,SoftDeletes, Sluggable, SluggableScopeHelpers;
+    use HasFactory, SoftDeletes, Sluggable, SluggableScopeHelpers;
 
     protected $fillable = [
-        'firstname','middlename','lastname', 'created_by', 'supplier_code', 'status', 'phone', 'email', 'id_no', 'county_id', 'subcounty_id', 'ward'
+        'firstname', 'middlename', 'lastname', 'created_by', 'supplier_code', 'status', 'phone', 'email', 'id_no', 'county_id', 'subcounty_id', 'ward', 'bank_name', 'bank_account_name', 'bank_account_number'
     ];
 
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => ['firstname','middlename','lastname']
+                'source' => ['firstname', 'middlename', 'lastname']
             ],
         ];
     }
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by'); 
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function county()

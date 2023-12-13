@@ -23,6 +23,11 @@ class QualityControl extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class, 'quality_control_id');
+    }
+
     protected static function booted(): void
     {
         parent::booted();

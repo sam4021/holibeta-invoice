@@ -12,9 +12,24 @@ use Illuminate\Support\Facades\Auth;
 
 class SecurityCheckRepository implements SecurityCheckInterface
 {
-
     public function getSecurityChecks(){
         $securityChecks=SecurityCheck::with(['supplier', 'createdBy'])
+            ->when(request('shift'),function ($query){
+                $query->where('shift_id',request('shift'));
+            })
+            ->when(request('machine'),function ($query){
+                $query->where('machine_id',request('machine'));
+            })
+            ->paginate(request('showing')??10);
+
+        return SecurityCheckResource::collection($securityChecks);
+    }
+
+
+    public function getEmptySecurityChecks()
+    {
+        $securityChecks=SecurityCheck::with(['supplier', 'createdBy'])
+            ->doesntHave('weighbridge')
             ->when(request('shift'),function ($query){
                 $query->where('shift_id',request('shift'));
             })

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admin']], function () {
     Route::get('admin/report/grain', [AdminReportController::class, 'grain'])->name('report.grain');
+    Route::get('admin/report/report/{format}', [AdminReportController::class, 'exportData'])->name('reports.report');
     Route::get('admin/report', [AdminReportController::class,'index'])->name('reports');
     Route::resource('admin/grains', AdminGrainController::class);
     Route::resource('admin/drivers', AdminDriverController::class);

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->integer('no_of_bags');
             $table->string('barcode_no');
-            $table->string('moisture_content');
             $table->unsignedBigInteger('quality_control_id')->index();
             $table->foreign('quality_control_id')->references('id')->on('quality_controls');
             $table->softDeletes();

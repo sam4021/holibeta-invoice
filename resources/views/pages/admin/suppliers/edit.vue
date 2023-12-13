@@ -6,12 +6,15 @@ import { onMounted, ref } from "vue";
 import CountySelect from "@/views/components/general-components/county-select.vue";
 import SubcountySelect from "@/views/components/general-components/subcounty-select.vue";
 import {useLocationStore} from "@/scripts/store/locationStore";
+import { useBankStore } from "@/scripts/store/bankStore";
+import BankSelect from "@/views/components/general-components/banks-select.vue";
 
 let props=defineProps({
     supplier:Object
 })
 console.log(props)
 const search=ref('')
+const bankStore=useBankStore()
 const locationStore=useLocationStore()
 locationStore.getCounties(search.value)
 
@@ -26,10 +29,14 @@ let form=useForm({
     status: props.supplier?.data.status,
     county: props.supplier?.data.county.id, 
     subcounty:props.supplier?.data.subcounty.id, 
-    ward:props.supplier?.data.ward
+    ward:props.supplier?.data.ward,
+    bank_name:props.supplier?.data.bank_name,
+    bank_account_name:props.supplier?.data.bank_account_name,
+    bank_account_number:props.supplier?.data.bank_account_number
 })
 
-const submit=()=>{
+const submit=()=>{    
+    form.bank_name=bankStore.bank
     form.subcounty=locationStore.subcounty.id
     form.county=locationStore.default_county.id
     form.patch(route('suppliers.update',props.supplier?.data.id),{
@@ -43,6 +50,7 @@ onMounted(()=>{
     locationStore.default_county=props.supplier?.data.county    
     locationStore.getSubcounties(props.supplier?.data.county.id)    
     locationStore.subcounty = props.supplier?.data.subcounty
+    bankStore.bank = props.supplier?.data.bank_name
 })
 </script>
 
@@ -126,6 +134,27 @@ onMounted(()=>{
                             <input v-model="form.ward" placeholder="Enter Ward" type="text" id="ward" class="sumo-input my-2"/>
                             <div class="sumo-error" v-if="form.errors.ward"> {{ form.errors.ward }} </div>
                         </div>
+                        
+                        <div>
+                            <label for="bank_name" class="text-sm font-medium text-gray-700">Bank Name</label>
+                            <bank-select
+                                    placeholder="Select Bank"
+                                :searchable="true"
+                                v-model:selected="form.bank_name"
+                                class="my-2"></bank-select>
+                            <div class="sumo-error" v-if="form.errors.bank_name"> {{ form.errors.bank_name }} </div>
+                        </div>
+                        <div>
+                            <label for="bank_account_name" class="text-sm font-medium text-gray-700">Bank Account Name</label>
+                            <input v-model="form.bank_account_name" placeholder="John Doe" type="text" id="bank_account_name" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.bank_account_name"> {{ form.errors.bank_account_name }} </div>
+                        </div>
+                        <div>
+                            <label for="bank_account_number" class="text-sm font-medium text-gray-700">Bank Account Number</label>
+                            <input v-model="form.bank_account_number" placeholder="12345678" type="text" id="bank_account_number" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.bank_account_number"> {{ form.errors.bank_account_number }} </div>
+                        </div>
+                        
                         <div>
                             <label for="age_limits" class="text-sm font-medium text-gray-700">Status</label>
                             <div class="flex">

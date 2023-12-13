@@ -113,7 +113,7 @@ const deleteWeighbridge = (id: number) => {
                     <table class="w-full text-sm text-left text-gray-700 font-medium">
                         <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                             <tr>
-                                <th scope="col" class="px-2 py-3">Code</th>
+                                <th scope="col" class="px-2 py-3">Weighbridge Code</th>
                                 <th scope="col" class="px-2 py-3">Delivery</th> 
                                 <th scope="col" class="px-2 py-3">
                                     Created By

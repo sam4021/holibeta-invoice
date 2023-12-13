@@ -30,7 +30,10 @@ class SupplierResource extends JsonResource
             'id_no' => $this->id_no,
             'county' => new CountyResource($this->county),
             'subcounty' => new SubcountyResource($this->subcounty),
-            'ward' => $this->ward
+            'ward' => $this->ward,
+            'bank_name' => $this->bank_name,
+            'bank_account_name' => $this->bank_account_name,
+            'bank_account_number' => $this->bank_account_number
         ];
     }
 }

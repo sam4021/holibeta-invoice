@@ -13,7 +13,6 @@ console.log(props)
 let form = useForm({
     quality_control:null, 
     no_of_bags:"", 
-    moisture_content:"", 
     bags:"",
     same_grain: 'No',
     main_grain: null
@@ -104,13 +103,6 @@ onMounted(() => {
                             </select>
                             <div class="sumo-error" v-if="form.errors.quality_control">
                                 {{ form.errors.quality_control }}
-                            </div>
-                        </div>
-                        <div>
-                            <label for="moisture_content" class="text-sm font-medium text-gray-700">Moisture Content</label>
-                            <input v-model="form.moisture_content" type="text" id="name" class="sumo-input my-2">
-                            <div class="sumo-error" v-if="form.errors.moisture_content">
-                                {{ form.errors.moisture_content }}
                             </div>
                         </div>
                         <div>

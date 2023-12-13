@@ -32,7 +32,7 @@ class AdminWeighbridgeController extends Controller
         //
         $weighbridges=$this->weighbridgeRepository->getWeighbridges();
         $filters=request()->all('search','showing','shift','machine');
-        $deliveries = $this->deliveryRepository->getSecurityChecks();
+        $deliveries = $this->deliveryRepository->getEmptySecurityChecks();
         return inertia::render('admin/weighbridge/index', compact(
             'weighbridges',
             'filters',

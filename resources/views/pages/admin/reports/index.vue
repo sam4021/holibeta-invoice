@@ -6,26 +6,30 @@ import {ref, PropType, watch} from "vue";
 import DataPagination from "@/views/components/general-components/data-pagination.vue";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
 import CustomDropdown from "@/views/components/general-components/custom-dropdown.vue";
+import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props=defineProps({
-    reports: {
-        type: Object as PropType<suppliers[]>,
-        required: true
-    },
+    reports: Object,
     filters: Object as PropType<Filters>,
+    suppliers: Object,
+    drivers: Object,
 })
 console.log(props);
 
 const search = ref<String>(props.filters.search);
 const showing = ref<Number>(props.filters.showing??10);
+const supplier = ref(props.filters?.supplier?props.filters.supplier:null);
+const driver = ref(props.filters?.driver?props.filters.driver:null);
 const clearFilter=()=>{
-    search.value="";
+     router.get(route('reports'))
 }
 
-watch([search,showing],()=>{
+watch([search,showing,supplier,driver],()=>{
     router.get(route('reports', {
         search: search.value,
         showing: showing.value,
+        supplier: supplier.value,
+        driver: driver.value
     },{preserveScroll:true,preserveState:true}))
 })
 </script>
@@ -43,6 +47,16 @@ watch([search,showing],()=>{
 
     </div>
     <div>
+        <div class="flex justify-between">
+            <div>
+                <h6 class="font-bold">Available: {{reports.data.length}}</h6>
+            </div>
+            <div class="flex justify-end gap-3 self-center">
+                <h6 class="font-semibold">Export Data:</h6>
+                <a :href="route('reports.report','pdf')" class="text-sumo-700 font-bold">PDF</a>
+                <a :href="route('reports.report','excel')" class="text-sumo-700 font-bold">Excel</a>
+            </div>
+        </div>
         <div class="flex justify-between my-5">
             <div class="flex gap-2">
                 <h6 class="self-center">Showing Entries:</h6>
@@ -53,11 +67,29 @@ watch([search,showing],()=>{
                 </select>
             </div>
             <div class="flex justify-end gap-3 self-center">
+                <div>
+                    <vue-select
+                        :searchable="true"
+                        v-model:selected="driver"
+                        :options="drivers"
+                        placeholder="Select Driver"
+                        class=""
+                    ></vue-select>
+                </div>
+                <div>
+                    <vue-select
+                        :searchable="true"
+                        v-model:selected="supplier"
+                        :options="suppliers"
+                        placeholder="Select Supplier"
+                        class=""
+                    ></vue-select>
+                </div>
                 <div class="flex gap-2">
                     <h6 class="self-center">Search:</h6>
                     <input  placeholder="Search by name" type="search" class="small-input" v-model="search">
                 </div>
-                <div class="flex gap-2" v-if="search">
+                <div class="flex gap-2" v-if="search || supplier || driver">
                     <button @click="clearFilter" class="btn-secondary btn-small">
                         <span>Clear</span>
                     </button>

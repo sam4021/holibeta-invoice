@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\County;
 use App\Models\Subcounty;
 use App\Models\WarehouseBags;
-use App\Enums\StatusEnum;
+use App\Enums\BankEnum;
 use Illuminate\Http\Request;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\DB;
@@ -63,5 +63,10 @@ class ApiController extends Controller
     public function getGrainsSoldCount()
     {
         return County::where('name', 'Uasin Gishu')->first();
+    }
+
+    public function getBanks()
+    {
+        return BankEnum::cases();
     }
 }

@@ -4,11 +4,14 @@ import { Head, useForm, usePage } from "@inertiajs/vue3";
 import { computed,ref, onMounted } from "vue";
 import CountySelect from "@/views/components/general-components/county-select.vue";
 import SubcountySelect from "@/views/components/general-components/subcounty-select.vue";
+import BankSelect from "@/views/components/general-components/banks-select.vue";
 import {useLocationStore} from "@/scripts/store/locationStore";
+import { useBankStore } from "@/scripts/store/bankStore";
 
 defineProps({
     vehicles: Object,
 });
+const bankStore=useBankStore()
 const locationStore=useLocationStore()
 const search=ref('')
 locationStore.getCounties(search.value)
@@ -23,7 +26,10 @@ let form = useForm({
     id_no:'', 
     county:'', 
     subcounty:'', 
-    ward:''
+    ward:'',
+    bank_name:'',
+    bank_account_name:'',
+    bank_account_number:''
 });
 
 onMounted(()=>{
@@ -33,8 +39,10 @@ onMounted(()=>{
 })
 
 const submit=()=>{
+    form.bank_name=bankStore.bank
     form.subcounty=locationStore.subcounty.id
     form.county=locationStore.default_county.id
+
     form.post(route('suppliers.store'),{
      onSuccess:()=>{
          form.reset()
@@ -162,6 +170,27 @@ const submit=()=>{
                             <label for="ward" class="text-sm font-medium text-gray-700">Ward</label>
                             <input v-model="form.ward" placeholder="Enter Ward" type="text" id="ward" class="sumo-input my-2"/>
                             <div class="sumo-error" v-if="form.errors.ward"> {{ form.errors.ward }} </div>
+                        </div>
+                        
+                        <div>
+                            <label for="bank_name" class="text-sm font-medium text-gray-700">Bank Name</label>
+                            <bank-select
+                                    placeholder="Select Bank"
+                                :searchable="true"
+                                v-model:selected="form.bank_name"
+                                class="my-2"></bank-select>
+                            
+                            <div class="sumo-error" v-if="form.errors.bank_name"> {{ form.errors.bank_name }} </div>
+                        </div>
+                        <div>
+                            <label for="bank_account_name" class="text-sm font-medium text-gray-700">Bank Account Name</label>
+                            <input v-model="form.bank_account_name" placeholder="John Doe" type="text" id="bank_account_name" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.bank_account_name"> {{ form.errors.bank_account_name }} </div>
+                        </div>
+                        <div>
+                            <label for="bank_account_number" class="text-sm font-medium text-gray-700">Bank Account Number</label>
+                            <input v-model="form.bank_account_number" placeholder="12345678" type="text" id="bank_account_number" class="sumo-input my-2"/>
+                            <div class="sumo-error" v-if="form.errors.bank_account_number"> {{ form.errors.bank_account_number }} </div>
                         </div>
                     </div>
                     

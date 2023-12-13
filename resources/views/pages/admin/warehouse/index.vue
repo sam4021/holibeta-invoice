@@ -100,7 +100,7 @@ const deleteWarehouse=(id:number)=>{
                     <thead class="text-xs text-sky-700 uppercase bg-sky-50">
                     <tr>
                         <th scope="col" class="px-2 py-3">
-                            Code
+                           Warehouse Code
                         </th>
                         <th scope="col" class="px-2 py-3">
                             QC

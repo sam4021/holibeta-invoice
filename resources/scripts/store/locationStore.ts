@@ -48,9 +48,6 @@ export const useLocationStore=defineStore('locationStore',{
             })
             
             this.subCounties = await res.data
-            console.log('====================================');
-            console.log(this.subCounties);
-            console.log('====================================');
             this.loading = false
         },
 

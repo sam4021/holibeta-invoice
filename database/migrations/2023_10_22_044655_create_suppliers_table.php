@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname',20);
-            $table->string('middlename',20)->nullable();
-            $table->string('lastname',20);
-            $table->string('slug',125)->unique();
-            $table->string('supplier_code',15)->unique();
+            $table->string('firstname', 20);
+            $table->string('middlename', 20)->nullable();
+            $table->string('lastname', 20);
+            $table->string('slug', 125)->unique();
+            $table->string('supplier_code', 15)->unique();
             $table->integer('status')->default(1);
             $table->string('phone');
             $table->string('email')->nullable();
-            $table->string('id_no',50)->nullable();
+            $table->string('id_no', 50)->nullable();
             $table->unsignedBigInteger('county_id')->index();
             $table->foreign('county_id')->references('id')->on('counties');
             $table->unsignedBigInteger('subcounty_id')->index();
@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('ward', 50);
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
+            $table->string('bank_name',125)->nullable();
+            $table->string('bank_account_name',125)->nullable();
+            $table->string('bank_account_number', 50)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

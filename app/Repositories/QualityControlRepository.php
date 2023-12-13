@@ -27,6 +27,17 @@ class QualityControlRepository implements QualityControlInterface
         return QualityControlResource::collection($qualityControls);
     }
 
+
+    public function getEmptyQualityControls()
+    {
+        $qualityControls = QualityControl::with(['weighbridge', 'createdBy'])
+                            ->doesntHave('warehouse')
+                            ->where('visual_inspection', 'Pass')
+                            ->get();
+
+        return QualityControlResource::collection($qualityControls);
+    }
+
     public function getQualityControlById(string $id){
         return new QualityControlResource(QualityControl::with(['weighbridge', 'createdBy'])->findOrFail($id));
     }

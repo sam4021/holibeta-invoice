@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SupplierResource;
-use App\Models\Suppliers;
-use App\Models\Shift;
 use App\Interfaces\VehicleInterface;
 use App\Interfaces\SupplierInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Enums\RoleEnum;
+use App\Enums\BankEnum;
 use Illuminate\Support\Facades\Auth;
 
 class AdminSupplierController extends Controller
@@ -28,9 +26,9 @@ class AdminSupplierController extends Controller
     public function index()
     {
         //
-        $suppliers=$this->supplierRepository->getSuppliers();
-        $filters=request()->all('search','showing');
-        return inertia::render('admin/suppliers/index', compact('suppliers','filters'));
+        $suppliers = $this->supplierRepository->getSuppliers();
+        $filters = request()->all('search', 'showing');
+        return inertia::render('admin/suppliers/index', compact('suppliers', 'filters'));
     }
 
     /**
@@ -39,31 +37,34 @@ class AdminSupplierController extends Controller
     public function create()
     {
         //
-        $vehicles= $this->vehicleRepository->getVehicles();
-        return inertia::render('admin/suppliers/create',compact('vehicles'));
+        $vehicles = $this->vehicleRepository->getVehicles();
+        return inertia::render('admin/suppliers/create', compact('vehicles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {    
-        $validated=$request->validate([
-            'firstname'=>'required|string|max:20',
-            'middlename'=>'nullable|string|max:20',
-            'lastname'=>'required|string|max:20',
+    {
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:20',
+            'middlename' => 'nullable|string|max:20',
+            'lastname' => 'required|string|max:20',
             'phone' => 'required|string',
             'email' => 'nullable|string',
             'id_no' => 'nullable',
             'county' => 'required',
             'subcounty' => 'required',
             'ward' => 'required|string',
+            'bank_name' => 'required|string',
+            'bank_account_name' => 'required|string',
+            'bank_account_number' => 'required|numeric',
         ]);
         $validated['created_by'] = Auth::user()->id;
-        $supplier=$this->supplierRepository->createSupplier($validated);
-        if ($supplier->status()==200){
+        $supplier = $this->supplierRepository->createSupplier($validated);
+        if ($supplier->status() == 200) {
             return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully');
-        }else{
+        } else {
             return redirect()->back()->with('status', 'Supplier could not be created');
         }
     }
@@ -74,8 +75,8 @@ class AdminSupplierController extends Controller
     public function show(string $id)
     {
         //
-        $supplier= $this->supplierRepository->supplierBySlug($id);
-        return inertia::render('admin/suppliers/show',compact('supplier'));
+        $supplier = $this->supplierRepository->supplierBySlug($id);
+        return inertia::render('admin/suppliers/show', compact('supplier'));
     }
 
     /**
@@ -83,8 +84,8 @@ class AdminSupplierController extends Controller
      */
     public function edit(string $id)
     {
-        $supplier=$this->supplierRepository->supplierById($id);
-        return inertia::render('admin/suppliers/edit',compact('supplier'));
+        $supplier = $this->supplierRepository->supplierById($id);
+        return inertia::render('admin/suppliers/edit', compact('supplier'));
     }
 
     /**
@@ -104,13 +105,16 @@ class AdminSupplierController extends Controller
             'county' => 'required',
             'subcounty' => 'required',
             'ward' => 'required|string',
-            'status'=> 'required'
+            'status' => 'required',
+            'bank_name' => 'required|string',
+            'bank_account_name' => 'required|string',
+            'bank_account_number' => 'required|numeric',
         ]);
 
-        $supplier=$this->supplierRepository->updateSupplier($validated,$id);
-        if ($supplier->status()==200){
+        $supplier = $this->supplierRepository->updateSupplier($validated, $id);
+        if ($supplier->status() == 200) {
             return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully');
-        }else{
+        } else {
             return redirect()->back()->with('status', 'Supplier could not be updated');
         }
     }
@@ -121,16 +125,17 @@ class AdminSupplierController extends Controller
     public function destroy(string $id)
     {
         //
-        $supplier=$this->supplierRepository->deleteSupplier($id);
-        if ($supplier->status()==200){
+        $supplier = $this->supplierRepository->deleteSupplier($id);
+        if ($supplier->status() == 200) {
             return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully');
-        }else{
+        } else {
             return redirect()->back()->with('error', 'Supplier could not be deleted');
         }
     }
 
-    public function getSuppliers(){
-        $suppliers= SupplierResource::collection(Supplier::get());
-        return response()->json(['suppliers'=> $suppliers],200);
+    public function getSuppliers()
+    {
+        $suppliers = SupplierResource::collection(Supplier::get());
+        return response()->json(['suppliers' => $suppliers], 200);
     }
 }

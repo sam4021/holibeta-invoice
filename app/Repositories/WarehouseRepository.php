@@ -36,7 +36,6 @@ class WarehouseRepository implements WarehouseInterface
                 'created_by'=>$data['created_by'],
                 'no_of_bags' => $data['no_of_bags'],
                 'barcode_no' => Str::upper(Str::random(6)),
-                'moisture_content'=>$data['moisture_content']
             ]);
             foreach ($data['bags'] as $bag) {
                 $bag = WarehouseBags::create([

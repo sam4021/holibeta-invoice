@@ -24,7 +24,6 @@ class WarehouseResource extends JsonResource
             'weight_per_bag' => $this->weight_per_bag,
             'barcode_no' => $this->barcode_no,
             'code' => $this->warehouse_code,
-            'moisture_content'=>$this->moisture_content,
             'bags'=> WarehouseBagResource::collection($this->bags),
             'grains'=>$this->grains()
         ];

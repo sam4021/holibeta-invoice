@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Reports;
 
+use Milon\Barcode\DNS2D;
+
 class AdminWarehouseController extends Controller
 {
     private $grainRepository;
@@ -51,7 +53,7 @@ class AdminWarehouseController extends Controller
     {
         //
         $grains = $this->grainRepository->getGrains();
-        $qcs = $this->qcRepository->getAllQualityControls();
+        $qcs = $this->qcRepository->getEmptyQualityControls();
         return inertia::render('admin/warehouse/create',compact('qcs','grains'));
     }
 
@@ -64,7 +66,6 @@ class AdminWarehouseController extends Controller
         $validated=$request->validate([
             'quality_control'=> 'required|integer|exists:quality_controls,id',
             'no_of_bags'=>'required',
-            'moisture_content' => 'required|numeric|between:1,13.5',
             'bags'=>'required|array',
         ]);
         $validated['created_by'] = Auth::user()->id;
@@ -102,7 +103,6 @@ class AdminWarehouseController extends Controller
     {
         $validated=$request->validate([
             'quality_control' => 'required|integer|exists:quality_controls,id',
-            'moisture_content' => 'required',
         ]);
 
         $warehouse=$this->warehouseRepository->updateWarehouse($validated,$id);
@@ -140,6 +140,7 @@ class AdminWarehouseController extends Controller
 
     public function bagData($id)
     {
+        // dd(DNS2D::getBarcodeHTML('4445645656', 'QRCODE'));
         $bag = $this->warehouseRepository->getWarehouseBag($id);
         return inertia::render('admin/warehouse/bag', compact(
             'bag'
