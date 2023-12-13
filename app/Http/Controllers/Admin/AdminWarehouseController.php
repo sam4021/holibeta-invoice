@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Reports;
 
-use Milon\Barcode\DNS2D;
+use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 
 class AdminWarehouseController extends Controller
 {
@@ -140,10 +140,11 @@ class AdminWarehouseController extends Controller
 
     public function bagData($id)
     {
-        // dd(DNS2D::getBarcodeHTML('4445645656', 'QRCODE'));
+        $qrcode = DNS2D::getBarcodeHTML('4445645656', 'QRCODE');
         $bag = $this->warehouseRepository->getWarehouseBag($id);
         return inertia::render('admin/warehouse/bag', compact(
-            'bag'
+            'bag',
+            'qrcode'
         ));
     }
 

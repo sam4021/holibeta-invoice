@@ -6,7 +6,8 @@ import PromptAlert from "@/views/components/general-components/prompt-alert.vue"
 import moment from 'moment';
 
 let props = defineProps({
-    bag:Object
+    bag:Object,
+    qrcode:Object
 })
 console.log(props);
 
@@ -38,6 +39,7 @@ const printInfo=()=>{
 <template>
     <Head title="Warehouse Bag Data" />
 <admin>
+    {{ qrcode }}
     <!-- <div id="printer" style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);padding: 2mm;margin: 0 auto;width: 44mm;background: #fff;">
         <div style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);padding: 2mm;margin: 0 auto;width: 44mm;background: #fff;">
             <center id="top">
