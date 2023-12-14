@@ -4,6 +4,7 @@ import Admin from "@/views/layouts/admin.vue";
 import {Head, Link} from "@inertiajs/vue3";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
 import moment from 'moment';
+import VueQrcode from '@chenfengyuan/vue-qrcode';
 
 let props = defineProps({
     bag:Object,
@@ -39,27 +40,21 @@ const printInfo=()=>{
 <template>
     <Head title="Warehouse Bag Data" />
 <admin>
-    {{ qrcode }}
-    <!-- <div id="printer" style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);padding: 2mm;margin: 0 auto;width: 44mm;background: #fff;">
-        <div style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);padding: 2mm;margin: 0 auto;width: 44mm;background: #fff;">
-            <center id="top">
-                <div class="logo"></div>
-                <div class="info"> 
-                    <h2>SBISTechs Inc</h2>
+    <div id="printer" style="width: 234px;background: #fff;">
+        <div style="width: 234px;background: #fff;">
+            <div style="width:220px;margin: 7px;">
+                <div style="float:left;width:110px;">
+                    <vue-qrcode value="Hello, World!" :options="{ width: 110 }"></vue-qrcode>
                 </div>
-            </center>
-            <div id="mid">
-                <div class="info">
-                    <h2>Contact Info</h2>
-                    <p> 
-                        Address : street city, state 0000<br>
-                        Email   : JohnDoe@gmail.com<br>
-                        Phone   : 555-555-5555<br>
-                    </p>
+                <div style="float:left;width:110px;font-size: 12px;margin-top: 10px;">
+                    <p><b>Bag Code: </b> {{bag.data.code}} </p>
+                    <p><b class="text-start">Grain:</b> {{bag.data.grain.name}}</p> 
+                    <p><b class="text-start">Weight:</b>{{bag.data.weight}}</p>
                 </div>
+                <div style="clear: both;"></div>
             </div>
         </div>
-    </div> -->
+    </div>
 
 
     <div class="flex justify-between items-center">
