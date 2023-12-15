@@ -4,80 +4,32 @@
             <hr class="my-3">
             <div class="my-5">
                 <div>
-                                <label class="sumo-label" for="supplier">Supplier:</label>
-                                <vue-select
-                                    :searchable="true"
-                                    v-model:selected="stepTwo.supplier"
-                                    :options="suppliers.data"
-                                    placeholder="Select Supplier"
-                                    class=""
-                                ></vue-select>
-                                <div class="sumo-error" v-if="form.errors.supplier">
-                                    {{ form.errors.supplier }}
-                                </div>
-                            </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-3">
-                            <div class="col-span-2">
-                                <hr class="my-5">
-                                <h3 class="text-lg text-sumo-700">Cargo</h3>
-                            </div>
-                            <div>
-                                <label for="county" class="text-sm font-medium text-gray-700">County</label>
-                                <county-select
-                                            placeholder="Select County"
-                                            :searchable="true" class="my-2"></county-select>
-                                <div class="sumo-error" v-if="form.errors.county"> {{ form.errors.county }} </div>
-                            </div>
-                            <div>
-                                <label class="sumo-label flex items-center gap-2">
-                                    <span>Subcounty</span>
-                                    <svg v-if="locationStore.loading && !locationStore.subcounties" class="w-5 fill-sumo-300 animate-pulse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M400 256c0 26.5 21.5 48 48 48s48-21.5 48-48S474.5 208 448 208S400 229.5 400 256zM112 256c0-26.5-21.5-48-48-48S16 229.5 16 256S37.5 304 64 304S112 282.5 112 256zM304 256c0-26.5-21.5-48-48-48S208 229.5 208 256S229.5 304 256 304S304 282.5 304 256z"/></svg>
-                                </label>
-                                <label for="subcounty" class="text-sm font-medium text-gray-700"></label>
-                                <subcounty-select
-                                            placeholder="Select Subcounty"
+                                <div>
+                                    <label class="sumo-label font-medium">Add Driver:</label>
+                                    <div class="my-2 md:flex gap-2">
+                                        <vue-select
                                             :searchable="true"
-                                            :disabled="!locationStore.default_county"
-                                            class="my-2"></subcounty-select>
-                                <div class="sumo-error" v-if="form.errors.subcounty"> {{ form.errors.subcounty }} </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Front Image</label>
-                                <input @input="stepTwo.front_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.front_image }}</span>
+                                            v-model:selected="stepTwo.driver"
+                                            :options="drivers.data"
+                                            placeholder="Select Driver"
+                                            class="md:w-96"
+                                        ></vue-select>
+                                        <create-driver>
+                                            <template #trigger>
+                                                <button class="btn-simple flex items-center gap-2 text-sumo-300">
+                                                    <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                        <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
+                                                    </svg>
+                                                    <span> New Driver</span>
+                                                </button>
+                                            </template>
+                                        </create-driver>
+                                    </div>
+                                </div>
+                                <div v-if="form.errors.driver" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.driver}}</span>
                                 </div>
                             </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Back Image</label>
-                                <input @input="stepTwo.back_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.back_image }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Top Image</label>
-                                <input @input="stepTwo.top_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.top_image }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Side Image</label>
-                                <input @input="stepTwo.side_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.side_image }}</span>
-                                </div>
-                            </div>
-                        
-                            
-                        </div>
-                <div class="grid grid-cols-2">
-                    
-                    <div v-if="form.errors.property_owner" class="mt-3 text-red-800 text-sm">
-                        <span class="text-xs">{{form.errors.property_owner}}</span>
-                    </div>
-                </div>
             </div>
         </form>
     </div>
@@ -94,68 +46,36 @@ import {useForm} from "@inertiajs/vue3";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
 import {ref, onMounted} from "vue";
 import {useStorage} from "@vueuse/core";
-import CountySelect from "@/views/components/general-components/county-select.vue";
-import SubcountySelect from "@/views/components/general-components/subcounty-select.vue";
-import {useLocationStore} from "@/scripts/store/locationStore";
+import CreateDriver from "@/views/components/driver/create.vue";
 
-let props=defineProps({
-    suppliers:Object
+defineProps({
+    drivers:Object,
 })
-const locationStore=useLocationStore()
-const search=ref('')
-locationStore.getCounties(search.value)
-locationStore.getDefaultCounty()
 
+const search=ref('')
 const step=useStorage('step',1)
 const stepTwo=useStorage('stepTwo',{
-    supplier: null,
-    front_image: "",
-    back_image: "",
-    side_image: "",
-    top_image:"",
-    county:'', 
-    subcounty:'',
+    driver:undefined,
 })
 const stepOne=useStorage('stepOne',{})
 
 let form=useForm({
-    supplier: null,
-    front_image: "",
-    back_image: "",
-    side_image: "",
-    top_image:"",
-    county:'', 
-    subcounty:'',
+    driver:null,
     stepOne:stepOne.value,
 })
 const submit=()=>{
-    form.supplier= stepTwo.value.supplier;
-    form.front_image= stepTwo.value.front_image;
-    form.back_image= stepTwo.value.back_image;
-    form.side_image= stepTwo.value.side_image;
-    form.top_image= stepTwo.value.top_image;
-    form.subcounty=locationStore.subcounty.id
-    form.county=locationStore.default_county.id
-    form.post(route('delivery.store'),{
+    form.driver= stepTwo.value.driver;
+    form.post(route('delivery.step-two'),{
         onSuccess:()=>{
-            localStorage.removeItem('stepOne')
-            localStorage.removeItem('stepTwo')
-            localStorage.removeItem('step')
-            router.visit(route('delivery.index'))
+            step.value=3
         }
     })
 }
 
-const createOwnerModal=ref(false)
-const createPortfolioModal=ref(false)
 const stepBack=()=>{
     step.value=1
 }
-onMounted(()=>{
-    if (locationStore.default_county){
-        locationStore.getSubcounties(locationStore.default_county.id)
-    }
-})
+
 </script>
 
 <style scoped>

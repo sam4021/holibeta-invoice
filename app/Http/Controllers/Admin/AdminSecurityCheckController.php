@@ -206,17 +206,14 @@ class AdminSecurityCheckController extends Controller
     public function stepOne(Request $request){
         //validated property setup step 1
         $validated=$request->validate([
-            'driver' => 'required|integer|exists:drivers,id',
             'vehicle_reg_no'=>'required',
-            'vehicle_type'=>'required|string', 
-            'timeslot'=> 'required', 
+            'vehicle_type'=>'required|string'
         ]);
     }
 
     public function stepTwo(Request $request){
         $validated=$request->validate([
-            'property_owner'=>'required|integer',
-            'portfolio'=>'required|integer'
+            'driver' => 'required|integer|exists:drivers,id',
         ]);
         return redirect()->back();
     }
