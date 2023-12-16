@@ -5,11 +5,8 @@
             <div class="my-5">
                 <div>
                     <div class="my-5">
-                        
                         <hr class="my-3">
                         <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-3">
-                            
-                            
                             <div>
                                 <label class="sumo-label" for="vehicle">Vehicle Type:</label>
                                 <select v-model="stepOne.vehicle_type" id="timeslot" class="sumo-input my-2">
@@ -33,7 +30,6 @@
                                     {{ form.errors.vehicle_reg_no }}
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

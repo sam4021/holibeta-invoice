@@ -59,11 +59,7 @@ const deleteSecurityCheck=(id:number)=>{
                         <tr>
                             <th class="text-start">Code:</th>
                             <td class="px-3">{{ securityCheck.data.code }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-start">Supplier:</th>
-                            <td class="px-3">{{securityCheck.data.supplier.name}}</td>
-                        </tr>                        
+                        </tr>                       
                         <tr>
                             <th class="text-start">Date:</th>
                             <td class="px-3">{{ moment(securityCheck.created_at).format("DD MMM, YYYY h:MM a") }}</td>

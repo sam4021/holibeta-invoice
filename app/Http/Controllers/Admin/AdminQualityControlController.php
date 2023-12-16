@@ -32,7 +32,7 @@ class AdminQualityControlController extends Controller
         //
         $qcs=$this->qcRepository->getQualityControls();
         $filters=request()->all('search','showing','shift','machine');
-        $weighbridges = $this->weighbridgeRepository->getAllWeighbridges();
+        $weighbridges = $this->weighbridgeRepository->getEmptyWeighbridges();
         return inertia::render('admin/quality_control/index', compact(
             'weighbridges',
             'filters',

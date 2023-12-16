@@ -6,18 +6,15 @@ import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props=defineProps({
     securityCheck:Object,
-    vehicles: Object,
-    suppliers: Object,
+    vehicleTypes: Object,
     drivers: Object,
 })
 console.log(props);
 
 
 let form=useForm({
-    supplier: props.securityCheck?.data.supplier.id,
     vehicle_reg_no: props.securityCheck?.data.vehicle_reg_no,
-    vehicle: props.securityCheck?.data.vehicle.id,    
-    timeslot: props.securityCheck?.data.timeslot,
+    vehicle_type: props.securityCheck?.data.vehicle_type,    
     driver:props.securityCheck?.data.driver.id,
     front_image: "",
     back_image: "",
@@ -42,29 +39,16 @@ let top_image_old = '/images/delivery/'+props.securityCheck.data.top_image
                     <div class="my-5">
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                             <div>
-                                <label class="sumo-label" for="supplier">Supplier:</label>
-                                <select v-model="form.supplier"
-                                    id="supplier"
-                                    class="sumo-input my-2">
-                                    <option :value="null">Select Supplier</option>
-                                    <option :value="supplier.id" :key="supplier.id" v-for="supplier in suppliers.data">{{supplier.name}}</option>
-                                </select>
-                                <div class="sumo-error" v-if="form.errors.supplier">
-                                    {{ form.errors.supplier }}
+                                <label class="sumo-label" for="vehicle_type">Vehicle Type:</label>
+                                <select v-model="form.vehicle_type" id="vehicle_type" class="sumo-input my-2">
+                                        <option :value="null" selected>Select Type</option>
+                                        <option v-for="vtype in vehicleTypes" :value="vtype">{{ vtype }}</option>
+                                    </select>
+                                <div class="sumo-error" v-if="form.errors.vehicle_type">
+                                    {{ form.errors.vehicle_type }}
                                 </div>
                             </div>
-                            <div>
-                                <label class="sumo-label" for="vehicle">Vehicle:</label>
-                                <select v-model="form.vehicle"
-                                    id="vehicle"
-                                    class="sumo-input my-2">
-                                    <option :value="null">Select Vehicle</option>
-                                    <option :value="vehicle.id" :key="vehicle.id" v-for="vehicle in vehicles.data">{{vehicle.name}}</option>
-                                </select>
-                                <div class="sumo-error" v-if="form.errors.vehicle">
-                                    {{ form.errors.vehicle }}
-                                </div>
-                            </div>
+
                             <div>
                                 <label for="vehicle_reg_no" class="text-sm font-medium text-gray-700">Vehicle Reg No</label>
                                 <input
@@ -100,53 +84,11 @@ let top_image_old = '/images/delivery/'+props.securityCheck.data.top_image
                             </create-driver>
                         </div>
                         </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700" id="timeslot">Timeslot:</label>
-                                <div class="my-2 ">
-                                    <select v-model="form.timeslot" id="timeslot" class="sumo-input my-2">
-                                        <option :value="null">Select Timeslot</option>
-                                        <option value="0600-0800">0600-0800</option>
-                                        <option value="0800-1000">0800-1000</option>
-                                        <option value="1000-1200">1000-1200</option>
-                                        <option value="1200-1400">1200-1400</option>
-                                        <option value="1400-1600">1400-1600</option>
-                                        <option value="1600-1800">1600-1800</option>
-                                        <option value="1800-2000">1800-2000</option>
-                                    </select>
-                                    <div class="sumo-error" v-if="form.errors.timeslot" >
-                                            {{ form.errors.timeslot }}
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        <div>
-                            <label class="sumo-label" for="supplier"
-                                >Supplier:</label
-                            >
-                            <select v-model="form.supplier"
-                                id="supplier"
-                                class="sumo-input my-2">
-                                <option :value="null">Select Supplier</option>
-                                <option :value="supplier.id" :key="supplier.id" v-for="supplier in suppliers.data">{{supplier.name}}</option>
-                            </select>
-                            <div class="sumo-error" v-if="form.errors.supplier">
-                                {{ form.errors.supplier }}
-                            </div>
-                        </div>
-                        <div>
-                            <label class="sumo-label" for="vehicle">Vehicle:</label>
-                            <select v-model="form.vehicle"
-                                id="vehicle"
-                                class="sumo-input my-2">
-                                <option :value="null">Select Vehicle</option>
-                                <option :value="vehicle.id" :key="vehicle.id" v-for="vehicle in vehicles.data">{{vehicle.name}}</option>
-                            </select>
-                            <div class="sumo-error" v-if="form.errors.vehicle">
-                                {{ form.errors.vehicle }}
-                            </div>
-                        </div>
+                        
                         <div>
                             <label for="vehicle_reg_no" class="text-sm font-medium text-gray-700">Vehicle Reg No</label>
                             <input

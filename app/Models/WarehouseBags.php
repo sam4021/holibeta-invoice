@@ -46,7 +46,7 @@ class WarehouseBags extends Model
 
     public function supplier()
     {
-        return $this->delivery->supplier();
+        return $this->weighbridge->supplier();
     }
 
     public function driver()

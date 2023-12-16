@@ -91,9 +91,6 @@ const deleteSecurityCheck=(id:number)=>{
                             Delivery Code
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Supplier
-                        </th>
-                        <th scope="col" class="px-2 py-3">
                             Grain
                         </th>
                         <th scope="col" class="px-2 py-3">
@@ -108,9 +105,6 @@ const deleteSecurityCheck=(id:number)=>{
                     <tr class="border-b" v-for="securityCheck in securityChecks.data" :key="securityCheck.id" >
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
                             {{securityCheck.code}}
-                        </th>
-                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
-                            {{securityCheck.supplier.name}}
                         </th>
                         <td class="px-2 py-3 capitalize">
                             <div class="flex gap-2">

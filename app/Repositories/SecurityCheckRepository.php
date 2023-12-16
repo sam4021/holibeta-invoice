@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class SecurityCheckRepository implements SecurityCheckInterface
 {
     public function getSecurityChecks(){
-        $securityChecks=SecurityCheck::with(['supplier', 'createdBy'])
+        $securityChecks=SecurityCheck::with(['createdBy'])
             ->when(request('shift'),function ($query){
                 $query->where('shift_id',request('shift'));
             })
@@ -28,7 +28,7 @@ class SecurityCheckRepository implements SecurityCheckInterface
 
     public function getEmptySecurityChecks()
     {
-        $securityChecks=SecurityCheck::with(['supplier', 'createdBy'])
+        $securityChecks=SecurityCheck::with(['createdBy'])
             ->doesntHave('weighbridge')
             ->when(request('shift'),function ($query){
                 $query->where('shift_id',request('shift'));
@@ -42,14 +42,13 @@ class SecurityCheckRepository implements SecurityCheckInterface
     }
 
     public function getSecurityCheckById(string $id){
-        return new SecurityCheckResource(SecurityCheck::with(['supplier', 'createdBy'])->findOrFail($id));
+        return new SecurityCheckResource(SecurityCheck::with(['createdBy'])->findOrFail($id));
     }
 
     public function  createSecurityCheck($data){
         try {          
 
             $securityCheck=SecurityCheck::create([
-                'supplier_id'=>$data['supplier'], 
                 'created_by'=>$data['created_by'], 
                 'vehicle_reg_no'=>$data['stepOne']['vehicle_reg_no'],
                 'vehicle_type'=>$data['stepOne']['vehicle_type'],
@@ -57,8 +56,8 @@ class SecurityCheckRepository implements SecurityCheckInterface
                 'back_image'=>$data['back_image'], 
                 'side_image'=>$data['side_image'],
                 'top_image'=>$data['top_image'],
-                'driver_id'=> $data['stepOne']['driver'],
-                'timeslot'=>$data['stepOne']['timeslot'],
+                'driver_id'=> $data['stepTwo']['driver'],
+                // 'timeslot'=>$data['stepOne']['timeslot'],
                 'county_id' => $data['county'],
                 'subcounty_id' => $data['subcounty']
             ]);
@@ -75,7 +74,6 @@ class SecurityCheckRepository implements SecurityCheckInterface
             $securityCheck=SecurityCheck::findOrFail($id);
             $securityCheck->update(
                 [
-                    'supplier_id' => $data['supplier'],
                     'created_by' => $data['created_by'],
                     'vehicle_reg_no' => $data['vehicle_reg_no'],
                     'vehicle_type' => $data['vehicle_type'],

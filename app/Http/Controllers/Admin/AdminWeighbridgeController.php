@@ -7,6 +7,7 @@ use File;
 use App\Http\Controllers\Controller;
 use App\Interfaces\SecurityCheckInterface;
 use App\Interfaces\WeighbridgeInterface;
+use App\Interfaces\SupplierInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,13 @@ class AdminWeighbridgeController extends Controller
 {
     private $deliveryRepository;
     private $weighbridgeRepository;
+    private $supplierRepository;
     private $weighbridgePath;
-    public function __construct(SecurityCheckInterface $deliveryRepository, WeighbridgeInterface $weighbridgeRepository)
+    public function __construct(SecurityCheckInterface $deliveryRepository, WeighbridgeInterface $weighbridgeRepository, SupplierInterface $supplierRepository)
     {
         $this->deliveryRepository = $deliveryRepository;
         $this->weighbridgeRepository = $weighbridgeRepository;
+        $this->supplierRepository = $supplierRepository;
         $this->weighbridgePath = public_path() . '/images/weighbridge/';
         File::isDirectory($this->weighbridgePath) or File::makeDirectory($this->weighbridgePath, 0777, true, true);
     }
@@ -33,10 +36,12 @@ class AdminWeighbridgeController extends Controller
         $weighbridges=$this->weighbridgeRepository->getWeighbridges();
         $filters=request()->all('search','showing','shift','machine');
         $deliveries = $this->deliveryRepository->getEmptySecurityChecks();
+        $suppliers = $this->supplierRepository->getActiveSuppliers();
         return inertia::render('admin/weighbridge/index', compact(
             'weighbridges',
             'filters',
-            'deliveries'
+            'deliveries',
+            'suppliers'
         ));
     }
 
@@ -46,7 +51,8 @@ class AdminWeighbridgeController extends Controller
     public function create()
     {
         $deliveries= $this->deliveryRepository->getSecurityChecks();
-        return inertia::render('admin/weighbridge/create',compact('deliveries'));
+        $suppliers = $this->supplierRepository->getActiveSuppliers();
+        return inertia::render('admin/weighbridge/create',compact('deliveries','suppliers'));
     }
 
     /**
@@ -58,6 +64,7 @@ class AdminWeighbridgeController extends Controller
             'delivery'=>'required|integer|exists:security_checks,id', 
             'weight'=>'required',
             'image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
+            'supplier' => 'required|integer|exists:suppliers,id'
         ]);
         if ($request->hasFile('image')) {
             $image       = $request->file('image');

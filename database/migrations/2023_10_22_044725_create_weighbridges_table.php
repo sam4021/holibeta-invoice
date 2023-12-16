@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('weighbridge_code', 10)->unique();
             $table->unsignedBigInteger('delivery_id')->index();
             $table->foreign('delivery_id')->references('id')->on('security_checks');
+            $table->unsignedBigInteger('supplier_id')->index();
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
             $table->decimal('weight', 10, 2);

@@ -1,13 +1,8 @@
 <template>
     <div class="overflow-y-auto custom-scrolling">
         <form id="step-three-form" @submit.prevent="submit">
-            <hr class="my-3">
             <div class="my-5">
                 <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-3">
-                            <div class="col-span-2">
-                                <hr class="my-5">
-                                <h3 class="text-lg text-sumo-700">Cargo</h3>
-                            </div>
                             <div>
                                 <label for="county" class="text-sm font-medium text-gray-700">County</label>
                                 <county-select

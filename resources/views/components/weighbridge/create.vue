@@ -37,19 +37,33 @@
                         <form @submit.prevent="submit" id="saveFacilities">
                             <div class="mx-6 grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div>
-                            <label class="sumo-label" for="delivery">Delivery:</label>
-                            <vue-select
-                                    :searchable="true"
-                                    v-model:selected="form.delivery"
-                                    :options="deliveries"
-                                    placeholder="Select Delivery"
-                                    class="my-2"
-                                ></vue-select>
-                            
-                            <div class="sumo-error" v-if="form.errors.delivery">
-                                {{ form.errors.delivery }}
-                            </div>
-                        </div>
+                                    <label class="sumo-label" for="delivery">Suppliers:</label>
+                                    <vue-select
+                                            :searchable="true"
+                                            v-model:selected="form.supplier"
+                                            :options="suppliers"
+                                            placeholder="Select Supplier"
+                                            class="my-2"
+                                        ></vue-select>
+                                    
+                                    <div class="sumo-error" v-if="form.errors.supplier">
+                                        {{ form.errors.supplier }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="sumo-label" for="delivery">Delivery:</label>
+                                    <vue-select
+                                            :searchable="true"
+                                            v-model:selected="form.delivery"
+                                            :options="deliveries"
+                                            placeholder="Select Delivery"
+                                            class="my-2"
+                                        ></vue-select>
+                                    
+                                    <div class="sumo-error" v-if="form.errors.delivery">
+                                        {{ form.errors.delivery }}
+                                    </div>
+                                </div>
                                 <div>
                                     <label for="weight" class="text-sm font-medium text-gray-700">Weight</label>
                                     <input v-model="form.weight" type="text" id="name" name="weight" class="sumo-input my-2">
@@ -59,7 +73,7 @@
                                 </div>
                                 <div>
                                     <label for="image" class="text-sm font-medium text-gray-700">Image</label>
-                                    <input @input="form.image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="image" type="file">
+                                    <input @input="form.image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none my-2" id="image" type="file">
                                     <div v-if="form.errors.image" class="mt-3 text-red-800 text-sm">
                                         <span class="text-xs">{{form.errors.image }}</span>
                                     </div>
@@ -86,7 +100,8 @@ import {useForm} from "@inertiajs/vue3";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props=defineProps({
-    deliveries: Object
+    deliveries: Object,
+    suppliers: Object
 })
 
 const show=ref(false)
@@ -102,7 +117,8 @@ watch(show,(val)=>{
 let form=useForm({
     delivery:null, 
     weight:"", 
-    image:""
+    image:"",
+    supplier:null
 })
 
 const submit = () => {

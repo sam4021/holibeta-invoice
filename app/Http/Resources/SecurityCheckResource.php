@@ -18,7 +18,6 @@ class SecurityCheckResource extends JsonResource
             'id'=>$this->id,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'supplier'=>new SupplierResource($this->whenLoaded('supplier')), 
             'created_by'=>new UserResource($this->whenLoaded('createdBy')), 
             'vehicle_reg_no'=>$this->vehicle_reg_no,
             'vehicle_type'=>$this->vehicle_type, 
@@ -33,6 +32,7 @@ class SecurityCheckResource extends JsonResource
             'grains'=>$this->grains(),
             'county' => new CountyResource($this->county),
             'subcounty' => new SubcountyResource($this->subcounty),
+            'name' => $this->vehicle_reg_no.' :: '. $this->security_check_code
         ];
     }
 }

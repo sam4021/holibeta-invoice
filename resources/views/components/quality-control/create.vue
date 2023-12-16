@@ -59,7 +59,11 @@
                                 </div>
                                 <div>
                                     <label for="aflatoxin_content" class="text-sm font-medium text-gray-700">Aflatoxin Content</label>
-                                    <input v-model="form.aflatoxin_content" type="text" id="name" name="aflatoxin_content" class="sumo-input my-2">
+                                    <select v-model="form.aflatoxin_content" class="sumo-input my-2">
+                                    <option :value="null">Choose Status</option>
+                                    <option value="Pass">Pass</option>
+                                    <option value="Fail">Fail</option>
+                                    </select>
                                     <div class="sumo-error" v-if="form.errors.aflatoxin_content">
                                         {{ form.errors.aflatoxin_content }}
                                     </div>
@@ -128,7 +132,7 @@ let form=useForm({
     visual_inspection_comment: '',
     visual_inspection_image: '',
     moisture_content:'',
-    aflatoxin_content:'',
+    aflatoxin_content:null,
     weighbridge:null,
 })
 

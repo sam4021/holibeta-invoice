@@ -5,7 +5,7 @@ import { ref } from "vue";
 import {useStorage} from "@vueuse/core";
 import StepOne from "@/views/components/delivery/step-one.vue";
 import StepTwo from "@/views/components/delivery/step-two.vue";
-//import StepThree from "@/views/components/delivery/step-three.vue";
+import StepThree from "@/views/components/delivery/step-three.vue";
 
 let props = defineProps({
     vehicleTypes: Object,
@@ -93,12 +93,12 @@ const submit=()=>{
                             </div>
                         </div>
 
-                        <!-- <div v-if="step===3">
+                        <div v-if="step===3">
                             <h2 class="font-slab font-bold text-xl">Step 3: Cargo Registration</h2>
                             <div class=" px-2">
                                 <step-three ></step-three>
                             </div>
-                        </div> -->
+                        </div>
                         <!-- <div v-if="step===3">
                             <h2 class="font-slab font-bold text-xl">Step 3: Facilities & Amenities</h2>
                             <div class="  px-2">

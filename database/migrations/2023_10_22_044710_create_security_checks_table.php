@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('security_checks', function (Blueprint $table) {
             $table->id();
             $table->string('security_check_code',10)->unique();
-            $table->unsignedBigInteger('supplier_id')->index();
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
             $table->string('vehicle_type',125);
@@ -26,7 +24,7 @@ return new class extends Migration
             $table->string('top_image', 125)->nullable();
             $table->unsignedBigInteger('driver_id')->index();
             $table->foreign('driver_id')->references('id')->on('drivers');
-            $table->string('timeslot',40);
+            $table->string('timeslot',40)->nullable();
             $table->unsignedBigInteger('county_id')->index();
             $table->foreign('county_id')->references('id')->on('counties');
             $table->unsignedBigInteger('subcounty_id')->index();

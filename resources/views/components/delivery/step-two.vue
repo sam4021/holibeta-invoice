@@ -4,7 +4,7 @@
             <hr class="my-3">
             <div class="my-5">
                 <div>
-                                <div>
+                                <div class="mb-30">
                                     <label class="sumo-label font-medium">Add Driver:</label>
                                     <div class="my-2 md:flex gap-2">
                                         <vue-select

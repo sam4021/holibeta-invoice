@@ -61,16 +61,16 @@ class AdminSecurityCheckController extends Controller
     public function store(Request $request)
     {
         $validated=$request->validate([
-            'stepOne'=>'required',
-            'stepOne.driver'=>'required|integer|exists:drivers,id', 
+            'stepOne'=>'required', 
             'stepOne.vehicle_reg_no'=>'required',
             'stepOne.vehicle_type'=> 'required|string', 
-            'stepOne.timeslot'=> 'required', 
+            // 'stepOne.timeslot'=> 'required',
+            'stepTwo.driver' => 'required|integer|exists:drivers,id',
             'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
             'top_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg' ,
             'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
-            'supplier' => 'required|integer|exists:suppliers,id',
+            // 'supplier' => 'required|integer|exists:suppliers,id',
             'county' => 'required' ,
             'subcounty' => 'required'
         ]);
@@ -130,10 +130,9 @@ class AdminSecurityCheckController extends Controller
     public function edit(string $id)
     {
         $securityCheck = $this->securityCheckRepository->getSecurityCheckById($id);
-        $suppliers = $this->supplierRepository->getSuppliers();
-        $vehicles = $this->vehicleRepository->getVehicles();
+        $vehicleTypes = VehicleTypeEnum::cases();
         $drivers=$this->driverRepository->getDrivers();
-        return inertia::render('admin/delivery/edit', compact('securityCheck', 'suppliers', 'vehicles', 'drivers'));
+        return inertia::render('admin/delivery/edit', compact('securityCheck', 'vehicleTypes', 'drivers'));
     }
 
     /**
