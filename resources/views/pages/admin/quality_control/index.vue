@@ -48,7 +48,7 @@ const deleteQc = (id: number) => {
                 <h1 class="text-2xl font-bold">Quality COntrols</h1>
             </div>
             <div>
-                <create-qc :weighbridges="weighbridges.data">
+                <create-qc :weighbridges="weighbridges">
                     <template #trigger>
                         <button
                             class="btn-simple btn-medium flex items-center gap-2"

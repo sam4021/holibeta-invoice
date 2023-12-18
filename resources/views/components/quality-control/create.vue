@@ -37,7 +37,7 @@
                         <form @submit.prevent="submit" id="saveFacilities">
                             <div class="mx-6 grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div>
-                                    <label class="sumo-label" for="weighbridge">Weighbridge:</label>
+                                    <label class="sumo-label" for="weighbridge">Delivery:</label>
                                     <vue-select
                                             :searchable="true"
                                             v-model:selected="form.weighbridge"
@@ -116,6 +116,7 @@ import VueSelect from "@/views/components/general-components/vue-select.vue";
 let props=defineProps({
     weighbridges: Object
 })
+console.log(props);
 
 const show=ref(false)
 
