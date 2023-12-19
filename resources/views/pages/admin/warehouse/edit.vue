@@ -5,9 +5,11 @@ import {Head, useForm} from "@inertiajs/vue3";
 
 
 let props=defineProps({
-    supplier:Object
+    warehouse:Object
 })
-
+console.log('====================================');
+console.log(props);
+console.log('====================================');
 let form=useForm({
     firstname:props.supplier?.firstname,
     middlename:props.supplier?.middlename,

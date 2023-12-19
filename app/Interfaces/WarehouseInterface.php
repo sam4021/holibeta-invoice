@@ -14,5 +14,5 @@ interface WarehouseInterface
     public function getWarehouseBag(int $id);
     public function createStatus(int $id, string $status, int $user);
     public function getUniqueGrains();
-
+    public function addWarehouseBags($id, $data);
 }

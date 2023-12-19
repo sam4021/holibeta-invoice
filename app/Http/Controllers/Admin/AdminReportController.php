@@ -48,7 +48,7 @@ class AdminReportController extends Controller
             ->join('quality_controls', 'quality_controls.id', 'warehouses.quality_control_id')
             ->join('weighbridges', 'weighbridges.id', 'quality_controls.weighbridge_id')
             ->join('security_checks', 'security_checks.id', 'weighbridges.delivery_id')
-            ->join('suppliers', 'suppliers.id', 'security_checks.supplier_id')
+            ->join('suppliers', 'suppliers.id', 'weighbridges.supplier_id')
             ->join('drivers', 'drivers.id', 'security_checks.driver_id')
             ->select([
                 'warehouse_bags.id as bag_id',
@@ -90,7 +90,7 @@ class AdminReportController extends Controller
             ->join('quality_controls', 'quality_controls.id', 'warehouses.quality_control_id')
             ->join('weighbridges', 'weighbridges.id', 'quality_controls.weighbridge_id')
             ->join('security_checks', 'security_checks.id', 'weighbridges.delivery_id')
-            ->join('suppliers', 'suppliers.id', 'security_checks.supplier_id')
+            ->join('suppliers', 'suppliers.id', 'weighbridges.supplier_id')
             ->join('drivers', 'drivers.id', 'security_checks.driver_id')
             ->select([
                 'warehouse_bags.id as bag_id',

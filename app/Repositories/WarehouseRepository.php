@@ -42,7 +42,7 @@ class WarehouseRepository implements WarehouseInterface
                     'warehouse_id'=>$warehouse->id, 
                     'weight'=>$bag['weight'],
                     'created_by'=>$data['created_by'],
-                    'grain_id' => $bag['grain'],
+                    'grain_id' => 1,
                 ]);
                 $this->createStatus($bag->id,StatusEnum::InWarehouse->value,$data['created_by']);
             }
@@ -122,5 +122,35 @@ class WarehouseRepository implements WarehouseInterface
         }
         $grains= DB::table('grains')->whereIn('id',$grainArr)->get();
         return $grains;
-    } 
+    }
+
+
+    public function addWarehouseBags($id, $data)
+    {
+        DB::beginTransaction();
+        try { //dd($data['bags']);
+            $warehouse = Warehouse::findOrFail($id);
+            $bags = $warehouse->no_of_bags + count($data['bags']);
+            $warehouse->update(
+                [
+                    'no_of_bags' => $bags,
+                ]
+            );
+            foreach ($data['bags'] as $bag) {
+                $bag = WarehouseBags::create([
+                    'warehouse_id' => $id,
+                    'weight' => $bag['weight'],
+                    'created_by' => $data['created_by'],
+                    'grain_id' => 1,
+                ]);
+                $this->createStatus($bag->id, StatusEnum::InWarehouse->value, $data['created_by']);
+            }
+            DB::commit();
+            return response()->json(['message' => 'Warehouse created successfully', 'warehouse' => $warehouse], 200);
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception);
+            return response()->json(['message' => $exception->getMessage()], 400);
+        }
+    }
 }

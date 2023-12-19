@@ -15,8 +15,9 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Reports;
-
+use App\Models\Warehouse;
 use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
+use App\Http\Resources\WarehouseResource;
 
 class AdminWarehouseController extends Controller
 {
@@ -51,10 +52,9 @@ class AdminWarehouseController extends Controller
      */
     public function create()
     {
-        //
-        $grains = $this->grainRepository->getGrains();
+        // $grains = $this->grainRepository->getGrains();
         $qcs = $this->qcRepository->getEmptyQualityControls();
-        return inertia::render('admin/warehouse/create',compact('qcs','grains'));
+        return inertia::render('admin/warehouse/create',compact('qcs'));
     }
 
     /**
@@ -62,7 +62,6 @@ class AdminWarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validated=$request->validate([
             'quality_control'=> 'required|integer|exists:quality_controls,id',
             'no_of_bags'=>'required',
@@ -157,5 +156,26 @@ class AdminWarehouseController extends Controller
         ];
         
         return Reports::generate($format, 'reports.warehouse', $data, 'Warehouse');
+    }
+
+    public function bagAdd ($id)
+    {
+        $warehouse = $this->warehouseRepository->getWarehouseById($id);
+        return inertia::render('admin/warehouse/bag_add', compact('warehouse'));
+    }
+
+    public function bagStore(Request $request,$id)
+    {
+        $validated = $request->validate([
+            'no_of_bags' => 'required',
+            'bags' => 'required|array',
+        ]);
+        $validated['created_by'] = Auth::user()->id;
+        $warehouse = $this->warehouseRepository->addWarehouseBags($id, $validated);
+        if ($warehouse->status() == 200) {
+            return redirect()->route('warehouse.index')->with('success', 'Warehouse added successfully');
+        } else {
+            return redirect()->back()->with('status', 'Error adding a Warehouse');
+        }
     }
 }

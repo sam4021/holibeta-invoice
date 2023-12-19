@@ -59,7 +59,10 @@ class SecurityCheckRepository implements SecurityCheckInterface
                 'driver_id'=> $data['stepTwo']['driver'],
                 // 'timeslot'=>$data['stepOne']['timeslot'],
                 'county_id' => $data['county'],
-                'subcounty_id' => $data['subcounty']
+                'subcounty_id' => $data['subcounty'],
+                'no_of_bags' => $data['no_of_bags'],
+                'vehicle_plate_front' => $data['vehicle_plate_front'],
+                'vehicle_plate_back' => $data['vehicle_plate_back'],
             ]);
             return response()->json(['message'=>'Security Check created successfully','securityCheck'=>$securityCheck],200);
         }catch (\Exception $exception){

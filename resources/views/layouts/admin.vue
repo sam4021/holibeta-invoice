@@ -417,20 +417,20 @@ const logout = () => {
                                         >Drivers</Link
                                     >
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <Link
                                         :href="route('vehicles.index')"
                                         class="block px-4 py-3 hover:bg-sumo-500/20"
                                         >Vehicles</Link
                                     >
-                                </li>
-                                <li>
+                                </li> -->
+                                <!-- <li>
                                     <Link
                                         :href="route('grains.index')"
                                         class="block px-4 py-3 hover:bg-sumo-500/20"
                                         >Grains</Link
                                     >
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </li>

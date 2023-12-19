@@ -32,6 +32,12 @@ watch([search,showing,supplier,driver],()=>{
         driver: driver.value
     },{preserveScroll:true,preserveState:true}))
 })
+const checkValue=()=>{
+    z = 45;
+    console.log(z);
+    var z;
+} 
+checkValue(); 
 </script>
 
 <template>
@@ -53,8 +59,8 @@ watch([search,showing,supplier,driver],()=>{
             </div>
             <div class="flex justify-end gap-3 self-center">
                 <h6 class="font-semibold">Export Data:</h6>
-                <a :href="route('reports.report','pdf')" class="text-sumo-700 font-bold">PDF</a>
-                <a :href="route('reports.report','excel')" class="text-sumo-700 font-bold">Excel</a>
+                <a :href="route('reports.report','pdf')" class="text-indigo-700 font-bold text-sm">PDF</a>
+                <a :href="route('reports.report','excel')" class="text-indigo-700 font-bold text-base">Excel</a>
             </div>
         </div>
         <div class="flex justify-between my-5">

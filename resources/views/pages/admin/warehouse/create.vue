@@ -7,23 +7,17 @@ import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props = defineProps({
     qcs: Object,
-    grains: Object
 });
 console.log(props)
 let form = useForm({
     quality_control:null, 
     no_of_bags:"", 
     bags:"",
-    same_grain: 'No',
-    main_grain: null
 });
-let grain=ref(null)
-let grainShow=ref(false)
 
 let itemForm = useForm({
     'weight':'',
     'id':'',
-    'grain':grain.value
 })
 
 watch(()=>form.no_of_bags,()=>{
@@ -35,25 +29,10 @@ watch(()=>form.no_of_bags,()=>{
     }
 })
 
-watch(()=>form.same_grain,()=>{
-    if(form.same_grain && form.same_grain=='Yes'){
-        grainShow.value=true
-    } else{
-        grainShow.value=false
-    }
-});
-
-watch(()=>form.main_grain,()=>{
-    if(form.main_grain){
-        grain.value=form.main_grain
-    }
-})
-
 const addRow=()=> {
     var weight = '';
-    var grain = form.main_grain;
     var id = Math.floor(Math.random() * 400);
-    transactionItem.value.push({id:id,weight:weight,grain:grain})
+    transactionItem.value.push({id:id,weight:weight})
 }
 const removeItem=(item:string)=>{
     transactionItem.value=transactionItem.value.filter(element =>element.id!==item)
@@ -106,29 +85,6 @@ onMounted(() => {
                             </div>
                         </div>
                         <div>
-                            <label for="moisture_content" class="text-sm font-medium text-gray-700">Same Grain?</label>
-                            <div class="flex gap-4 mt-4">
-                                <div class="flex items-center">
-                                    <input id="default-radio-1" type="radio" value="Yes" v-model="form.same_grain" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input checked id="default-radio-2" type="radio" value="No" v-model="form.same_grain" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-if="grainShow">
-                            <label for="moisture_content" class="text-sm font-medium text-gray-700">Grain</label>
-                            <vue-select
-                                :searchable="true"
-                                v-model:selected="form.main_grain"
-                                :options="grains.data"
-                                placeholder="Select Grain"
-                                class=""
-                            ></vue-select>
-                        </div>
-                        <div>
                             <label for="no_of_bags" class="text-sm font-medium text-gray-700">No of Bags</label>
                             <input v-model="form.no_of_bags" type="text" id="name" name="no_of_bags" class="sumo-input my-2">
                             <div class="sumo-error" v-if="form.errors.no_of_bags">
@@ -159,44 +115,24 @@ onMounted(() => {
                                 <span class="text-xs">{{form.errors.bags }}</span>
                             </div>
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg py-3">
-                                <table class="w-full text-sm text-left text-gray-700 font-medium">
-                                    <thead class="text-xs text-sumo-300 uppercase bg-sumo-500/20">
-                                    <tr>
-                                        <th scope="col" class="px-2 py-3">
-                                            Weight
-                                        </th>
-                                        <th>Grain</th>
-                                        <th scope="col" class="px-2 py-3 w-12">
-                                            Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="[&>*:nth-child(even)]:bg-gray-100">
-                                    <tr v-for="(item, index) in transactionItem" :key="index">
-                                        <td class="pr-6 pl-2">
-                                            <input type="number" class="sumo-input my-3" v-model="item.weight" required>                                     
-                                        </td>   
-                                        <td>
-                                            <vue-select
-                                                :searchable="true"
-                                                v-model:selected="item.grain"
-                                                :options="grains.data"
-                                                placeholder="Select Grain"
-                                                class=""
-                                            ></vue-select>
-                                        </td>
-                                        <td class="pr-2">
-                                            <button type="button" @click="removeItem(item.id)" class="text-red-600 flex gap-2 items-center">
-                                                <svg class="h-4 fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                                  <path d="M432 80h-82.38l-34-56.75C306.1 8.827 291.4 0 274.6 0H173.4C156.6 0 141 8.827 132.4 23.25L98.38 80H16C7.125 80 0 87.13 0 96v16C0 120.9 7.125 128 16 128H32v320c0 35.35 28.65 64 64 64h256c35.35 0 64-28.65 64-64V128h16C440.9 128 448 120.9 448 112V96C448 87.13 440.9 80 432 80zM171.9 50.88C172.9 49.13 174.9 48 177 48h94c2.125 0 4.125 1.125 5.125 2.875L293.6 80H154.4L171.9 50.88zM352 464H96c-8.837 0-16-7.163-16-16V128h288v320C368 456.8 360.8 464 352 464zM224 416c8.844 0 16-7.156 16-16V192c0-8.844-7.156-16-16-16S208 183.2 208 192v208C208 408.8 215.2 416 224 416zM144 416C152.8 416 160 408.8 160 400V192c0-8.844-7.156-16-16-16S128 183.2 128 192v208C128 408.8 135.2 416 144 416zM304 416c8.844 0 16-7.156 16-16V192c0-8.844-7.156-16-16-16S288 183.2 288 192v208C288 408.8 295.2 416 304 416z"/>
-                                                </svg>
-                                                <span>Remove</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    
-                                    </tbody>
-                                </table>
+                                <div class="grid grid-cols-3">
+                                     <div v-for="(item, index) in transactionItem" :key="index" class="p-2">
+                                        <div class="grid grid-cols-4">
+                                            <div class="col-span-3">
+                                                <label for="no_of_bags" class="text-sm font-medium text-gray-700">Weight</label>
+                                                <input type="number" class="sumo-input my-3" v-model="item.weight" required>
+                                            </div>
+                                            <div>
+                                                <button type="button" @click="removeItem(item.id)" class="text-red-600 flex gap-2 items-center pt-12 pl-4">
+                                                    <svg class="h-4 fill-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                    <path d="M432 80h-82.38l-34-56.75C306.1 8.827 291.4 0 274.6 0H173.4C156.6 0 141 8.827 132.4 23.25L98.38 80H16C7.125 80 0 87.13 0 96v16C0 120.9 7.125 128 16 128H32v320c0 35.35 28.65 64 64 64h256c35.35 0 64-28.65 64-64V128h16C440.9 128 448 120.9 448 112V96C448 87.13 440.9 80 432 80zM171.9 50.88C172.9 49.13 174.9 48 177 48h94c2.125 0 4.125 1.125 5.125 2.875L293.6 80H154.4L171.9 50.88zM352 464H96c-8.837 0-16-7.163-16-16V128h288v320C368 456.8 360.8 464 352 464zM224 416c8.844 0 16-7.156 16-16V192c0-8.844-7.156-16-16-16S208 183.2 208 192v208C208 408.8 215.2 416 224 416zM144 416C152.8 416 160 408.8 160 400V192c0-8.844-7.156-16-16-16S128 183.2 128 192v208C128 408.8 135.2 416 144 416zM304 416c8.844 0 16-7.156 16-16V192c0-8.844-7.156-16-16-16S288 183.2 288 192v208C288 408.8 295.2 416 304 416z"/>
+                                                    </svg>
+                                                    <span class="hidden">Remove</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     <div class="my-5 flex justify-end">

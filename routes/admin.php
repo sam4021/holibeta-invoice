@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admin']], function () {
     Route::get('admin/report/grain', [AdminReportController::class, 'grain'])->name('report.grain');
     Route::get('admin/report/report/{format}', [AdminReportController::class, 'exportData'])->name('reports.report');
-    Route::get('admin/report', [AdminReportController::class,'index'])->name('reports');
+    Route::get('admin/report', [AdminReportController::class, 'index'])->name('reports');
     Route::resource('admin/grains', AdminGrainController::class);
     Route::resource('admin/drivers', AdminDriverController::class);
     Route::resource('admin/vehicles', AdminVehicleController::class);
@@ -25,7 +25,10 @@ Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admi
     Route::post('/manager/delivery/step-two', [AdminSecurityCheckController::class, 'stepTwo'])->name('delivery.step-two');
     Route::post('/manager/delivery/step-one', [AdminSecurityCheckController::class, 'stepOne'])->name('delivery.step-one');
     Route::resource('admin/delivery', AdminSecurityCheckController::class);
+    Route::get('admin/warehouse/bags/add/{warehouse}', [AdminWarehouseController::class, 'bagAdd'])->name('warehouse.bags.add');
+    Route::post('admin/warehouse/bags/store/{warehouse}', [AdminWarehouseController::class, 'bagStore'])->name('warehouse.bags.store');
     Route::get('admin/warehouse/bags', [AdminWarehouseController::class, 'bagDatas'])->name('warehouse.bags');
+    Route::get('admin/warehouse/bags/report/{format}', [AdminWarehouseController::class, 'bagDatasExport'])->name('warehouse.bags.report');
     Route::get('admin/warehouse/bag/{id}', [AdminWarehouseController::class, 'bagData'])->name('warehouse.bag');
     Route::get('admin/warehouse/report/{format}', [AdminWarehouseController::class, 'exportData'])->name('warehouse.report');
     Route::resource('admin/warehouse', AdminWarehouseController::class);

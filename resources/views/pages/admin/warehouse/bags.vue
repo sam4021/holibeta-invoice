@@ -5,6 +5,7 @@ import {Head, Link, router} from "@inertiajs/vue3";
 import {PropType, ref, watch, watchEffect} from "vue";
 import PromptAlert from "@/views/components/general-components/prompt-alert.vue";
 import debounce from 'lodash'
+import moment from 'moment';
 import DataPagination from "@/views/components/general-components/data-pagination.vue";
 let props=defineProps({
     bags: Object,
@@ -128,7 +129,7 @@ watch([search,showing,grain],()=>{
                             {{ bag.weight }}
                         </td>
                         <td class="text-xs">
-                            {{ bag.bag_date }}
+                            {{ moment(bag.bag_date).format("DD MMM, YYYY") }}
                         </td>
                         <td class="px-2 py-3 text-xs">
                             <Link :href="route('warehouse.bag',bag.bag_id)">

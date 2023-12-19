@@ -30,6 +30,7 @@
                                     {{ form.errors.vehicle_reg_no }}
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

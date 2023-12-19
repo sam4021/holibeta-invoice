@@ -32,7 +32,10 @@ class SecurityCheckResource extends JsonResource
             'grains'=>$this->grains(),
             'county' => new CountyResource($this->county),
             'subcounty' => new SubcountyResource($this->subcounty),
-            'name' => $this->vehicle_reg_no.' :: '. $this->security_check_code
+            'name' => $this->vehicle_reg_no.' :: '. $this->security_check_code,
+            'no_of_bags' => $this->no_of_bags,
+            'vehicle_plate_front' => $this->vehicle_plate_front,
+            'vehicle_plate_back' => $this->vehicle_plate_back,
         ];
     }
 }

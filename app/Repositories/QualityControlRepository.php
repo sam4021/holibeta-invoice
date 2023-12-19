@@ -8,6 +8,7 @@ use App\Interfaces\QualityControlInterface;
 use App\Models\QualityControl;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class QualityControlRepository implements QualityControlInterface
 {
@@ -30,10 +31,20 @@ class QualityControlRepository implements QualityControlInterface
 
     public function getEmptyQualityControls()
     {
-        $qualityControls = QualityControl::with(['weighbridge', 'createdBy'])
-                            ->doesntHave('warehouse')
-                            ->where('visual_inspection', 'Pass')
-                            ->get();
+        // $qualityControls = QualityControl::with(['weighbridge', 'createdBy'])
+        //                     // ->doesntHave('warehouse')
+        //                     ->where([['visual_inspection', 'Pass'],['aflatoxin_content', 'Pass']])
+        //                     ->get();
+        $qualityControls = DB::table('quality_controls')
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+            ->from('warehouses')
+                ->whereRaw('quality_controls.id = warehouses.quality_control_id')
+                ->whereNull('warehouses.deleted_at');
+        })
+        ->where('visual_inspection', '=', 'Pass')
+        ->where('aflatoxin_content', '=', 'Pass')
+        ->get();
 
         return QualityControlResource::collection($qualityControls);
     }
@@ -65,8 +76,7 @@ class QualityControlRepository implements QualityControlInterface
             $qualityControl= QualityControl::findOrFail($id);
             $qualityControl->update(
                 [
-                    'weighbridge_id' => $data['weighbridge'],
-                    'created_by' => $data['created_by'],
+                    // 'weighbridge_id' => $data['weighbridge'],
                     'visual_inspection' => $data['visual_inspection'],
                     'visual_inspection_comment' => $data['visual_inspection_comment'],
                     // 'visual_inspection_image' => $data['visual_inspection_image'],
@@ -76,7 +86,7 @@ class QualityControlRepository implements QualityControlInterface
             );
             return response()->json(['message'=> 'Quality Control updated successfully', 'qualityControl'=> $qualityControl],200);
         }catch (\Exception $exception){
-dd($exception->getMessage());
+            dd($exception->getMessage());
             return response()->json(['message'=>$exception->getMessage()],400);
         }
     }

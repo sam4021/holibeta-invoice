@@ -63,7 +63,9 @@ class AdminSecurityCheckController extends Controller
         $validated=$request->validate([
             'stepOne'=>'required', 
             'stepOne.vehicle_reg_no'=>'required',
-            'stepOne.vehicle_type'=> 'required|string', 
+            'stepOne.vehicle_type'=> 'required|string',
+            'vehicle_plate_front' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
+            'vehicle_plate_back' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             // 'stepOne.timeslot'=> 'required',
             'stepTwo.driver' => 'required|integer|exists:drivers,id',
             'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg', 
@@ -72,9 +74,26 @@ class AdminSecurityCheckController extends Controller
             'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             // 'supplier' => 'required|integer|exists:suppliers,id',
             'county' => 'required' ,
-            'subcounty' => 'required'
+            'subcounty' => 'required',
+            'no_of_bags' => 'required',
         ]);
         $validated['created_by'] = Auth::user()->id;
+        if ($request->hasFile('vehicle_plate_front')) {
+            $vehicle_plate_front       = $request->file('vehicle_plate_front');
+            $extension = $vehicle_plate_front->getClientOriginalExtension();
+            $filename = 'vehicle_plate_front_' . time() . '.' .  $extension;
+            $image_resize = Image::make($vehicle_plate_front->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['vehicle_plate_front'] = $filename;
+        }
+        if ($request->hasFile('vehicle_plate_back')) {
+            $vehicle_plate_back      = $request->file('vehicle_plate_back');
+            $extension = $vehicle_plate_back->getClientOriginalExtension();
+            $filename = 'vehicle_plate_back_' . time() . '.' .  $extension;
+            $image_resize = Image::make($vehicle_plate_back->getRealPath());
+            $image_resize->save($this->securityPath . $filename);
+            $validated['vehicle_plate_back'] = $filename;
+        }
         if ($request->hasFile('front_image')) {
             $front_image       = $request->file('front_image');
             $extension = $front_image->getClientOriginalExtension();
@@ -206,7 +225,9 @@ class AdminSecurityCheckController extends Controller
         //validated property setup step 1
         $validated=$request->validate([
             'vehicle_reg_no'=>'required',
-            'vehicle_type'=>'required|string'
+            'vehicle_type'=>'required|string',
+            // 'vehicle_plate_front'=> 'required|image|mimes:jpeg,jpg,png,gif,svg',
+            // 'vehicle_plate_back' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
         ]);
     }
 

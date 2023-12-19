@@ -104,7 +104,7 @@ class AdminQualityControlController extends Controller
     public function update(Request $request, string $id)
     {
         $validated=$request->validate([
-            'weighbridge_id' => 'required|integer|exists:weighbridges,id',
+            // 'weighbridge_id' => 'required|integer|exists:weighbridges,id',
             'visual_inspection' => 'required',
             'visual_inspection_comment' => 'required',
             // 'visual_inspection_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',

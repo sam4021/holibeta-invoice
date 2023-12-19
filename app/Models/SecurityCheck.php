@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SecurityCheck extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image','driver_id','timeslot','security_check_code', 'county_id', 'subcounty_id'
+        'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image', 'driver_id', 'timeslot', 'security_check_code', 'county_id', 'subcounty_id', 'no_of_bags', 'vehicle_plate_front', 'vehicle_plate_back'
     ];
 
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by'); 
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function driver()
@@ -32,12 +32,12 @@ class SecurityCheck extends Model
 
     public function grains()
     {
-        // if (isset($this->weighbridge->warehouse)) {
-        //    if ($this->weighbridge->warehouse->grains()) {
-        //         return $this->weighbridge->warehouse->grains();
-        //    }
-        //     return [];
-        // }
+        if (isset($this->weighbridge->qualityControl->warehouse)) {
+           if ($this->weighbridge->qualityControl->warehouse->grains()) {
+                return $this->weighbridge->qualityControl->warehouse->grains();
+           }
+            return [];
+        }
         return [];
     }
 
@@ -57,13 +57,15 @@ class SecurityCheck extends Model
 
         self::creating(static function (SecurityCheck $securityCheck) {
             $old_securityCheck = SecurityCheck::latest()->first();
-            if ($old_securityCheck){
-                $old_code = explode('-',$old_securityCheck->security_check_code)[1];
-                $new_code = str_pad((int)$old_code+1, 3, '0', STR_PAD_LEFT);
-                $securityCheck->security_check_code ='EFSC-'.$new_code;
-            }else{
-                $securityCheck->security_check_code ='EFSC-001';
+            if ($old_securityCheck) {
+                $old_code = explode('-', $old_securityCheck->security_check_code)[1];
+                $new_code = str_pad((int)$old_code + 1, 3, '0', STR_PAD_LEFT);
+                $securityCheck->security_check_code = 'EFSC-' . $new_code;
+            } else {
+                $securityCheck->security_check_code = 'EFSC-001';
             }
         });
     }
 }
+
+
