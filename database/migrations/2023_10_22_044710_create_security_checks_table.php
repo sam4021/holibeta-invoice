@@ -31,6 +31,7 @@ return new class extends Migration
             $table->foreign('county_id')->references('id')->on('counties');
             $table->unsignedBigInteger('subcounty_id')->index();
             $table->foreign('subcounty_id')->references('id')->on('subcounties');
+            $table->string('village', 125);
             $table->integer('no_of_bags');
             $table->softDeletes();
             $table->timestamps();

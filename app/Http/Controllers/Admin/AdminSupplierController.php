@@ -63,7 +63,7 @@ class AdminSupplierController extends Controller
         $validated['created_by'] = Auth::user()->id;
         $supplier = $this->supplierRepository->createSupplier($validated);
         if ($supplier->status() == 200) {
-            return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully');
+            return redirect()->back()->with('success', 'Supplier created successfully');
         } else {
             return redirect()->back()->with('status', 'Supplier could not be created');
         }

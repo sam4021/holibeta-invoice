@@ -71,15 +71,16 @@ onMounted(() => {
             </div>
             <div class="my-5">
                 <form @submit.prevent="submit" id="saveFacilities">
-                    <div class="mx-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div class="mx-0 md:mx-6 grid grid-cols-1 md:grid-cols-4 gap-3">
                         <div>
                             <label class="sumo-label" for="quality_control">Quality Control:</label>
-                            <select v-model="form.quality_control"
-                                id="quality_control"
-                                class="sumo-input my-2">
-                                <option :value="null">Select Quality Control</option>
-                                <option :value="qc.id" :key="qc.id" v-for="qc in qcs.data">{{qc.code}}</option>
-                            </select>
+                            <vue-select
+                            :searchable="true"
+                            v-model:selected="form.quality_control"
+                            :options="qcs"
+                            placeholder="Select Delivery"
+                            class="my-2"
+                        ></vue-select>
                             <div class="sumo-error" v-if="form.errors.quality_control">
                                 {{ form.errors.quality_control }}
                             </div>
@@ -115,7 +116,7 @@ onMounted(() => {
                                 <span class="text-xs">{{form.errors.bags }}</span>
                             </div>
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg py-3">
-                                <div class="grid grid-cols-3">
+                                <div class="grid grid-cols-2 md:grid-cols-3">
                                      <div v-for="(item, index) in transactionItem" :key="index" class="p-2">
                                         <div class="grid grid-cols-4">
                                             <div class="col-span-3">

@@ -36,15 +36,28 @@
 
                         <form @submit.prevent="submit" id="saveFacilities">
                             <div class="mx-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <div>
+                                <div class="col-span-2">
                                     <label class="sumo-label" for="delivery">Suppliers:</label>
-                                    <vue-select
+                                    <div class="my-2 md:flex gap-2">
+                                        <vue-select
                                             :searchable="true"
                                             v-model:selected="form.supplier"
                                             :options="suppliers"
                                             placeholder="Select Supplier"
-                                            class="my-2"
+                                            class="my-2 w-2/4"
                                         ></vue-select>
+                                        <create-supplier>
+                                            <template #trigger>
+                                                <button class="btn-simple flex items-center gap-2 text-sumo-300 mt-2">
+                                                    <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                        <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
+                                                    </svg>
+                                                    <span> New Supplier</span>
+                                                </button>
+                                            </template>
+                                        </create-supplier>
+                                    </div>
+                                    
                                     
                                     <div class="sumo-error" v-if="form.errors.supplier">
                                         {{ form.errors.supplier }}
@@ -98,6 +111,7 @@
 import {watch, ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
+import CreateSupplier from "@/views/components/supplier/create.vue";
 
 let props=defineProps({
     deliveries: Object,

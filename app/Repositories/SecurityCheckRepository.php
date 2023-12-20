@@ -36,7 +36,7 @@ class SecurityCheckRepository implements SecurityCheckInterface
             ->when(request('machine'),function ($query){
                 $query->where('machine_id',request('machine'));
             })
-            ->paginate(request('showing')??10);
+            ->get();
 
         return SecurityCheckResource::collection($securityChecks);
     }
@@ -63,6 +63,7 @@ class SecurityCheckRepository implements SecurityCheckInterface
                 'no_of_bags' => $data['no_of_bags'],
                 'vehicle_plate_front' => $data['vehicle_plate_front'],
                 'vehicle_plate_back' => $data['vehicle_plate_back'],
+                'village' => $data['village']
             ]);
             return response()->json(['message'=>'Security Check created successfully','securityCheck'=>$securityCheck],200);
         }catch (\Exception $exception){
@@ -85,7 +86,7 @@ class SecurityCheckRepository implements SecurityCheckInterface
                     // 'side_image' => $data['side_image'],
                     // 'top_image' => $data['top_image'],
                     // 'driver_id' => $data['driver'],
-                    'timeslot' => $data['timeslot']
+                    'village' => $data['village']
                 ]
             );
             return response()->json(['message'=>'Security Check updated successfully','securityCheck'=>$securityCheck],200);

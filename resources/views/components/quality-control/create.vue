@@ -42,10 +42,9 @@
                                             :searchable="true"
                                             v-model:selected="form.weighbridge"
                                             :options="weighbridges"
-                                            placeholder="Select Weighbridge"
+                                            placeholder="Select Delivery"
                                             class="my-2"
                                         ></vue-select>
-                                    
                                     <div class="sumo-error" v-if="form.errors.weighbridge">
                                         {{ form.errors.weighbridge }}
                                     </div>
@@ -99,7 +98,8 @@
                     <hr>
                     <footer class="p-3.5">
                         <div class="flex justify-end">
-                            <button form="saveFacilities" type="submit" class="btn-primary btn-medium">Save QC</button>
+                            <button v-if="QcFail" form="saveFacilities" type="submit" class="btn-primary btn-medium">Save QC</button>
+                            <button v-else form="saveFacilities" type="submit" class="btn-danger btn-medium">Reject QC</button>
                         </div>
                     </footer>
                 </div>
@@ -116,9 +116,11 @@ import VueSelect from "@/views/components/general-components/vue-select.vue";
 let props=defineProps({
     weighbridges: Object
 })
+
 console.log(props);
 
 const show=ref(false)
+const QcFail=ref(true)
 
 watch(show,(val)=>{
     if(val){
@@ -135,6 +137,42 @@ let form=useForm({
     moisture_content:'',
     aflatoxin_content:null,
     weighbridge:null,
+})
+
+watch(()=>form.moisture_content,()=>{
+    if(form.moisture_content){
+        let moisture_content = form.moisture_content
+        form.moisture_content = moisture_content.replace(/[^0-9.]/g, '')
+        
+    }
+})
+
+watch(()=>form.aflatoxin_content,()=>{
+    if(form.aflatoxin_content){
+        // if(form.aflatoxin_content == "Fail"){
+        //     QcFail.value = false
+        // } else{
+        //     QcFail.value = true
+        // }
+    }
+})
+
+watch(()=>form.visual_inspection,()=>{
+    if(form.visual_inspection){
+        // if(form.visual_inspection == "Fail"){
+        //     QcFail.value = false
+        // } else{
+        //     QcFail.value = true
+        // }
+    }
+})
+
+watch(()=>[form.visual_inspection,form.aflatoxin_content,form.moisture_content],()=>{
+        if(form.visual_inspection == "Fail" || form.aflatoxin_content == "Fail" || form.moisture_content > 13.5){
+            QcFail.value = false
+        } else{
+            QcFail.value = true
+        }
 })
 
 const submit = () => {

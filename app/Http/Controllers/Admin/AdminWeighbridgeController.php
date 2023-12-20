@@ -50,7 +50,7 @@ class AdminWeighbridgeController extends Controller
      */
     public function create()
     {
-        $deliveries= $this->deliveryRepository->getSecurityChecks();
+        $deliveries= $this->deliveryRepository->getEmptySecurityChecks();
         $suppliers = $this->supplierRepository->getActiveSuppliers();
         return inertia::render('admin/weighbridge/create',compact('deliveries','suppliers'));
     }

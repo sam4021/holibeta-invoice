@@ -75,14 +75,14 @@ const deleteSecurityCheck=(id:number)=>{
                 
                 <div class="my-3">
                     <table class="text-sm font-medium">
-                        <tr>
+                        <!-- <tr>
                             <th class="text-start">Grain:</th>
                             <td class="px-3">
                                 <div class="flex gap-2">
                                 <span v-for="grain in securityCheck.data.grains" :key="grain.id" class="text-xs">{{ grain.name }} , </span>
                             </div>
                             </td>
-                        </tr>
+                        </tr> -->
                         <!-- <tr>
                             <th class="text-start">Timeslot:</th>
                             <td class="px-3">{{securityCheck.data.timeslot}}</td>
@@ -100,8 +100,16 @@ const deleteSecurityCheck=(id:number)=>{
                             <td class="px-3">{{securityCheck.data.vehicle_reg_no}}</td>
                         </tr>
                         <tr>
-                            <th class="text-start">Location:</th>
-                            <td class="px-3">{{securityCheck.data.subcounty.name}}, {{securityCheck.data.county.name}}</td>
+                            <th class="text-start">County:</th>
+                            <td class="px-3">{{securityCheck.data.county.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Subcounty:</th>
+                            <td class="px-3">{{securityCheck.data.subcounty.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Village:</th>
+                            <td class="px-3">{{securityCheck.data.village}}</td>
                         </tr>
                     </table>
                 </div>

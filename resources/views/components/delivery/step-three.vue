@@ -24,13 +24,19 @@
                                 <div class="sumo-error" v-if="form.errors.subcounty"> {{ form.errors.subcounty }} </div>
                             </div>
                             <div>
+                                <label for="village" class="text-sm font-medium text-gray-700">Village</label>
+                                <input v-model="stepThree.village" class="sumo-input my-2" id="village" type="text">
+                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.village }}</span>
+                                </div>
+                            </div>
+                            <div>
                                 <label for="no_of_bags" class="text-sm font-medium text-gray-700">No of Bags</label>
                                 <input v-model="stepThree.no_of_bags" class="sumo-input my-2" id="no_of_bags" type="text">
                                 <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
                                     <span class="text-xs">{{form.errors.no_of_bags }}</span>
                                 </div>
                             </div>
-                            <div></div>
                             <div>
                                 <label for="vehicle_plate_front" class="text-sm font-medium text-gray-700">Vehicle Plate Front</label>
                                 <input @input="stepThree.vehicle_plate_front=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="vehicle_plate_front" type="file">
@@ -73,17 +79,21 @@
                                     <span class="text-xs">{{form.errors.side_image }}</span>
                                 </div>
                             </div>
-                    
-                            
                         </div>
-               
             </div>
         </form>
     </div>
 
     <div class="my-3 flex justify-end gap-3">
         <button type="button" @click="stepBack" class="self-center font-medium"><span class="mr-3"><i class="fa-light fa-arrow-left-long"></i></span>Previous</button>
-        <button form="step-three-form"  type="submit" class="btn-primary">Next <span class="ml-5"><i class="fa-light fa-arrow-right-long"></i></span></button>
+        <button form="step-three-form"  type="submit" class="btn-primary flex">
+            Submit 
+            <span class="ml-5">
+                <svg class="fill-white h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                    <path d="M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z"/>
+                </svg>
+            </span>
+        </button>
     </div>
 </template>
 
@@ -108,6 +118,7 @@ const stepThree=useStorage('stepThree',{
     top_image:"",
     county:'', 
     subcounty:'',
+    village:'',
     no_of_bags:'',
     vehicle_plate_front: "",
     vehicle_plate_back: ""
@@ -122,6 +133,7 @@ let form=useForm({
     top_image:"",
     county:'', 
     subcounty:'',
+    village:'',
     no_of_bags:'',
     vehicle_plate_front: "",
     vehicle_plate_back: "",
@@ -134,6 +146,7 @@ const submit=()=>{
     form.side_image= stepThree.value.side_image;
     form.top_image= stepThree.value.top_image;
     form.no_of_bags= stepThree.value.no_of_bags;
+    form.village= stepThree.value.village;
     form.subcounty=locationStore.subcounty.id;
     form.county=locationStore.default_county.id;
     form.vehicle_plate_front= stepThree.value.vehicle_plate_front;

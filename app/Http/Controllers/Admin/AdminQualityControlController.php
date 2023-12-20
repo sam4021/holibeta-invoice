@@ -29,7 +29,6 @@ class AdminQualityControlController extends Controller
      */
     public function index()
     {
-        //
         $qcs=$this->qcRepository->getQualityControls();
         $filters=request()->all('search','showing','shift','machine');
         $weighbridges = $this->weighbridgeRepository->getDelivery();
@@ -61,6 +60,8 @@ class AdminQualityControlController extends Controller
             'visual_inspection_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             'moisture_content' => 'required',
             'aflatoxin_content' => 'required'
+        ],[
+            'weighbridge.required' => 'The Delivery field is required.'
         ]);
         if ($request->hasFile('visual_inspection_image')) {
             $image       = $request->file('visual_inspection_image');

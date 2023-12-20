@@ -36,6 +36,7 @@ class SecurityCheckResource extends JsonResource
             'no_of_bags' => $this->no_of_bags,
             'vehicle_plate_front' => $this->vehicle_plate_front,
             'vehicle_plate_back' => $this->vehicle_plate_back,
+            'village' => $this->village,
         ];
     }
 }

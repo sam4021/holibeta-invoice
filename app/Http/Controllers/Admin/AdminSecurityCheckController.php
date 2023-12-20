@@ -76,6 +76,7 @@ class AdminSecurityCheckController extends Controller
             'county' => 'required' ,
             'subcounty' => 'required',
             'no_of_bags' => 'required',
+            'village' => 'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
         if ($request->hasFile('vehicle_plate_front')) {

@@ -28,7 +28,6 @@ class QualityControlRepository implements QualityControlInterface
         return QualityControlResource::collection($qualityControls);
     }
 
-
     public function getEmptyQualityControls()
     {
         // $qualityControls = QualityControl::with(['weighbridge', 'createdBy'])
@@ -36,17 +35,21 @@ class QualityControlRepository implements QualityControlInterface
         //                     ->where([['visual_inspection', 'Pass'],['aflatoxin_content', 'Pass']])
         //                     ->get();
         $qualityControls = DB::table('quality_controls')
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-            ->from('warehouses')
-                ->whereRaw('quality_controls.id = warehouses.quality_control_id')
-                ->whereNull('warehouses.deleted_at');
-        })
-        ->where('visual_inspection', '=', 'Pass')
-        ->where('aflatoxin_content', '=', 'Pass')
-        ->get();
-
-        return QualityControlResource::collection($qualityControls);
+                ->join('weighbridges', 'weighbridges.id', 'quality_controls.weighbridge_id')
+                ->join('security_checks', 'security_checks.id', 'weighbridges.delivery_id')
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                    ->from('warehouses')
+                        ->whereRaw('quality_controls.id = warehouses.quality_control_id')
+                        ->whereNull('warehouses.deleted_at');
+                })
+                ->where('visual_inspection', '=', 'Pass')
+                ->where('aflatoxin_content', '=', 'Pass')
+                ->where('moisture_content', '<=', '13.5')
+                ->select('quality_controls.id', DB::raw('CONCAT(security_checks.vehicle_reg_no, " :: " , security_checks.security_check_code) AS name'))
+                ->get();
+        
+        return $qualityControls;
     }
 
     public function getQualityControlById(string $id){

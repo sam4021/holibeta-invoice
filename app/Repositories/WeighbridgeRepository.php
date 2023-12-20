@@ -42,6 +42,11 @@ class WeighbridgeRepository implements WeighbridgeInterface
         $weighbridges = DB::table('weighbridges')
                         ->join('security_checks','security_checks.id','weighbridges.delivery_id')
                         ->select('weighbridges.id', DB::raw('CONCAT(security_checks.vehicle_reg_no, " :: " , security_checks.security_check_code) AS name'))
+                        ->whereNotExists(function ($query) {
+                            $query->select(DB::raw(1))
+                            ->from('quality_controls')
+                                ->whereRaw('weighbridges.id = quality_controls.weighbridge_id');
+                        })
                         ->get()->toArray();
         return $weighbridges;
     }

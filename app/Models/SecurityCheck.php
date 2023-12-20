@@ -11,7 +11,7 @@ class SecurityCheck extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image', 'driver_id', 'timeslot', 'security_check_code', 'county_id', 'subcounty_id', 'no_of_bags', 'vehicle_plate_front', 'vehicle_plate_back'
+        'created_by', 'vehicle_reg_no', 'vehicle_type', 'front_image', 'back_image', 'side_image', 'top_image', 'driver_id', 'timeslot', 'security_check_code', 'county_id', 'subcounty_id', 'no_of_bags', 'vehicle_plate_front', 'vehicle_plate_back', 'village'
     ];
 
 

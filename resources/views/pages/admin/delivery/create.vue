@@ -43,41 +43,42 @@ const submit=()=>{
             </div>
             <div class="my-5">
                 <div  class="grid grid-cols-6 gap-3">
-                <div class="col-span-2 space-y-5 p-5">
-                    <div class="flex gap-2">
-                        <div class="pt-1">
-                            <svg class="h-5 fill-sumo-300" :class="[(step!==1?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
+                <div class="col-span-6 md:col-span-2 p-0 md:p-5">
+                    <div class="md:space-y-5 grid grid-cols-3 md:grid-cols-1">
+                        <div class="block md:flex gap-2">
+                            <div class="pt-1">
+                                <svg class="h-5 fill-sumo-300" :class="[(step!==1?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
+                            </div>
+                            <div class="self-start">
+                                <h3 class="font-bold text-base md:text-xl font-slab">Register Vehicle</h3>
+                                <p class="text-[15px] hidden">General information about the property such as name, type & location</p>
+                            </div>
                         </div>
-                        <div class="self-start">
-                            <h3 class="font-bold text-xl font-slab">Step 1: Register Vehicle</h3>
-                            <p class="text-[15px] hidden">General information about the property such as name, type & location</p>
-                        </div>
-                    </div>
 
-                    <div class="flex gap-2" :class="[(step >=2?'':'text-gray-400')]">
-                        <div class="pt-1">
-                            <svg class="h-5 fill-sumo-300" :class="[(step>2?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
+                        <div class="block md:flex gap-2" :class="[(step >=2?'':'text-gray-400')]">
+                            <div class="pt-1">
+                                <svg class="h-5 fill-sumo-300" :class="[(step>2?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
+                            </div>
+                            <div class="self-start">
+                                <h3 class="font-bold text-base md:text-xl font-slab ">Driver</h3>
+                                <p class="text-[15px] hidden">Add property owner and building manager if available. Add property to a
+                                    portfolio</p>
+                            </div>
                         </div>
-                        <div class="self-start">
-                            <h3 class="font-bold text-xl font-slab ">Step 2: Driver</h3>
-                            <p class="text-[15px] hidden">Add property owner and building manager if available. Add property to a
-                                portfolio</p>
-                        </div>
-                    </div>
 
-                    <div class="flex gap-2" :class="[(step >=3?'':'text-gray-400')]">
-                        <div class="pt-1">
-                            <svg class="h-5 fill-sumo-300" :class="[(step>3?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
-                        </div>
-                        <div class="self-start">
-                            <h3 class="font-bold text-xl font-slab ">Step 3: Cargo Registration</h3>
-                            <p class="text-[15px] hidden">Add property owner and building manager if available. Add property to a
-                                portfolio</p>
+                        <div class="block md:flex gap-2" :class="[(step >=3?'':'text-gray-400')]">
+                            <div class="pt-1">
+                                <svg class="h-5 fill-sumo-300" :class="[(step>3?'fill-green-400':'')]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M335 175L224 286.1L176.1 239c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l64 64C211.7 341.7 217.8 344 224 344s12.28-2.344 16.97-7.031l128-128c9.375-9.375 9.375-24.56 0-33.94S344.4 165.7 335 175zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464z"/></svg>
+                            </div>
+                            <div class="self-start">
+                                <h3 class="font-bold text-base md:text-xl font-slab ">Cargo Registration</h3>
+                                <p class="text-[15px] hidden">Add property owner and building manager if available. Add property to a
+                                    portfolio</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-span-4 p-5 ">
-
+                <div class="col-span-6 md:col-span-4 p-5 ">
                     <div>
                         <div v-if="step===1">
                             <h2 class="font-slab font-bold text-xl">Step 1: Register Vehicle</h2>

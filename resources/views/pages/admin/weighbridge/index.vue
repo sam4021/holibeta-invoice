@@ -52,7 +52,16 @@ const deleteWeighbridge = (id: number) => {
                 <h1 class="text-2xl font-bold">Weighbridges</h1>
             </div>
             <div>
-                <create-weighbridge :deliveries="deliveries.data" :suppliers="suppliers.data">
+                <Link :href="route('weighbridge.create')">
+                <button class="btn-simple btn-medium flex items-center gap-2">
+
+                    <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path d="M432 256C432 269.3 421.3 280 408 280h-160v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440v-160h-160c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160v-160c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160C421.3 232 432 242.8 432 256z"/>
+                    </svg>
+                    <span> Add Weighbridge</span>
+                </button>
+            </Link>
+                <!-- <create-weighbridge :deliveries="deliveries.data" :suppliers="suppliers.data">
                     <template #trigger>
                         <button
                             class="btn-simple btn-medium flex items-center gap-2"
@@ -69,7 +78,7 @@ const deleteWeighbridge = (id: number) => {
                             <span> Add Weighbridge</span>
                         </button>
                     </template>
-                </create-weighbridge>
+                </create-weighbridge> -->
             </div>
         </div>
         <div>
