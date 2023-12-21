@@ -16,6 +16,7 @@ class WeighbridgeRepository implements WeighbridgeInterface
     public function getWeighbridges()
     {
         $weighbridges = Weighbridge::with(['delivery', 'supplier', 'createdBy'])
+            ->orderBy('created_at', 'DESC')
             ->paginate(request('showing') ?? 10);
 
         return WeighbridgeResource::collection($weighbridges);
@@ -24,6 +25,7 @@ class WeighbridgeRepository implements WeighbridgeInterface
     public function getAllWeighbridges()
     {
         $weighbridges = Weighbridge::with(['delivery', 'supplier', 'createdBy'])
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return WeighbridgeResource::collection($weighbridges);

@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->string('vehicle_type', 125);
             $table->string('vehicle_reg_no', 125);
-            $table->string('vehicle_plate_front', 125);
-            $table->string('vehicle_plate_back', 125);
             $table->string('front_image', 125)->nullable();
             $table->string('back_image', 125)->nullable();
             $table->string('side_image', 125)->nullable();

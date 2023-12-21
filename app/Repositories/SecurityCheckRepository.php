@@ -20,6 +20,7 @@ class SecurityCheckRepository implements SecurityCheckInterface
             ->when(request('machine'),function ($query){
                 $query->where('machine_id',request('machine'));
             })
+            ->orderBy('created_at', 'DESC')
             ->paginate(request('showing')??10);
 
         return SecurityCheckResource::collection($securityChecks);
@@ -50,19 +51,17 @@ class SecurityCheckRepository implements SecurityCheckInterface
 
             $securityCheck=SecurityCheck::create([
                 'created_by'=>$data['created_by'], 
-                'vehicle_reg_no'=>$data['stepOne']['vehicle_reg_no'],
-                'vehicle_type'=>$data['stepOne']['vehicle_type'],
+                'vehicle_reg_no'=>$data['vehicle_reg_no'],
+                'vehicle_type'=>$data['vehicle_type'],
                 'front_image'=>$data['front_image'], 
                 'back_image'=>$data['back_image'], 
                 'side_image'=>$data['side_image'],
                 'top_image'=>$data['top_image'],
-                'driver_id'=> $data['stepTwo']['driver'],
+                'driver_id'=> $data['driver'],
                 // 'timeslot'=>$data['stepOne']['timeslot'],
                 'county_id' => $data['county'],
                 'subcounty_id' => $data['subcounty'],
                 'no_of_bags' => $data['no_of_bags'],
-                'vehicle_plate_front' => $data['vehicle_plate_front'],
-                'vehicle_plate_back' => $data['vehicle_plate_back'],
                 'village' => $data['village']
             ]);
             return response()->json(['message'=>'Security Check created successfully','securityCheck'=>$securityCheck],200);

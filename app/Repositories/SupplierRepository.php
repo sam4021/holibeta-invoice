@@ -16,6 +16,7 @@ class SupplierRepository implements SupplierInterface
             ->when(request('search'), function ($query) {
                 $query->where('firstname', 'like', '%' . request('search') . '%');
             })
+            ->orderBy('created_at', 'DESC')
             ->paginate(request('showing') ?? 10);
 
         return SupplierResource::collection($suppliers);
@@ -28,6 +29,7 @@ class SupplierRepository implements SupplierInterface
             ->when(request('search'), function ($query) {
                 $query->where('firstname', 'like', '%' . request('search') . '%');
             })
+            ->orderBy('created_at', 'DESC')
             ->paginate(request('showing') ?? 10);
 
         return SupplierResource::collection($suppliers);

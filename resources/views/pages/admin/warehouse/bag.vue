@@ -70,6 +70,14 @@ const printInfo=()=>{
                    </button>
            </div>
            <div>
+                   <Link :href="route('warehouse.bag.pdf',bag.data.id)" class="btn-simple btn-medium flex items-center gap-2">
+                       <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                           <path d="M455.7 18.75C443.2 6.252 426.8 0 410.5 0c-16.38 0-32.76 6.25-45.26 18.75L45.11 338.9c-8.568 8.566-14.53 19.39-17.18 31.21l-27.61 122.8C-1.7 502.1 6.159 512 15.95 512c1.047 0 2.116-.1034 3.198-.3202c0 0 84.61-17.95 122.8-26.93c11.54-2.717 21.87-8.523 30.25-16.9l321.2-321.2c24.99-24.99 24.9-65.42-.0898-90.41L455.7 18.75zM138.2 433.9c-2.115 2.115-4.503 3.463-7.308 4.123c-18.17 4.281-47.46 10.71-72.69 16.18l16.55-73.58c.666-2.959 2.15-5.654 4.296-7.803l241.9-241.9l60.13 60.13L138.2 433.9z"/>
+                       </svg>
+                       <span>Report</span>
+                   </Link>
+           </div>
+           <div>
                <!-- <Link :href="route('warehouse.edit',warehouse.data.id)"> -->
                    <button class="btn-simple btn-medium flex items-center gap-2">
                        <svg class="h-4 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -98,9 +106,8 @@ const printInfo=()=>{
             <div class="grid gap-3 grid-cols-2">
                 <div class="my-3">
                     <table class="text-sm font-medium">
-                        
                         <tr>
-                            <th class="text-start">Code:</th>
+                            <th class="text-start">Bag Code:</th>
                             <td class="px-3">{{bag.data.code}}</td>
                         </tr>
                         <tr>
@@ -139,10 +146,6 @@ const printInfo=()=>{
                             <th class="text-start">Weight:</th>
                             <td class="px-3">{{bag.data.weight}}</td>
                         </tr>
-                        <tr>
-                            <th class="text-start">Barcode No:</th>
-                            <td class="px-3">{{bag.data.barcode_no}}</td>
-                        </tr>
                     </table>
                 </div>
             </div>
@@ -179,6 +182,86 @@ const printInfo=()=>{
                     </div>
                 </div>
 
+                <div class="shadow p-4 bg-white rounded-md">
+                    <div class="my-3">
+                        <h2 class="font-bold text-sm border-b pb-2 mb-4">Warehouse</h2>
+                        <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">Code:</th>
+                            <td class="px-3">
+                                <Link :href="route('warehouse.show', bag.data.warehouse.id)"
+                                              class="flex items-center gap-1">
+                                                {{bag.data.warehouse.code}}
+                                            <svg class="h-3 fill-blue-700" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                                                <path
+                                                    d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                            </svg>
+                                        </Link></td>
+                        </tr> 
+                        <tr>
+                            <th class="text-start">No of Bags:</th>
+                            <td class="px-3">{{bag.data.warehouse.no_of_bags}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Created By:</th>
+                            <td class="px-3">{{bag.data.warehouse.created_by.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Date:</th>
+                            <td class="px-3">{{ moment(bag.data.warehouse.created_at).format("DD MMM, YYYY h:MM a") }}</td>
+                        </tr> 
+                    </table>
+                    </div>
+                </div>
+
+                <div class="shadow p-4 bg-white rounded-md">
+                    <div class="my-3">
+                        <h2 class="font-bold text-sm border-b pb-2 mb-4">Quality Control</h2>
+                        <table class="text-sm font-medium">
+                        <tr>
+                            <th class="text-start">Code:</th>
+                            <td class="px-3">
+                                <Link :href="route('quality-control.show', bag.data.qc.id)"
+                                              class="flex items-center gap-1">
+                                                {{bag.data.qc.code}}
+                                            <svg class="h-3 fill-blue-700" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                                                <path
+                                                    d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                            </svg>
+                                        </Link></td>
+                        </tr> 
+                        <tr>
+                            <th class="text-start">Aflatoxin Content:</th>
+                            <td class="px-3">{{bag.data.qc.aflatoxin_content}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Moisture Content:</th>
+                            <td class="px-3">{{bag.data.qc.moisture_content}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Visual Inspection:</th>
+                            <td class="px-3">{{bag.data.qc.visual_inspection}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Visual Inspection Comment:</th>
+                            <td class="px-3">{{bag.data.qc.visual_inspection_comment}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Created By:</th>
+                            <td class="px-3">{{bag.data.qc.created_by.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Date:</th>
+                            <td class="px-3">{{ moment(bag.data.qc.created_at).format("DD MMM, YYYY h:MM a") }}</td>
+                        </tr> 
+                    </table>
+                    </div>
+                </div>
+                
                 <div class="shadow p-4 bg-white rounded-md">
                     <div class="my-3">
                         <h2 class="font-bold text-sm border-b pb-2 mb-4">Weighbridge</h2>
@@ -222,7 +305,7 @@ const printInfo=()=>{
                             <td class="px-3">
                                 <Link :href="route('delivery.show', bag.data.delivery.id)"
                                               class="flex items-center gap-1">
-                                                {{bag.data.delivery.security_check_code}}
+                                                {{bag.data.delivery.code}}
                                             <svg class="h-3 fill-blue-700" xmlns="http://www.w3.org/2000/svg"
                                                  viewBox="0 0 512 512">
                                                 <path
@@ -230,10 +313,27 @@ const printInfo=()=>{
                                             </svg>
                                         </Link></td>
                         </tr> 
+                        
+                        <tr>
+                            <th class="text-start">Location:</th>
+                            <td class="px-3">{{bag.data.delivery.village}}, {{bag.data.delivery.subcounty.name}}, {{bag.data.delivery.county.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Vehicle Reg No:</th>
+                            <td class="px-3">{{bag.data.delivery.vehicle_reg_no}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Vehicle Type:</th>
+                            <td class="px-3">{{bag.data.delivery.vehicle_type}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Created By:</th>
+                            <td class="px-3">{{bag.data.delivery.created_by.name}}</td>
+                        </tr>
                         <tr>
                             <th class="text-start">Date:</th>
                             <td class="px-3">{{ moment(bag.data.delivery.created_at).format("DD MMM, YYYY h:MM a") }}</td>
-                        </tr> 
+                        </tr>  
                     </table>
                     </div>
                 </div>

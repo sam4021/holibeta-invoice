@@ -178,4 +178,14 @@ class AdminWarehouseController extends Controller
             return redirect()->back()->with('status', 'Error adding a Warehouse');
         }
     }
+
+    public function bagPdf($id)
+    {
+        $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find($id);
+        $pdfData = [
+            'info' => $bag
+        ];
+        
+        return Reports::generate('pdf', 'reports.bag', $pdfData, $bag->bag_code);
+    }
 }

@@ -15,6 +15,7 @@ class QualityControlRepository implements QualityControlInterface
 
     public function getQualityControls(){
         $qualityControls= QualityControl::with(['weighbridge', 'createdBy'])
+            ->orderBy('created_at', 'DESC')
             ->paginate(request('showing')??10);
 
         return QualityControlResource::collection($qualityControls);
@@ -23,7 +24,8 @@ class QualityControlRepository implements QualityControlInterface
     public function getAllQualityControls()
     {
         $qualityControls = QualityControl::with(['weighbridge', 'createdBy'])
-        ->get();
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return QualityControlResource::collection($qualityControls);
     }

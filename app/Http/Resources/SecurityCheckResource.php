@@ -18,7 +18,7 @@ class SecurityCheckResource extends JsonResource
             'id'=>$this->id,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'created_by'=>new UserResource($this->whenLoaded('createdBy')), 
+            'created_by'=>new UserResource($this->createdBy), 
             'vehicle_reg_no'=>$this->vehicle_reg_no,
             'vehicle_type'=>$this->vehicle_type, 
             'driver'=>new DriverResource($this->driver),
@@ -34,8 +34,6 @@ class SecurityCheckResource extends JsonResource
             'subcounty' => new SubcountyResource($this->subcounty),
             'name' => $this->vehicle_reg_no.' :: '. $this->security_check_code,
             'no_of_bags' => $this->no_of_bags,
-            'vehicle_plate_front' => $this->vehicle_plate_front,
-            'vehicle_plate_back' => $this->vehicle_plate_back,
             'village' => $this->village,
         ];
     }

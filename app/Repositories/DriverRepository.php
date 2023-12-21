@@ -13,7 +13,8 @@ class DriverRepository implements DriverInterface
         $drivers= Driver::when(request('search'), function($query){
                $query->where('firstname','like','%'.request('search').'%');
            })
-         ->paginate(request('showing')??10);
+            ->orderBy('created_at', 'DESC')
+            ->paginate(request('showing')??10);
         return DriverResource::collection($drivers);
     }
 

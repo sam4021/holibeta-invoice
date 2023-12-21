@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\Session;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -50,7 +51,10 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             //
             'auth' =>$auth,
-            'status' => $request->session()->get('status')?$request->session()->get('status'):null,
+            'toast' => function () {
+                return Session::get('toast');
+            },
+            'error' => $request->session()->get('error')?$request->session()->get('error'):null,
             'success' => $request->session()->get('success')?$request->session()->get('success'):null,
         ]);
     }

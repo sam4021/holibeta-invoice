@@ -13,6 +13,7 @@ class GrainRepository implements GrainInterface
         $grains= Grains::when(request('search'), function($query){
                $query->where('name','like','%'.request('search').'%');
            })
+           
          ->paginate(request('showing')??10);
         return GrainResource::collection($grains);
     }

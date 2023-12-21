@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admi
     Route::get('admin/warehouse/bags', [AdminWarehouseController::class, 'bagDatas'])->name('warehouse.bags');
     Route::get('admin/warehouse/bags/report/{format}', [AdminWarehouseController::class, 'bagDatasExport'])->name('warehouse.bags.report');
     Route::get('admin/warehouse/bag/{id}', [AdminWarehouseController::class, 'bagData'])->name('warehouse.bag');
+    Route::get('admin/warehouse/bag/pdf/{id}', [AdminWarehouseController::class, 'bagPdf'])->name('warehouse.bag.pdf');
     Route::get('admin/warehouse/report/{format}', [AdminWarehouseController::class, 'exportData'])->name('warehouse.report');
     Route::resource('admin/warehouse', AdminWarehouseController::class);
     Route::resource('admin/weighbridge', AdminWeighbridgeController::class);
@@ -38,4 +39,19 @@ Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admi
     Route::post('admin/roles/permission', [AdminRolesController::class, 'permission'])->name('admin.roles.permission');
     Route::resource('admin/roles', AdminRolesController::class, ['names' => 'admin.roles']);
     Route::resource('admin', AdminController::class);
+});
+
+Route::get('test-bag-pdf', function () {
+    $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find(1);
+    $pdfData = [
+        'info' => $bag
+    ];
+    // dd($pdfData);
+    $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('reports.bag', $pdfData)->setOption(['defaultFont' => 'sans-serif'])
+        ->setPaper('a4', 'portrait');
+    $pdf->setOption('javascript-delay', 30000);
+    $pdf->setOption('isHtml5ParserEnabled', true);
+    $pdf->setOption('isRemoteEnabled', true);
+    return $pdf->stream();
+    // Storage::disk('public')->put('pdfs/transactions/' . $invoiceName . '.pdf', $pdf->output());
 });

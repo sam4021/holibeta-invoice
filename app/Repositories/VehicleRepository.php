@@ -13,13 +13,14 @@ class VehicleRepository implements VehicleInterface
         $vehicles= Vehicle::when(request('search'), function($query){
                $query->where('name','like','%'.request('search').'%');
            })
-         ->paginate(request('showing')??10);
+            ->orderBy('created_at', 'DESC')
+            ->paginate(request('showing')??10);
         return VehicleResource::collection($vehicles);
     }
 
     public function getAllVehicles()
     {
-        $vehicles = Vehicle::all();
+        $vehicles = Vehicle::orderBy('created_at', 'DESC')->get();
         return VehicleResource::collection($vehicles);
     }
 

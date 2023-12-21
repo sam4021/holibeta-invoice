@@ -19,6 +19,7 @@ class WarehouseRepository implements WarehouseInterface
 
     public function getWarehouses(){
         $warehouse= Warehouse::with(['createdBy', 'qualityControl'])
+            ->orderBy('created_at', 'DESC')
             ->paginate(request('showing')??10);
 
         return WarehouseResource::collection($warehouse);

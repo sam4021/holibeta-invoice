@@ -31,7 +31,7 @@ class WarehouseBags extends Model
 
     public function qualityControl()
     {
-        return $this->warehouse->qualityControl();
+        return $this->warehouse->qualityControl();        
     }
 
     public function weighbridge()

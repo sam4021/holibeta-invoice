@@ -37,55 +37,20 @@
                                     <span class="text-xs">{{form.errors.no_of_bags }}</span>
                                 </div>
                             </div>
-                            <div>
-                                <label for="vehicle_plate_front" class="text-sm font-medium text-gray-700">Vehicle Plate Front</label>
-                                <input @input="stepThree.vehicle_plate_front=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="vehicle_plate_front" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.vehicle_plate_front }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="vehicle_plate_back" class="text-sm font-medium text-gray-700">Vehicle Plate Back</label>
-                                <input @input="stepThree.vehicle_plate_back=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="vehicle_plate_back" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.vehicle_plate_back }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Front Image</label>
-                                <input @input="stepThree.front_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.front_image }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Back Image</label>
-                                <input @input="stepThree.back_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.back_image }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Top Image</label>
-                                <input @input="stepThree.top_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.top_image }}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label for="email" class="text-sm font-medium text-gray-700">Side Image</label>
-                                <input @input="stepThree.side_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                    <span class="text-xs">{{form.errors.side_image }}</span>
-                                </div>
-                            </div>
                         </div>
             </div>
         </form>
     </div>
 
     <div class="my-3 flex justify-end gap-3">
-        <button type="button" @click="stepBack" class="self-center font-medium"><span class="mr-3"><i class="fa-light fa-arrow-left-long"></i></span>Previous</button>
+        <button type="button" @click="stepBack" class="self-center font-medium flex">
+            <span class="mr-3">
+                <svg class="fill-gray-800 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                    <path d="M224 480c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l169.4 169.4c12.5 12.5 12.5 32.75 0 45.25C240.4 476.9 232.2 480 224 480z"/>
+                </svg>
+            </span>
+            Previous
+        </button>
         <button form="step-three-form"  type="submit" class="btn-primary flex">
             Submit 
             <span class="ml-5">
@@ -112,45 +77,27 @@ locationStore.getDefaultCounty()
 
 const step=useStorage('step',1)
 const stepThree=useStorage('stepThree',{
-    front_image: "",
-    back_image: "",
-    side_image: "",
-    top_image:"",
     county:'', 
     subcounty:'',
     village:'',
     no_of_bags:'',
-    vehicle_plate_front: "",
-    vehicle_plate_back: ""
 })
 const stepOne=useStorage('stepOne',{})
 const stepTwo=useStorage('stepTwo',{})
 
 let form=useForm({
-    front_image: "",
-    back_image: "",
-    side_image: "",
-    top_image:"",
     county:'', 
     subcounty:'',
     village:'',
     no_of_bags:'',
-    vehicle_plate_front: "",
-    vehicle_plate_back: "",
     stepOne:stepOne.value,
     stepTwo:stepTwo.value,
 })
 const submit=()=>{
-    form.front_image= stepThree.value.front_image;
-    form.back_image= stepThree.value.back_image;
-    form.side_image= stepThree.value.side_image;
-    form.top_image= stepThree.value.top_image;
     form.no_of_bags= stepThree.value.no_of_bags;
     form.village= stepThree.value.village;
     form.subcounty=locationStore.subcounty.id;
     form.county=locationStore.default_county.id;
-    form.vehicle_plate_front= stepThree.value.vehicle_plate_front;
-    form.vehicle_plate_back= stepThree.value.vehicle_plate_back;
 
     form.post(route('delivery.store'),{
         onSuccess:()=>{

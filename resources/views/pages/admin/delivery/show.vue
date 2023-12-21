@@ -14,8 +14,6 @@ let front_image = '/images/delivery/'+props.securityCheck.data.front_image
 let side_image = '/images/delivery/'+props.securityCheck.data.side_image
 let top_image = '/images/delivery/'+props.securityCheck.data.top_image
 let back_image = '/images/delivery/'+props.securityCheck.data.back_image
-let vehicle_plate_front = '/images/delivery/'+props.securityCheck.data.vehicle_plate_front
-let vehicle_plate_back = '/images/delivery/'+props.securityCheck.data.vehicle_plate_back
 
 const deleteSecurityCheck=(id:number)=>{
     router.delete(route('delivery.destroy',id))
@@ -118,13 +116,6 @@ const deleteSecurityCheck=(id:number)=>{
 
         <div class="shadow p-4 bg-white rounded-md mt-4">
             <div class="grid gap-3 grid-cols-4">
-                <div class="items-center gap-2">
-                    <span class="text-gray-600">Vehicle Plate Front image:</span>
-                    <img :src="vehicle_plate_front" class="w-full">
-                </div><div class="items-center gap-2">
-                    <span class="text-gray-600">Vehicle Plate Back image:</span>
-                    <img :src="vehicle_plate_back" class="w-full">
-                </div>
                 <div class="items-center gap-2">
                     <span class="text-gray-600">Front image:</span>
                     <img :src="front_image" class="w-full">

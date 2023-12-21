@@ -31,6 +31,34 @@
                                 </div>
                             </div>
                             
+                            <div>
+                                <label for="email" class="text-sm font-medium text-gray-700">Front Image</label>
+                                <input @input="stepOne.front_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
+                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.front_image }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="text-sm font-medium text-gray-700">Back Image</label>
+                                <input @input="stepOne.back_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
+                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.back_image }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="text-sm font-medium text-gray-700">Top Image</label>
+                                <input @input="stepOne.top_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
+                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.top_image }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="text-sm font-medium text-gray-700">Side Image</label>
+                                <input @input="stepOne.side_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
+                                <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
+                                    <span class="text-xs">{{form.errors.side_image }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -58,6 +86,10 @@ defineProps({
 })
 
 const stepOne=useStorage('stepOne',{
+    front_image: "",
+    back_image: "",
+    side_image: "",
+    top_image:"",
     vehicle_reg_no: "",
     vehicle_type: null
 })
@@ -65,6 +97,10 @@ const step=useStorage('step',1)
 const search=ref('')
 
 let form=useForm({
+    front_image: "",
+    back_image: "",
+    side_image: "",
+    top_image:"",
     vehicle_reg_no: "",
     vehicle_type: null
 })
@@ -72,6 +108,10 @@ let form=useForm({
 const submit=()=>{
     form.vehicle_reg_no= stepOne.value.vehicle_reg_no;
     form.vehicle_type= stepOne.value.vehicle_type;
+    form.front_image= stepOne.value.front_image;
+    form.back_image= stepOne.value.back_image;
+    form.side_image= stepOne.value.side_image;
+    form.top_image= stepOne.value.top_image;
     
     form.post(route('delivery.step-one'),{
         onSuccess:()=>{

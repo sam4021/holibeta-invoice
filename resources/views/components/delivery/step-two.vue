@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-y-auto custom-scrolling">
+    <div class="overflow-y-auto custom-scrolling h-72">
         <form id="step-two-form" @submit.prevent="submit">
             <hr class="my-3">
             <div class="my-5">
@@ -35,7 +35,14 @@
     </div>
 
     <div class="my-3 flex justify-end gap-3">
-        <button type="button" @click="stepBack" class="self-center font-medium"><span class="mr-3"><i class="fa-light fa-arrow-left-long"></i></span>Previous</button>
+        <button type="button" @click="stepBack" class="self-center font-medium flex">
+            <span class="mr-3">
+                <svg class="fill-gray-800 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                    <path d="M224 480c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l169.4 169.4c12.5 12.5 12.5 32.75 0 45.25C240.4 476.9 232.2 480 224 480z"/>
+                </svg>
+            </span>
+            Previous
+        </button>
         <button form="step-two-form"  type="submit" class="btn-primary flex">
             Next 
             <span class="ml-5">

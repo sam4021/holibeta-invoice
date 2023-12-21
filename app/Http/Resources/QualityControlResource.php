@@ -21,7 +21,7 @@ class QualityControlResource extends JsonResource
             'updated_at'=>$this->updated_at,
             'code'=>$this->qc_code,
             'weighbridge'=>new WeighbridgeResource($this->whenLoaded('weighbridge')), 
-            'created_by'=>new UserResource($this->whenLoaded('createdBy')),
+            'created_by'=>new UserResource($this->createdBy),
             'visual_inspection'=>$this->visual_inspection,
             'visual_inspection_comment'=>$this->visual_inspection_comment,
             'visual_inspection_image'=>$this->visual_inspection_image, 
