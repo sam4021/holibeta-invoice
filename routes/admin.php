@@ -42,9 +42,10 @@ Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admi
 });
 
 Route::get('test-bag-pdf', function () {
-    $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find(1);
+    $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find(1);
     $pdfData = [
-        'info' => $bag
+        'info' => $bag,
+        'qc' => $bag->qualityControl
     ];
     // dd($pdfData);
     $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('reports.bag', $pdfData)->setOption(['defaultFont' => 'sans-serif'])

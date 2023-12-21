@@ -18,6 +18,7 @@ use App\Models\Reports;
 use App\Models\Warehouse;
 use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 use App\Http\Resources\WarehouseResource;
+use App\Models\WarehouseBags;
 
 class AdminWarehouseController extends Controller
 {
@@ -181,7 +182,7 @@ class AdminWarehouseController extends Controller
 
     public function bagPdf($id)
     {
-        $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find($id);
+        $bag =  WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find($id);
         $pdfData = [
             'info' => $bag
         ];
