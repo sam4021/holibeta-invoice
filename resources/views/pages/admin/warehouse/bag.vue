@@ -40,14 +40,14 @@ const printInfo=()=>{
 <template>
     <Head title="Warehouse Bag Data" />
 <admin>
-    <div id="printer" style="width: 334px;background: #fff;">
-        <div style="width: 234px;background: #fff;">
-            <div style="width:230px;margin: 7px;">
-                <div style="float:left;width:120px;">
+    <div id="printer" style="width: 324px;background: #fff;">
+        <div style="width: 300px;background: #fff;">
+            <div style="width:250px;margin: 7px;display: flex;">
+                <div style="float:left;width:120px;margin-top: 10px;">
                     <!-- <vue-qrcode value="Hello, World!" :options="{ width: 110 }"></vue-qrcode> -->
                     <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=Bag Code::'+bag.data.code" alt="QR Code" class="block">
                 </div>
-                <div style="float:left;width:210px;font-size: 12px;margin-top: 10px;">
+                <div style="float:left;width:270px;font-size: 12px;margin-top: 10px;margin-left: 10px;">
                     <p><b>Bag Code: </b> {{bag.data.code}} </p>
                     <p><b class="text-start">Grain:</b> {{bag.data.grain.name}}</p> 
                     <p><b class="text-start">Weight:</b>{{bag.data.weight}}</p>

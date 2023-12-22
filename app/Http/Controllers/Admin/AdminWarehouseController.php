@@ -20,6 +20,7 @@ use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 use App\Http\Resources\WarehouseResource;
 use App\Models\WarehouseBags;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -74,12 +75,15 @@ class AdminWarehouseController extends Controller
         $validated['created_by'] = Auth::user()->id;
         $warehouse=$this->warehouseRepository->createWarehouse($validated);
         if($warehouse->status()==200){
+            $warehouseId=json_decode($warehouse->content())->warehouse->id;
             $warehouseData = Warehouse::find($warehouseId);
             $bagsData = WarehouseBags::where('warehouse_id', $warehouseId);
             $pdfData = [
                 'info' => $bagsData
             ];
-            return Reports::generate('excel', 'reports.warehousebags', $pdfData, $warehouseData->warehouse_code);
+            
+            
+            // return Reports::generate('excel', 'reports.warehousebags', $pdfData, $warehouseData->warehouse_code);
             return redirect()->route('warehouse.index')->with('success', 'Warehouse added successfully');
         }else{
             return redirect()->back()->with('status', 'Error adding a Warehouse');

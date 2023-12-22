@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Enums\StatusEnum;
 use App\Models\Reports;
 
+
 class WarehouseRepository implements WarehouseInterface
 {
 
