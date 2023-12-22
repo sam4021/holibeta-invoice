@@ -33,7 +33,7 @@ class Reports
             $pdf->setOption('javascript-delay', 30000);
             $pdf->setOption('isHtml5ParserEnabled', true);
             $pdf->setOption('isRemoteEnabled', true);
-            return $pdf->stream();
+            
             return $pdf->download($fileName . '.pdf');
         
     }

@@ -19,6 +19,9 @@ use App\Models\Warehouse;
 use Milon\Barcode\Facades\DNS2DFacade as DNS2D;
 use App\Http\Resources\WarehouseResource;
 use App\Models\WarehouseBags;
+use Illuminate\Support\Facades\DB;
+
+
 
 class AdminWarehouseController extends Controller
 {
@@ -182,7 +185,64 @@ class AdminWarehouseController extends Controller
 
     public function bagPdf($id)
     {
-        $bag =  WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find($id);
+        $bag =  DB::table('warehouse_bags')
+                    ->join('users as bagUser', 'bagUser.id', 'warehouse_bags.created_by')
+                    ->join('warehouses', 'warehouses.id', 'warehouse_bags.warehouse_id')
+                    ->join('users as warehouseUser', 'warehouseUser.id', 'warehouses.created_by')
+                    ->join('quality_controls', 'quality_controls.id', 'warehouses.quality_control_id')
+                    ->join('users as qcUser', 'qcUser.id', 'quality_controls.created_by')
+                    ->join('weighbridges', 'weighbridges.id', 'quality_controls.weighbridge_id')
+                    ->join('users as weighbridgeUser', 'weighbridgeUser.id', 'weighbridges.created_by')
+                    ->join('security_checks', 'security_checks.id', 'weighbridges.delivery_id')
+                    ->join('users as deliveryUser', 'deliveryUser.id', 'security_checks.created_by')
+                    ->join('suppliers', 'suppliers.id', 'weighbridges.supplier_id')
+                    ->join('drivers', 'drivers.id', 'security_checks.driver_id')
+                    ->join('counties', 'counties.id', 'security_checks.county_id')
+                    ->join('subcounties', 'subcounties.id', 'security_checks.subcounty_id')
+                    ->join('grains', 'grains.id', 'warehouse_bags.grain_id')
+                    ->select(
+                        'warehouse_bags.bag_code',
+                        'bagUser.name as bag_creator',
+                        'warehouse_bags.weight',
+                        'grains.name as grain',
+                        'warehouse_bags.created_at as bag_date',
+                        'warehouses.warehouse_code',
+                        'warehouseUser.name as warehouse_creator', 
+                        'warehouses.no_of_bags',
+                        'warehouses.created_at as warehouse_date',
+                        'quality_controls.qc_code',
+                        'qcUser.name as qc_creator',
+                        'quality_controls.visual_inspection',
+                        'quality_controls.visual_inspection_comment',
+                        'quality_controls.visual_inspection_image',
+                        'quality_controls.moisture_content',
+                        'quality_controls.aflatoxin_content',
+                        'quality_controls.created_at as qc_date',
+                        'weighbridges.weighbridge_code',
+                        'suppliers.supplier_code',
+                        'suppliers.firstname as supplier_firstname',
+                        'suppliers.middlename as supplier_middlename',
+                        'suppliers.lastname as supplier_lastname',
+                        'weighbridgeUser.name as weigh_creator',
+                        'weighbridges.weight',
+                        'weighbridges.created_at as weigh_date',
+                        'security_checks.security_check_code',
+                        'deliveryUser.name as delivery_creator' ,
+                        'security_checks.vehicle_type',
+                        'security_checks.vehicle_reg_no',
+                        'drivers.firstname as driver_firstname',
+                        'drivers.middlename as driver_middlename', 
+                        'drivers.lastname as driver_lastname',
+                        'counties.name as delivery_county',
+                        'subcounties.name as delivery_subcounty',
+                        'security_checks.village',
+                        'security_checks.created_at as delivery_date',
+                        'security_checks.no_of_bags as delivery_bags'
+                        )
+                    ->where('warehouse_bags.id',$id)
+                    ->get()->first();
+ 
+        // WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'qualityControl', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find($id);
         $pdfData = [
             'info' => $bag
         ];

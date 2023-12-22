@@ -42,7 +42,7 @@
 
         table tr td table tr td {
             padding: 5pt;
-            font-size: 11pt;
+            font-size: 10pt;
             border: solid 1px #334155;
             border-collapse: collapse;
 
@@ -87,10 +87,10 @@
 </head>
 
 <body style="font-family: 'Montserrat', sans-serif !important;">
-    <header style="margin-top:20px;">
+    <header style="margin-top:10px;">
         <div style="display: block;position:relative;">
             <div style="width:50%;float:left;">
-                <img style="width:50%;" src="http://portal.emseafarm.com/images/logo.png" alt="emsea farm" />
+                <img style="width:auto;height:60px;" src="http://portal.emseafarm.com/images/logo.png" alt="emsea farm" />
             </div>
             <div style="width:50%;float:left;">
 
@@ -104,7 +104,7 @@
             <tr>
                 <td style="width:50%">
                     <div style="width: 90%;">
-                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:20px;padding:5px 10px;background-color:#312783;color:#fff;">
+                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:15px;padding:5px 10px;background-color:#312783;color:#fff;">
                             Bag Info
                         </div>
                         <table style="text-align: left;">
@@ -114,7 +114,7 @@
                             </tr>
                             <tr>
                                 <th>Created By</th>
-                                <td>{{$info->createdBy->name}}</td>
+                                <td>{{$info->bag_creator}}</td>
                             </tr>
                             <tr>
                                 <th>Weight</th>
@@ -122,11 +122,11 @@
                             </tr>
                             <tr>
                                 <th>Grain</th>
-                                <td>{{$info->grain->name}}</td>
+                                <td>{{$info->grain}}</td>
                             </tr>
                             <tr>
                                 <th>Date</th>
-                                <td>{{date_format($info->created_at, 'F j, Y')}}</td>
+                                <td>{{date("M j, Y", strtotime($info->bag_date))}}</td>
                             </tr>
                         </table>
                     </div>
@@ -134,25 +134,25 @@
                 </td>
                 <td style="width:50%">
                     <div style="width: 90%;">
-                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:20px;padding:5px 10px;background-color:#312783;color:#fff;">
+                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:15px;padding:5px 10px;background-color:#312783;color:#fff;">
                             Warehouse
                         </div>
                         <table style="text-align: left;">
                             <tr>
                                 <th>Code</th>
-                                <td>{{$info->warehouse->warehouse_code}}</td>
+                                <td>{{$info->warehouse_code}}</td>
                             </tr>
                             <tr>
                                 <th>Created By</th>
-                                <td>{{$info->warehouse->createdBy->name}}</td>
+                                <td>{{$info->warehouse_creator}}</td>
                             </tr>
                             <tr>
                                 <th>Bags</th>
-                                <td>{{$info->warehouse->no_of_bags}}</td>
+                                <td>{{$info->no_of_bags}}</td>
                             </tr>
                             <tr>
                                 <th>Date</th>
-                                <td>{{date_format($info->warehouse->created_at, 'F j, Y')}}</td>
+                                <td>{{date("M j, Y", strtotime($info->warehouse_date))}}</td>
                             </tr>
                         </table>
                     </div>
@@ -163,63 +163,75 @@
         <div style="margin:20px;"></div>
         <table>
             <tr>
-                @if (isset($info->qualityControl))
-                    <td style="width:50%">
-                        <div style="width: 90%;">
-                            <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:20px;padding:5px 10px;background-color:#312783;color:#fff;">
-                                Quality Control
-                            </div>
-                            <table style="text-align: left;">
-                                <tr>
-                                    <th style="text-align: left;">Code</th>
-                                    <td>{{$info->qualityControl->qc_code}}</td>
-                                </tr>
-                                <tr>
-                                    <th style="text-align: left;">Created By</th>
-                                    <td>{{$info->qualityControl->createdBy->name}}</td>
-                                </tr>
-                                <tr>
-                                    <th style="text-align: left;">Visual Inspection</th>
-                                    <td>{{$info->warehouse->visual_inspection}}</td>
-                                </tr>
-                                <tr>
-                                    <th style="text-align: left;">Visual Inspection Comment</th>
-                                    <td>{{$info->warehouse->visual_inspection_comment}}</td>
-                                </tr>
-                                <tr>
-                                    <th style="text-align: left">Moisture Content</th>
-                                    <td>{{$info->warehouse->moisture_content}}</td>
-                                </tr>
-                                <tr>
-                                    <th style="text-align: left;">Aflatoxin Content</th>
-                                    <td>{{$info->warehouse->aflatoxin_content}}</td>
-                                </tr>
-                                <tr>
-                                    <th style="text-align: left;">Date</th>
-                                    <td>{{date_format($info->qualityControl->created_at, 'F j, Y')}}</td>
-                                </tr>
-                            </table>
+                <td style="width:50%">
+                    <div style="width: 90%;">
+                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:15px;padding:5px 10px;background-color:#312783;color:#fff;">
+                            Quality Control
                         </div>
-                    </td>
-                @endif
+                        <table style="text-align: left;">
+                            <tr>
+                                <th style="text-align: left;">Code</th>
+                                <td>{{$info->qc_code}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left;">Created By</th>
+                                <td>{{$info->qc_creator}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left;">Visual Inspection</th>
+                                <td>{{$info->visual_inspection}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left;">Visual Inspection Comment</th>
+                                <td>{{$info->visual_inspection_comment}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left">Moisture Content</th>
+                                <td>{{$info->moisture_content}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left;">Aflatoxin Content</th>
+                                <td>{{$info->aflatoxin_content}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left;">Date</th>
+                                <td>{{date("M j, Y", strtotime($info->qc_date))}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
 
                 <td style="width:50%">
                     <div style="width: 90%;">
-                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:20px;padding:5px 10px;background-color:#312783;color:#fff;">
+                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:15px;padding:5px 10px;background-color:#312783;color:#fff;">
                             Weighbridge
                         </div>
                         <table style="text-align: left;">
                             <tr>
                                 <th style="text-align: left;">Code</th>
-                                <td>{{$info->weighbridge->weighbridge_code}}</td>
+                                <td>{{$info->weighbridge_code}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Created By</th>
-                                <td>{{$info->weighbridge->createdBy->name}}</td>
+                                <td>{{$info->weigh_creator}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Date</th>
-                                <td>{{date_format($info->weighbridge->created_at, 'F j, Y')}}</td>
+                                <td>{{date("M j, Y", strtotime($info->weigh_date))}}</td>
+                            </tr>
+                        </table>
+
+                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:15px;padding:5px 10px;background-color:#312783;color:#fff;margin-top:10px">
+                            Supplier
+                        </div>
+                        <table style="text-align: left;">
+                            <tr>
+                                <th style="text-align: left;">Code</th>
+                                <td>{{$info->supplier_code}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: left;">Name</th>
+                                <td>{{$info->supplier_firstname}} {{$info->supplier_middlename}} {{$info->supplier_lastname}}</td>
                             </tr>
                         </table>
                     </div>
@@ -231,42 +243,46 @@
             <tr>
                 <td style="width:50%">
                     <div style="width: 90%;">
-                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:20px;padding:5px 10px;background-color:#312783;color:#fff;">
+                        <div style="border-bottom: 1px solid #ddd;font-weight:700; font-size:15px;padding:5px 10px;background-color:#312783;color:#fff;">
                             Delivery
                         </div>
                         <table style="text-align: left;">
                             <tr>
                                 <th style="text-align: left;">Code</th>
-                                <td>{{$info->delivery->security_check_code}}</td>
+                                <td>{{$info->security_check_code}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Created By</th>
-                                <td>{{$info->delivery->createdBy->name}}</td>
+                                <td>{{$info->delivery_creator}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Driver</th>
-                                <td>{{$info->delivery->driver->firstname}} {{$info->delivery->driver->middlename}} {{$info->delivery->driver->lastname}}</td>
+                                <td>{{$info->driver_firstname}} {{$info->driver_middlename}} {{$info->driver_lastname}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Vehicle Reg No</th>
-                                <td>{{$info->delivery->vehicle_reg_no}}</td>
+                                <td>{{$info->vehicle_reg_no}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Vehicle Type</th>
-                                <td>{{$info->delivery->vehicle_type}}</td>
+                                <td>{{$info->vehicle_type}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Location</th>
-                                <td>{{$info->delivery->village}}, {{$info->delivery->subcounty->name}}, {{$info->delivery->county->name}}</td>
+                                <td>{{$info->village}}, {{$info->delivery_subcounty}}, {{$info->delivery_county}}</td>
                             </tr>
                             <tr>
                                 <th style="text-align: left;">Date</th>
-                                <td>{{date_format($info->delivery->created_at, 'F j, Y')}}</td>
+                                <td>{{date("M j, Y", strtotime($info->delivery_date))}}</td>
                             </tr>
                         </table>
                     </div>
                 </td>
-                <td style="width:50%"></td>
+                <td style="width:50%">
+                    <div style="width: 90%;">
+
+                    </div>
+                </td>
             </tr>
         </table>
 
