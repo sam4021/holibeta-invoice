@@ -13,62 +13,69 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Enums\StatusEnum;
+use App\Models\Reports;
 
 class WarehouseRepository implements WarehouseInterface
 {
 
-    public function getWarehouses(){
-        $warehouse= Warehouse::with(['createdBy', 'qualityControl'])
+    public function getWarehouses()
+    {
+        $warehouse = Warehouse::with(['createdBy', 'qualityControl'])
             ->orderBy('created_at', 'DESC')
-            ->paginate(request('showing')??10);
+            ->paginate(request('showing') ?? 10);
 
         return WarehouseResource::collection($warehouse);
     }
 
-    public function getWarehouseById(string $id){
+    public function getWarehouseById(string $id)
+    {
         return new WarehouseResource(Warehouse::with(['qualityControl', 'createdBy'])->findOrFail($id));
     }
 
-    public function createWarehouse($data){
+    public function createWarehouse($data)
+    {
         DB::beginTransaction();
-        try {//dd($data['bags']);
-            $warehouse= Warehouse::create([
-                'quality_control_id'=>$data['quality_control'], 
-                'created_by'=>$data['created_by'],
+        try { //dd($data['bags']);
+            $warehouse = Warehouse::create([
+                'quality_control_id' => $data['quality_control'],
+                'created_by' => $data['created_by'],
                 'no_of_bags' => $data['no_of_bags'],
                 'barcode_no' => Str::upper(Str::random(6)),
             ]);
+            $warehouseId =  $warehouse->id;
             foreach ($data['bags'] as $bag) {
                 $bag = WarehouseBags::create([
-                    'warehouse_id'=>$warehouse->id, 
-                    'weight'=>$bag['weight'],
-                    'created_by'=>$data['created_by'],
+                    'warehouse_id' => $warehouse->id,
+                    'weight' => $bag['weight'],
+                    'created_by' => $data['created_by'],
                     'grain_id' => 1,
                 ]);
-                $this->createStatus($bag->id,StatusEnum::InWarehouse->value,$data['created_by']);
+                $this->createStatus($bag->id, StatusEnum::InWarehouse->value, $data['created_by']);
             }
             DB::commit();
-            return response()->json(['message'=> 'Warehouse created successfully', 'warehouse'=> $warehouse],200);
-        }catch (\Exception $exception){
+
+            return response()->json(['message' => 'Warehouse created successfully', 'warehouse' => $warehouse], 200);
+        } catch (\Exception $exception) {
             DB::rollBack();
             dd($exception);
-            return response()->json(['message'=>$exception->getMessage()],400);
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
-    public function updateWarehouse(array $data, string $id){
+    public function updateWarehouse(array $data, string $id)
+    {
         try {
 
-            $warehouse= Warehouse::findOrFail($id);
+            $warehouse = Warehouse::findOrFail($id);
             $warehouse->update(
                 [
                     'quality_control_id' => $data['quality_control'],
                     'no_of_bags' => $data['no_of_bags'],
                 ]
             );
-            return response()->json(['message'=> 'Warehouse updated successfully', 'warehouse'=> $warehouse],200);
-        }catch (\Exception $exception){
-            return response()->json(['message'=>$exception->getMessage()],400);
+            return response()->json(['message' => 'Warehouse updated successfully', 'warehouse' => $warehouse], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
@@ -76,11 +83,11 @@ class WarehouseRepository implements WarehouseInterface
     {
 
         try {
-            $warehouse= Warehouse::findOrFail($id);
+            $warehouse = Warehouse::findOrFail($id);
             $warehouse->delete();
-            return response()->json(['message'=> 'Warehouse Check deleted'],200);
-        }catch (\Exception $exception){
-            return response()->json(['message'=>$exception->getMessage()],400);
+            return response()->json(['message' => 'Warehouse Check deleted'], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
@@ -95,8 +102,8 @@ class WarehouseRepository implements WarehouseInterface
             ->when(request('grain'), function ($query) {
                 $query->where('warehouse_bags.grain_id', request('grain'));
             })
-         ->select('warehouse_bags.id as bag_id', 'warehouse_bags.created_at as bag_date', 'warehouse_bags.bag_code', 'warehouse_bags.weight', 'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'grains.name as grain_name')
-        ->paginate(request('showing') ?? 10)->withQueryString();
+            ->select('warehouse_bags.id as bag_id', 'warehouse_bags.created_at as bag_date', 'warehouse_bags.bag_code', 'warehouse_bags.weight', 'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'grains.name as grain_name')
+            ->paginate(request('showing') ?? 10)->withQueryString();
         return $bags;
     }
 
@@ -108,20 +115,20 @@ class WarehouseRepository implements WarehouseInterface
     public function createStatus(int $id, string $status, int $user)
     {
         WarehouseBagStatus::create([
-            'warehouse_bag_id'=>$id,
-            'created_by'=>$user,
-            'status'=>$status
+            'warehouse_bag_id' => $id,
+            'created_by' => $user,
+            'status' => $status
         ]);
     }
 
     public function getUniqueGrains()
     {
         $grains = DB::table('warehouse_bags')->select('grain_id')->distinct()->get()->toArray();
-        $grainArr=[];
+        $grainArr = [];
         foreach ($grains as $value) {
-            array_push($grainArr,$value->grain_id);
+            array_push($grainArr, $value->grain_id);
         }
-        $grains= DB::table('grains')->whereIn('id',$grainArr)->get();
+        $grains = DB::table('grains')->whereIn('id', $grainArr)->get();
         return $grains;
     }
 

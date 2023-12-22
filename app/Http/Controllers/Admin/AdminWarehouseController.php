@@ -74,6 +74,12 @@ class AdminWarehouseController extends Controller
         $validated['created_by'] = Auth::user()->id;
         $warehouse=$this->warehouseRepository->createWarehouse($validated);
         if($warehouse->status()==200){
+            $warehouseData = Warehouse::find($warehouseId);
+            $bagsData = WarehouseBags::where('warehouse_id', $warehouseId);
+            $pdfData = [
+                'info' => $bagsData
+            ];
+            return Reports::generate('excel', 'reports.warehousebags', $pdfData, $warehouseData->warehouse_code);
             return redirect()->route('warehouse.index')->with('success', 'Warehouse added successfully');
         }else{
             return redirect()->back()->with('status', 'Error adding a Warehouse');
