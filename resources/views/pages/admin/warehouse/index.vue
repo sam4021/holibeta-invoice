@@ -106,7 +106,7 @@ const deleteWarehouse=(id:number)=>{
                             QC
                         </th>
                         <th scope="col" class="px-2 py-3">
-                           Barcode No
+                           Weight
                         </th>
                         <th>
                             No of Bags
@@ -129,7 +129,7 @@ const deleteWarehouse=(id:number)=>{
                         </th>
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
                             <Link :href="route('quality-control.show', warehouse.qc.id)" class="flex items-center gap-1">
-                                {{  warehouse.qc.code }}
+                                {{  warehouse.qc.qc_code }}
                                 <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512">
                                     <!--! Font Awesome Pro 6.0.0-alpha3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
@@ -139,7 +139,7 @@ const deleteWarehouse=(id:number)=>{
                             </Link>
                         </th>
                         <td class="px-2 py-3 capitalize">
-                            {{warehouse.barcode_no}}
+                            {{warehouse.total_weight}}
                         </td>
                         <td>
                             {{ warehouse.no_of_bags }}
@@ -161,10 +161,11 @@ const deleteWarehouse=(id:number)=>{
 
 
                         </td>
-                        <td class="px-2 py-3">
+                        <td class="px-2 py-3 flex">
                             <Link :href="route('warehouse.show',warehouse.id)">
                                 <button class="p-2">Details</button>
                             </Link>
+                            <a :href="route('warehouse.export.bags',warehouse.id)" class="text-sumo-700 font-bold p-2">Excel</a>
                         </td>
                     </tr>
                     </tbody>

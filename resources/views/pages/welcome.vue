@@ -19,11 +19,6 @@ let form=useForm({
         <div>
           <img class="h-10 w-auto" src="/images/logo.png" alt="emsea farm" />
           <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
-          <p class="mt-2 text-sm leading-6 text-gray-500">
-            Not a member?
-            {{ ' ' }}
-            <a  :href="route('register')" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign Up</a>
-          </p>
         </div>
 
         <div class="mt-10">

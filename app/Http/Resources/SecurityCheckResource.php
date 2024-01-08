@@ -16,7 +16,7 @@ class SecurityCheckResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'created_at'=>$this->created_at,
+            'created_at'=>date("j M, y g:i a", strtotime($this->created_at)),
             'updated_at'=>$this->updated_at,
             'created_by'=>new UserResource($this->createdBy), 
             'vehicle_reg_no'=>$this->vehicle_reg_no,

@@ -11,7 +11,7 @@ class Warehouse extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'quality_control_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content'
+        'quality_control_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content','total_weight'
     ];
 
     public function qualityControl()

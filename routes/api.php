@@ -28,3 +28,5 @@ Route::get('get/suppliers/count', [ApiController::class, 'getSuppliersCount']);
 Route::get('get/drivers/count', [ApiController::class, 'getDriversCount']);
 Route::get('get/grains/count/warehouse', [ApiController::class, 'getGrainsWarehouseCount']);
 Route::get('get/banks', [ApiController::class, 'getBanks']);
+Route::get('get/warehouse/weight/daily',[ApiController::class,'getWarehouseWeightDaily']);
+Route::get('get/warehouse/bags/daily',[ApiController::class,'getWarehouseBagDaily']);

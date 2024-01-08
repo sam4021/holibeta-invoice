@@ -68,7 +68,6 @@ class AdminSecurityCheckController extends Controller
             'front_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg',
             'back_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg',
             'top_image'=> 'required|image|mimes:jpeg,jpg,png,gif,svg' ,
-            'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             // 'supplier' => 'required|integer|exists:suppliers,id',
             'county' => 'required' ,
             'subcounty' => 'required',
@@ -91,14 +90,6 @@ class AdminSecurityCheckController extends Controller
             $image_resize = Image::make($back_image->getRealPath());
             $image_resize->save($this->securityPath . $filename);
             $validated['back_image'] = $filename;
-        }
-        if ($request->hasFile('side_image')) {
-            $side_image       = $request->file('side_image');
-            $extension = $side_image->getClientOriginalExtension();
-            $filename = 'side_image_' . time() . '.' .  $extension;
-            $image_resize = Image::make($side_image->getRealPath());
-            $image_resize->save($this->securityPath . $filename);
-            $validated['side_image'] = $filename;
         }
         if ($request->hasFile('top_image')) {
             $top_image       = $request->file('top_image');
@@ -174,14 +165,6 @@ class AdminSecurityCheckController extends Controller
             $image_resize->save($this->securityPath . $filename);
             $validated['back_image'] = $filename;
         }
-        if ($request->hasFile('side_image')) {
-            $side_image       = $request->file('side_image');
-            $extension = $side_image->getClientOriginalExtension();
-            $filename = 'side_image_' . time() . '.' .  $extension;
-            $image_resize = Image::make($side_image->getRealPath());
-            $image_resize->save($this->securityPath . $filename);
-            $validated['side_image'] = $filename;
-        }
         if ($request->hasFile('top_image')) {
             $top_image       = $request->file('top_image');
             $extension = $top_image->getClientOriginalExtension();
@@ -220,7 +203,6 @@ class AdminSecurityCheckController extends Controller
             'front_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             'back_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
             'top_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
-            'side_image' => 'required|image|mimes:jpeg,jpg,png,gif,svg',
         ]);
     }
 

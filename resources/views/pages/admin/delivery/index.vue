@@ -112,7 +112,7 @@ const deleteSecurityCheck=(id:number)=>{
                             </div>
                         </td>
                         <td class="px-2 py-3 capitalize">
-                            {{ moment(securityCheck.created_at).format("DD MMM, YYYY h:MM a") }}
+                            {{ securityCheck.created_at}}
                         </td>
                         <td class="px-2 py-3">
                             <custom-dropdown>

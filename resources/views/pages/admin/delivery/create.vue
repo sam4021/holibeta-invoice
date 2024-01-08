@@ -28,7 +28,6 @@ const step=useStorage('step',1)
 let form=useForm({
     front_image: "",
     back_image: "",
-    side_image: "",
     top_image:"",
     vehicle_reg_no: "",
     vehicle_type: null,
@@ -164,13 +163,6 @@ onMounted(()=>{
                                                     <input @input="form.top_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
                                                     <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
                                                         <span class="text-xs">{{form.errors.top_image }}</span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <label for="email" class="text-sm font-medium text-gray-700">Side Image</label>
-                                                    <input @input="form.side_image=$event.target.files[0]" class="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " id="file_input" type="file">
-                                                    <div v-if="form.errors" class="mt-3 text-red-800 text-sm">
-                                                        <span class="text-xs">{{form.errors.side_image }}</span>
                                                     </div>
                                                 </div>
                                             </div>

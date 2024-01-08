@@ -67,7 +67,7 @@ const submit = () => {
                 </div>
                 <div>
                     <label for="weight" class="text-sm font-medium text-gray-700">Weight</label>
-                    <input v-model="form.weight" type="text" id="name" name="weight" class="sumo-input my-2">
+                    <input v-model="form.weight" type="text" id="name" name="weight" class="sumo-input my-2" placeholder="00.00">
                     <div class="sumo-error" v-if="form.errors.weight">
                         {{ form.errors.weight }}
                     </div>

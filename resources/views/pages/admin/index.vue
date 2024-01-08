@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
 import { initFlowbite } from 'flowbite'
-import {Head} from "@inertiajs/vue3";
+import {Head, Link} from "@inertiajs/vue3";
 import Admin from "@/views/layouts/admin.vue";
 import GrainsWidgets from "@/views/components/widgets/grains-widget.vue";
+import WeightWidget from "@/views/components/widgets/weight-widget.vue";
+import BagWidget from "@/views/components/widgets/bag-widget.vue";
 
 defineProps({
     suppliers:Number,
@@ -44,10 +46,13 @@ onMounted(() => {
             <div>
                 <grains-widgets></grains-widgets>
             </div>
-            <!-- <div class="lg:col-span-3 grid" v-show="dashboard.includes('Tickets')">
-                <support-widget :tickets="tickets"/>
+            <div class="col-span-2 grid">
+                <bag-widget></bag-widget>
             </div>
-            <div class="lg:col-span-2 grid" v-show="dashboard.includes('Rental Listings')">
+            <div class="col-span-2 grid">
+                <weight-widget></weight-widget>
+            </div>
+            <!-- <div class="lg:col-span-2 grid" v-show="dashboard.includes('Rental Listings')">
                 <rental-listing></rental-listing>
             </div>
 

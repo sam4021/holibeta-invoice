@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admi
     Route::get('admin/warehouse/bag/{id}', [AdminWarehouseController::class, 'bagData'])->name('warehouse.bag');
     Route::get('admin/warehouse/bag/pdf/{id}', [AdminWarehouseController::class, 'bagPdf'])->name('warehouse.bag.pdf');
     Route::get('admin/warehouse/report/{format}', [AdminWarehouseController::class, 'exportData'])->name('warehouse.report');
+    Route::get('admin/warehouse/export/bags/{id}', [AdminWarehouseController::class, 'exportBags'])->name('warehouse.export.bags');
     Route::resource('admin/warehouse', AdminWarehouseController::class);
     Route::resource('admin/weighbridge', AdminWeighbridgeController::class);
     Route::resource('admin/quality-control', AdminQualityControlController::class);
@@ -42,17 +43,25 @@ Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admi
 });
 
 Route::get('test-bag-pdf', function () {
-    $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find(1);
-    $pdfData = [
-        'info' => $bag,
-        'qc' => $bag->qualityControl
-    ];
-    // dd($pdfData);
-    $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('reports.bag', $pdfData)->setOption(['defaultFont' => 'sans-serif'])
-        ->setPaper('a4', 'portrait');
-    $pdf->setOption('javascript-delay', 30000);
-    $pdf->setOption('isHtml5ParserEnabled', true);
-    $pdf->setOption('isRemoteEnabled', true);
-    return $pdf->stream();
+    $warehouseData = \App\Models\Warehouse::find($id);
+        $bagsData = \App\Models\WarehouseBags::where('warehouse_id', 1);
+        $pdfData = [
+            'info' => $bagsData
+        ];
+            
+        return Reports::generate('excel', 'reports.warehousebags', $pdfData, $warehouseData->warehouse_code);
+
+    // $bag = \App\Models\WarehouseBags::with(['warehouse', 'createdBy', 'grain', 'weighbridge', 'delivery', 'supplier', 'driver', 'status'])->find(1);
+    // $pdfData = [
+    //     'info' => $bag,
+    //     'qc' => $bag->qualityControl
+    // ];
+    // // dd($pdfData);
+    // $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('reports.bag', $pdfData)->setOption(['defaultFont' => 'sans-serif'])
+    //     ->setPaper('a4', 'portrait');
+    // $pdf->setOption('javascript-delay', 30000);
+    // $pdf->setOption('isHtml5ParserEnabled', true);
+    // $pdf->setOption('isRemoteEnabled', true);
+    // return $pdf->stream();
     // Storage::disk('public')->put('pdfs/transactions/' . $invoiceName . '.pdf', $pdf->output());
 });

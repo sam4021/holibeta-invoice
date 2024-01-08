@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import Admin from "@/views/layouts/admin.vue";
 import { Head, useForm, usePage } from "@inertiajs/vue3";
-import { computed,watch, onMounted, ref } from "vue";
+import { computed,watch, onMounted, ref,watchEffect } from "vue";
 import {useStorage} from "@vueuse/core";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
 
 let props = defineProps({
     qcs: Object,
 });
+const transactionItem=useStorage('transactionItem',[])
 console.log(props)
 let form = useForm({
     quality_control:null, 
     no_of_bags:"", 
     bags:"",
+    total_weight:0
 });
 
 let itemForm = useForm({
@@ -43,8 +45,6 @@ const removeAllItems=()=>{
     });
 }
 
-const transactionItem=useStorage('transactionItem',[])
-
 const submit = () => {
     form.bags = transactionItem.value
     form.post(route('warehouse.store'),{
@@ -56,6 +56,23 @@ const submit = () => {
         }
     })
 }
+
+watch(()=>transactionItem.value,()=>{    
+    getTotal();
+})
+
+
+const getTotal=()=>{    
+    let total = 0;
+    transactionItem.value.forEach(el => {
+        if (el.weight){
+            let weight = parseFloat(el.weight);
+            total = weight + total;
+        }
+    });
+    form.total_weight = total.toFixed(2)
+}
+
 
 onMounted(() => {
     removeAllItems()
@@ -92,6 +109,13 @@ onMounted(() => {
                                 {{ form.errors.no_of_bags }}
                             </div>
                         </div>
+                        <div>
+                            <label for="total_weight" class="text-sm font-medium text-gray-700">Total Weight</label>
+                            <input v-model="form.total_weight" type="text" id="name" name="total_weight" class="sumo-input my-2" disabled>
+                            <div class="sumo-error" v-if="form.errors.total_weight">
+                                {{ form.errors.total_weight }}
+                            </div>
+                        </div>
                         <div class="col-span-3">
                             <div>
                                 <div class="sumo-error" v-if="form.errors.bags">
@@ -121,7 +145,7 @@ onMounted(() => {
                                         <div class="grid grid-cols-4">
                                             <div class="col-span-3">
                                                 <label for="no_of_bags" class="text-sm font-medium text-gray-700">Weight</label>
-                                                <input type="number" class="sumo-input my-3" v-model="item.weight" required>
+                                                <input type="text" class="sumo-input my-3" v-model="item.weight" required @input="getTotal" placeholder="00.00">
                                             </div>
                                             <div>
                                                 <button type="button" @click="removeItem(item.id)" class="text-red-600 flex gap-2 items-center pt-12 pl-4">

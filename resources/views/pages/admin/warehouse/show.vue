@@ -88,6 +88,10 @@ const deleteWarehouse=(id:number)=>{
                         <tr>
                             <th class="text-start">No of Bags:</th>
                             <td class="px-3">{{warehouse.data.no_of_bags}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-start">Total Weight:</th>
+                            <td class="px-3">{{warehouse.data.total_weight}} KG</td>
                         </tr> 
                     </table>
                 </div>

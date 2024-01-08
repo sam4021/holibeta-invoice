@@ -71,19 +71,11 @@ class AdminWarehouseController extends Controller
             'quality_control'=> 'required|integer|exists:quality_controls,id',
             'no_of_bags'=>'required',
             'bags'=>'required|array',
+            'total_weight'=>'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
         $warehouse=$this->warehouseRepository->createWarehouse($validated);
         if($warehouse->status()==200){
-            $warehouseId=json_decode($warehouse->content())->warehouse->id;
-            $warehouseData = Warehouse::find($warehouseId);
-            $bagsData = WarehouseBags::where('warehouse_id', $warehouseId);
-            $pdfData = [
-                'info' => $bagsData
-            ];
-            
-            
-            // return Reports::generate('excel', 'reports.warehousebags', $pdfData, $warehouseData->warehouse_code);
             return redirect()->route('warehouse.index')->with('success', 'Warehouse added successfully');
         }else{
             return redirect()->back()->with('status', 'Error adding a Warehouse');
@@ -172,6 +164,17 @@ class AdminWarehouseController extends Controller
         return Reports::generate($format, 'reports.warehouse', $data, 'Warehouse');
     }
 
+    public function exportBags($id)
+    {
+        $warehouseData = Warehouse::find($id);
+        $bagsData = WarehouseBags::where('warehouse_id', $id)->get();
+        $pdfData = [
+            'info' => $bagsData
+        ];
+            
+        return Reports::generate('excel', 'reports.warehousebags', $pdfData, $warehouseData->warehouse_code);
+    }
+
     public function bagAdd ($id)
     {
         $warehouse = $this->warehouseRepository->getWarehouseById($id);
@@ -183,6 +186,7 @@ class AdminWarehouseController extends Controller
         $validated = $request->validate([
             'no_of_bags' => 'required',
             'bags' => 'required|array',
+            'total_weight'=>'required'
         ]);
         $validated['created_by'] = Auth::user()->id;
         $warehouse = $this->warehouseRepository->addWarehouseBags($id, $validated);

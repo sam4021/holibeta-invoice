@@ -3,12 +3,12 @@
 namespace App\Repositories;
 
 use App\Http\Resources\WarehouseResource;
+use App\Http\Resources\WarehouseIndexResource;
 use App\Http\Resources\WarehouseBagResource;
 use App\Interfaces\WarehouseInterface;
 use App\Models\Warehouse;
 use App\Models\WarehouseBags;
 use App\Models\WarehouseBagStatus;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +25,7 @@ class WarehouseRepository implements WarehouseInterface
             ->orderBy('created_at', 'DESC')
             ->paginate(request('showing') ?? 10);
 
-        return WarehouseResource::collection($warehouse);
+        return WarehouseIndexResource::collection($warehouse);
     }
 
     public function getWarehouseById(string $id)
@@ -42,6 +42,7 @@ class WarehouseRepository implements WarehouseInterface
                 'created_by' => $data['created_by'],
                 'no_of_bags' => $data['no_of_bags'],
                 'barcode_no' => Str::upper(Str::random(6)),
+                'total_weight' => $data['total_weight']
             ]);
             $warehouseId =  $warehouse->id;
             foreach ($data['bags'] as $bag) {
@@ -140,9 +141,11 @@ class WarehouseRepository implements WarehouseInterface
         try { //dd($data['bags']);
             $warehouse = Warehouse::findOrFail($id);
             $bags = $warehouse->no_of_bags + count($data['bags']);
+            $totalWeights = $warehouse->total_weight + $data['total_weight'];
             $warehouse->update(
                 [
                     'no_of_bags' => $bags,
+                    'total_weight' => $totalWeights,
                 ]
             );
             foreach ($data['bags'] as $bag) {
@@ -161,5 +164,10 @@ class WarehouseRepository implements WarehouseInterface
             dd($exception);
             return response()->json(['message' => $exception->getMessage()], 400);
         }
+    }
+
+    public function getWarehouseWeight($company, int $months)
+    {
+        
     }
 }

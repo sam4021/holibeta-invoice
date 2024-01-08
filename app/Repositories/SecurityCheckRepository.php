@@ -55,7 +55,6 @@ class SecurityCheckRepository implements SecurityCheckInterface
                 'vehicle_type'=>$data['vehicle_type'],
                 'front_image'=>$data['front_image'], 
                 'back_image'=>$data['back_image'], 
-                'side_image'=>$data['side_image'],
                 'top_image'=>$data['top_image'],
                 'driver_id'=> $data['driver'],
                 // 'timeslot'=>$data['stepOne']['timeslot'],
@@ -82,7 +81,6 @@ class SecurityCheckRepository implements SecurityCheckInterface
                     'vehicle_type' => $data['vehicle_type'],
                     // 'front_image' => $data['front_image'],
                     // 'back_image' => $data['back_image'],
-                    // 'side_image' => $data['side_image'],
                     // 'top_image' => $data['top_image'],
                     // 'driver_id' => $data['driver'],
                     'village' => $data['village']
