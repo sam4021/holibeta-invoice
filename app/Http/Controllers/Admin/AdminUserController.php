@@ -21,7 +21,7 @@ class AdminUserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:'.RoleEnum::Admin->value]);
+        $this->middleware(['role:' . RoleEnum::Admin->value]);
     }
 
     /**
@@ -30,15 +30,15 @@ class AdminUserController extends Controller
     public function index()
     {
         $users = User::query()
-        ->when(request('search'), function($query){
-            $query->where('name','like','%'.request('search').'%');
-        })
-      ->paginate(request('showing')??10);
+            ->when(request('search'), function ($query) {
+                $query->where('name', 'like', '%' . request('search') . '%');
+            })
+            ->paginate(request('showing') ?? 10);
         $users = UserResource::collection($users);
         $roles = RoleEnum::cases();
 
-        $filters=request()->only(['search','showing']);
-        return inertia::render('admin/users/index',compact('users','filters','roles'));
+        $filters = request()->only(['search', 'showing']);
+        return inertia::render('admin/users/index', compact('users', 'filters', 'roles'));
     }
 
     /**
@@ -54,31 +54,34 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $validated=$request->validate([
-            'name'=>['required', 'string', 'max:255'],
-            'email'=>['required', 'string', 'email', 'max:255', 'unique:users'],
-            'role' =>['required']
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role' => ['required']
         ]);
         DB::beginTransaction();
-        try{
-            $role=Role::findByName($validated['role']);
-            $temp_pass=Str::random(8);
-               $user=User::create([
-                   'name'=>$validated['name'],
-                   'email'=>$validated['email'],
-                   'password'=>Hash::make($temp_pass),
-                   'first_login'=>1
-               ]);
-               $user->assignRole($role);
-       
-               //event
-              $user->notify(new NewUserNotification($temp_pass));
+        try {
+            $roles = [];
+            foreach ($validated['role'] as $key => $value) {
+                $role = Role::findByName($value);
+                array_push($roles, $role);
+            }
+            $temp_pass = Str::random(8);
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($temp_pass),
+                'first_login' => 1
+            ]);
+            $user->assignRole($roles);
 
-              DB::commit();
+            //event
+            $user->notify(new NewUserNotification($temp_pass));
+
+            DB::commit();
             return redirect()->back()->with('success', 'User Created Successfully');
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             dd($e);
             return redirect()->back()->with('status', 'User Not Created. Try again');
@@ -106,18 +109,25 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated=$request->validate([
-            'name'=>['required', 'string', 'max:255'],
-            'role'=>['required']
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role' => ['required']
         ]);
 
         User::findOrFail($id)->update([
             'name' => $validated['name'],
         ]);
         $user = User::find($id);
-        if($validated['role'] != $user->getRoleNames()[0]){
-            $user->removeRole($user->getRoleNames()[0]);
-            $user->assignRole($validated['role']);
+        $roles = [];
+        foreach ($validated['role'] as $key => $value) {
+            $role = Role::findByName($value);
+            array_push($roles, $role);
+        }
+
+        if ($roles != $user->getRoleNames()) {
+            //$user->removeRole($user->getRoleNames());
+            $user->roles()->detach();
+            $user->assignRole($roles);
         }
         return redirect()->back()->with('success', 'User Created Successfully');
     }

@@ -8,6 +8,7 @@ import debounce from 'lodash'
 import DataPagination from "@/views/components/general-components/data-pagination.vue";
 // import UpdateVehicle from "@/views/components/vehicle/update-vehicle.vue";
 import CreateWarehouse from "@/views/components/warehouse/create.vue";
+import CustomDropdown from "@/views/components/general-components/custom-dropdown.vue";
 let props=defineProps({
     warehouses: {
         type: Object as PropType<Warehouse[]>,
@@ -102,19 +103,22 @@ const deleteWarehouse=(id:number)=>{
                         <th scope="col" class="px-2 py-3">
                            Warehouse Code
                         </th>
-                        <th scope="col" class="px-2 py-3">
+                        <th scope="col" class="px-2 py-3 text-center">
                             QC
                         </th>
-                        <th scope="col" class="px-2 py-3">
+                        <th scope="col" class="px-2 py-3 text-center">
                            Weight
                         </th>
-                        <th>
+                        <th class="text-center">
                             No of Bags
                         </th>
-                        <th>
+                        <th class="text-center hidden">
                             Grains
                         </th>
-                        <th>
+                        <th class="text-center">
+                            Supplier
+                        </th>
+                        <th class="text-center">
                             Created By
                         </th>
                         <th scope="col" class="px-2 py-3" colspan="2">
@@ -127,7 +131,7 @@ const deleteWarehouse=(id:number)=>{
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
                             {{warehouse.code}}
                         </th>
-                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-center">
                             <Link :href="route('quality-control.show', warehouse.qc.id)" class="flex items-center gap-1">
                                 {{  warehouse.qc.qc_code }}
                                 <svg class="h-3 fill-blue-500" xmlns="http://www.w3.org/2000/svg"
@@ -138,34 +142,48 @@ const deleteWarehouse=(id:number)=>{
                                 </svg>
                             </Link>
                         </th>
-                        <td class="px-2 py-3 capitalize">
+                        <td class="px-2 py-3 capitalize text-center">
                             {{warehouse.total_weight}}
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ warehouse.no_of_bags }}
                         </td>
-                        <td>
+                        <td class="text-center hidden">
                             <div class="flex gap-2">
                                 <span v-for="grain in warehouse.grains" :key="grain.id" class="text-xs">{{ grain.name }} , </span>
                             </div>  
                         </td>
-                        <td>
+                        <td class="text-xs text-center">
+                            {{ warehouse.supplier.firstname }} {{ warehouse.supplier.middlename }} {{ warehouse.supplier.lastname }}
+                        </td>
+                        <td class="text-xs text-center">
                             {{ warehouse.created_by.name }}
                         </td>
-                        <td class="px-2 py-3">
-                            <!-- <update-vehicle :vehicle="vehicle">
+                        <td class="px-2 py-3 text-center">
+                            <custom-dropdown>
                                 <template #trigger>
-                                    <button class="text-green-600">Update</button>
+                                    <button class="flex gap-2 items-center">
+                                       <span> More</span>
+                                        <svg class="h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512">
+                                            <path d="M64 112c26.5 0 48-21.5 48-48S90.5 16 64 16S16 37.5 16 64S37.5 112 64 112zM64 400c-26.5 0-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48S90.5 400 64 400zM64 208C37.5 208 16 229.5 16 256S37.5 304 64 304s48-21.5 48-48S90.5 208 64 208z"/>
+                                        </svg>
+                                    </button>
                                 </template>
-                            </update-vehicle> -->
-
-
-                        </td>
-                        <td class="px-2 py-3 flex">
-                            <Link :href="route('warehouse.show',warehouse.id)">
-                                <button class="p-2">Details</button>
-                            </Link>
-                            <a :href="route('warehouse.export.bags',warehouse.id)" class="text-sumo-700 font-bold p-2">Excel</a>
+                                <div>
+                                    <ul class="divide-y">
+                                        <li>
+                                            <Link :href="route('warehouse.show',warehouse.id)">
+                                                <button class="p-2">Details</button>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <a :href="route('warehouse.export.bags',warehouse.id)" class="text-sumo-700 font-bold p-2">Excel</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </custom-dropdown>
+                            
+                            
                         </td>
                     </tr>
                     </tbody>

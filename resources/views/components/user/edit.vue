@@ -49,15 +49,31 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="grid grid-cols-1 gap-1 my-5">
                                 <div>
-                                    <label class="sumo-label" for="role">Role:</label>
-                                    <select class="sumo-input my-2" v-model="form.role">
-                                        <option value="">Select role</option>
-                                        <option :value="role" :key="index" v-for="(role, index) in roles">{{role}}</option>
-                                    </select>
-                                    <div v-if="form.errors.name" class="mt-3 text-red-800 text-sm">
-                                        <span class="text-xs">{{form.errors.name }}</span>
+                                    <label class="sumo-label" for="role"
+                                        >Role:</label
+                                    >
+                                    <div class="grid grid-cols-3 gap-1 my-5">
+                                        <div
+                                            :key="index"
+                                            v-for="(role, index) in roles"
+                                        >
+                                            <div class="flex" :data-option="role">
+                                                <input type="checkbox" v-model="selectedOptions" :value="role" />
+                                                <span class="pl-4" >{{ role }}</span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        v-if="form.errors.role"
+                                        class="mt-3 text-red-800 text-sm"
+                                    >
+                                        <span class="text-xs">{{
+                                            form.errors.role
+                                        }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +90,7 @@
 
 <script setup lang="ts">
 import {useForm} from "@inertiajs/vue3";
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 
 let props=defineProps({
     user:Object,
@@ -82,11 +98,12 @@ let props=defineProps({
 })
 
 let show=ref(false)
+let selectedOptions = ref([]);
 
 let form=useForm({
     'email': '',
     'name': '',
-    'role':''
+    'role':[]
 })
 const launchForm=()=>{
     form.name=props.user?.name
@@ -95,6 +112,7 @@ const launchForm=()=>{
     show.value=true
 }
 const submit=()=>{
+    form.role = selectedOptions.value;
     form.patch(route('admin.users.update',props.user.id),{
         onSuccess:()=>{
             show.value = false
@@ -102,6 +120,10 @@ const submit=()=>{
         }
     })
 }
+
+onMounted(()=>{
+    selectedOptions.value = props.user?.role;
+})
 </script>
 
 <style scoped>

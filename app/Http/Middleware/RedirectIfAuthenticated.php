@@ -22,15 +22,16 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                $role=Auth::user()->getRoleNames()->first();
+                $role = Auth::user()->getRoleNames()->first();
+                return redirect(RouteServiceProvider::ADMIN);
                 switch ($role) {
-                    case($role==RoleEnum::Admin->value):
+                    case ($role == RoleEnum::Admin->value):
                         return redirect(RouteServiceProvider::ADMIN);
                         break;
-                    case($role==RoleEnum::Supervisor->value):
+                    case ($role == RoleEnum::Supervisor->value):
                         return redirect(RouteServiceProvider::SUPERVISOR);
                         break;
-                    case($role==RoleEnum::MachineOperator->value):
+                    case ($role == RoleEnum::MachineOperator->value):
                         return redirect(RouteServiceProvider::MACHINEOPERATOR);
                         break;
                     default:

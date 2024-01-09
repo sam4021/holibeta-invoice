@@ -15,14 +15,15 @@ class WarehouseIndexResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
-            'created_at'=>$this->created_at,
-            'qc'=>$this->qualityControl, 
-            'created_by'=>$this->createdBy,
+            'id' => $this->id,
+            'created_at' => $this->created_at,
+            'qc' => $this->qualityControl,
+            'created_by' => $this->createdBy,
             'no_of_bags' => $this->no_of_bags,
             'code' => $this->warehouse_code,
-            'grains'=>$this->grains(),
-            'total_weight'=>$this->total_weight
+            'grains' => $this->grains(),
+            'total_weight' => $this->total_weight,
+            'supplier' => $this->supplier
         ];
     }
 }

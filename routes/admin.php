@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\AdminWeighbridgeController;
 use App\Http\Controllers\Admin\AdminRolesController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth', 'verified', 'update_password', 'role:Admin']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'update_password']], function () {
     Route::get('admin/report/grain', [AdminReportController::class, 'grain'])->name('report.grain');
     Route::get('admin/report/report/{format}', [AdminReportController::class, 'exportData'])->name('reports.report');
     Route::get('admin/report', [AdminReportController::class, 'index'])->name('reports');

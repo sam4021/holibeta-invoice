@@ -15,7 +15,7 @@ class AdminController extends Controller
     private $supplierRepository;
     public function __construct(DriverInterface $driverRepository, SupplierInterface $supplierRepository)
     {
-        $this->middleware(['role:'.RoleEnum::Admin->value]);
+        // $this->middleware(['role:'.RoleEnum::Admin->value]);
         $this->driverRepository = $driverRepository;
         $this->supplierRepository = $supplierRepository;
     }

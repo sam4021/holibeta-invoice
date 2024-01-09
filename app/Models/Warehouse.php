@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'quality_control_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no','warehouse_code','moisture_content','total_weight'
+        'quality_control_id', 'created_by', 'no_of_bags', 'weight_per_bag', 'barcode_no', 'warehouse_code', 'moisture_content', 'total_weight'
     ];
 
     public function qualityControl()
@@ -26,12 +26,17 @@ class Warehouse extends Model
 
     public function bags()
     {
-        return $this->hasMany(WarehouseBags::class,'warehouse_id');
+        return $this->hasMany(WarehouseBags::class, 'warehouse_id');
+    }
+
+    public function supplier()
+    {
+        return $this->qualityControl->weighbridge->supplier();
     }
 
     public function grains()
     {
-        $grains=[];
+        $grains = [];
         foreach ($this->bags as $bag) {
             if (!in_array($bag->grain, $grains)) {
                 array_push($grains, $bag->grain);
@@ -46,12 +51,12 @@ class Warehouse extends Model
 
         self::creating(static function (Warehouse $warehouse) {
             $old_warehouse = Warehouse::latest()->first();
-            if ($old_warehouse){
-                $old_code = explode('-',$old_warehouse->warehouse_code)[1];
-                $new_code = str_pad((int)$old_code+1, 3, '0', STR_PAD_LEFT);
-                $warehouse->warehouse_code ='EFWH-'.$new_code;
-            }else{
-                $warehouse->warehouse_code ='EFWH-001';
+            if ($old_warehouse) {
+                $old_code = explode('-', $old_warehouse->warehouse_code)[1];
+                $new_code = str_pad((int)$old_code + 1, 3, '0', STR_PAD_LEFT);
+                $warehouse->warehouse_code = 'EFWH-' . $new_code;
+            } else {
+                $warehouse->warehouse_code = 'EFWH-001';
             }
         });
     }

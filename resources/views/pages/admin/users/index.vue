@@ -120,7 +120,9 @@ watch([search,showing],()=>{
                             {{user.email}}
                         </td>
                         <td class="px-2 py-3">
-                            {{user.role}}
+                            <span v-for="role in user.role" :key="role">
+                            {{ role }} , 
+                            </span>
                         </td>
                         <td class="px-2 py-3">
                             <div class="flex">
