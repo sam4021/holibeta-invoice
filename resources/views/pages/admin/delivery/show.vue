@@ -62,7 +62,7 @@ const deleteSecurityCheck=(id:number)=>{
                         </tr>                       
                         <tr>
                             <th class="text-start">Date:</th>
-                            <td class="px-3">{{ moment(securityCheck.created_at).format("DD MMM, YYYY h:MM a") }}</td>
+                            <td class="px-3">{{ securityCheck.data.created_at }}</td>
                         </tr>                      
                         <tr>
                             <th class="text-start">Created By:</th>
@@ -115,7 +115,7 @@ const deleteSecurityCheck=(id:number)=>{
         </div>
 
         <div class="shadow p-4 bg-white rounded-md mt-4">
-            <div class="grid gap-3 grid-cols-4">
+            <div class="grid gap-5 grid-cols-3">
                 <div class="items-center gap-2">
                     <span class="text-gray-600">Front image:</span>
                     <img :src="front_image" class="w-full">
@@ -123,10 +123,6 @@ const deleteSecurityCheck=(id:number)=>{
                 <div class="items-center gap-2">
                     <span class="text-gray-600">Back image:</span>
                     <img :src="back_image" class="w-full">
-                </div>
-                <div class="items-center gap-2">
-                    <span class="text-gray-600">Side image:</span>
-                    <img :src="side_image" class="w-full">
                 </div>
                 <div class="items-center gap-2">
                     <span class="text-gray-600">Top image:</span>

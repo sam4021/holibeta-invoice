@@ -16,7 +16,7 @@ class WarehouseResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'created_at'=>$this->created_at,
+            'created_at'=> date("j M, y g:i a", strtotime($this->created_at)),
             'updated_at'=>$this->updated_at,
             'qc'=>new QualityControlResource($this->whenLoaded('qualityControl')), 
             'created_by'=>new UserResource($this->createdBy),

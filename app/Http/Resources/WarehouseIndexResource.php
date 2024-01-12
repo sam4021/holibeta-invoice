@@ -16,7 +16,7 @@ class WarehouseIndexResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at' => $this->created_at,
+            'created_at' => date("j M, y g:i a", strtotime($this->created_at)),
             'qc' => $this->qualityControl,
             'created_by' => $this->createdBy,
             'no_of_bags' => $this->no_of_bags,

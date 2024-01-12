@@ -78,7 +78,7 @@ const deleteWarehouse=(id:number)=>{
                         </tr>                        
                         <tr>
                             <th class="text-start">Date:</th>
-                            <td class="px-3">{{ moment(warehouse.data.created_at).format("DD MMM, YYYY h:MM a") }}</td>
+                            <td class="px-3">{{ warehouse.data.created_at }}</td>
                         </tr>                      
                     </table>
                 </div>
@@ -101,53 +101,33 @@ const deleteWarehouse=(id:number)=>{
 
     <div class="my-5">
         <div class="shadow p-4 bg-white rounded-md">
-            <div class="grid gap-3 grid-cols-2">
+            <div class="grid gap-3 grid-cols-1">
                 <div class="my-3">
                     <div class="flex flex-row-reverse">
                         <Link :href="route('warehouse.bags.add', warehouse.data.id)"
                                               class="btn-simple btn-medium flex items-center gap-2">
                             Add Bags
-                            <svg class="h-3 fill-sumo-700" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 512 512">
-                                <path
-                                    d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                            <svg class="h-3 fill-sumo-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/>
                             </svg>
                         </Link>
                     </div>
-                    <table class="w-full text-sm text-left text-gray-700 font-medium mt-2">
-                        <thead class="text-xs text-sky-700 uppercase bg-sky-50">
-                            <tr>
-                                <th scope="col" class="px-2 py-3">
-                                    Code
-                                </th>
-                                <th>
-                                Weight
-                                </th>
-                                <th>Status</th>
-                                <th scope="col" class="px-2 py-3" colspan="2">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="[&>*:nth-child(even)]:bg-gray-100">
-                        <tr class="border-b" v-for="bag in warehouse.data.bags" :key="bag.id" >
-                            <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-xs">
+                    <div class="grid gap-4 grid-cols-5">
+                        <div class="shadow-md p-4 text-sm" v-for="bag in warehouse.data.bags" :key="bag.id">
+                            <Link :href="route('warehouse.bag',bag.id)"
+                                    class="flex items-center gap-1 text-base font-bold text-sky-700">
                                 {{bag.code}}
-                            </th>
-                            <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-xs">
-                                {{bag.weight}}
-                            </th>
-                            <td class="px-2 py-3 text-xs">
-                                {{ bag.currentStatus }}
-                            </td>
-                            <td class="px-2 py-3">
-                                <Link :href="route('warehouse.bag',bag.id)">
-                                <button class="p-2 text-green-800">Details</button>
-                                </Link>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                <svg class="h-3 fill-sky-700" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512">
+                                    <path
+                                        d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM502.6 9.367C496.8 3.578 488.8 0 480 0h-160c-17.67 0-31.1 14.32-31.1 31.1c0 17.67 14.32 31.1 31.99 31.1h82.75L178.7 290.7c-12.5 12.5-12.5 32.76 0 45.26C191.2 348.5 211.5 348.5 224 336l224-226.8V192c0 17.67 14.33 31.1 31.1 31.1S512 209.7 512 192V31.1C512 23.16 508.4 15.16 502.6 9.367z"/>
+                                </svg>
+                            </Link>
+                            <p> {{bag.weight}} Kg</p>
+                            <p>{{ bag.currentStatus }}</p>
+                        </div>
+                    </div>
+                    
                 </div>
                 
                 <div class="my-3">

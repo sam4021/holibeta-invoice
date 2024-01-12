@@ -9,6 +9,8 @@ import DataPagination from "@/views/components/general-components/data-paginatio
 // import UpdateVehicle from "@/views/components/vehicle/update-vehicle.vue";
 import CreateWarehouse from "@/views/components/warehouse/create.vue";
 import CustomDropdown from "@/views/components/general-components/custom-dropdown.vue";
+import moment from 'moment';
+
 let props=defineProps({
     warehouses: {
         type: Object as PropType<Warehouse[]>,
@@ -104,20 +106,20 @@ const deleteWarehouse=(id:number)=>{
                            Warehouse Code
                         </th>
                         <th scope="col" class="px-2 py-3 text-center">
-                            QC
-                        </th>
-                        <th scope="col" class="px-2 py-3 text-center">
-                           Weight
-                        </th>
-                        <th class="text-center">
-                            No of Bags
-                        </th>
-                        <th class="text-center hidden">
-                            Grains
+                            Date
                         </th>
                         <th class="text-center">
                             Supplier
                         </th>
+                        <th class="text-center">
+                            Bags
+                        </th>
+                        <th scope="col" class="px-2 py-3 text-center">
+                           Weight
+                        </th>
+                        <th scope="col" class="px-2 py-3 text-center">
+                            QC
+                        </th>                        
                         <th class="text-center">
                             Created By
                         </th>
@@ -131,6 +133,18 @@ const deleteWarehouse=(id:number)=>{
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
                             {{warehouse.code}}
                         </th>
+                        <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap">
+                            {{ warehouse.created_at }}
+                        </th>
+                        <td class="text-xs text-center">
+                            {{ warehouse.supplier.firstname }} {{ warehouse.supplier.middlename }} {{ warehouse.supplier.lastname }}
+                        </td>
+                        <td class="text-center">
+                            {{ warehouse.no_of_bags }}
+                        </td>
+                        <td class="px-2 py-3 capitalize text-center">
+                            {{warehouse.total_weight}}
+                        </td>
                         <th scope="row" class="px-2 py-3 font-semibold whitespace-nowrap text-center">
                             <Link :href="route('quality-control.show', warehouse.qc.id)" class="flex items-center gap-1">
                                 {{  warehouse.qc.qc_code }}
@@ -142,20 +156,11 @@ const deleteWarehouse=(id:number)=>{
                                 </svg>
                             </Link>
                         </th>
-                        <td class="px-2 py-3 capitalize text-center">
-                            {{warehouse.total_weight}}
-                        </td>
-                        <td class="text-center">
-                            {{ warehouse.no_of_bags }}
-                        </td>
-                        <td class="text-center hidden">
+                        <!-- <td class="text-center hidden">
                             <div class="flex gap-2">
                                 <span v-for="grain in warehouse.grains" :key="grain.id" class="text-xs">{{ grain.name }} , </span>
                             </div>  
-                        </td>
-                        <td class="text-xs text-center">
-                            {{ warehouse.supplier.firstname }} {{ warehouse.supplier.middlename }} {{ warehouse.supplier.lastname }}
-                        </td>
+                        </td> -->
                         <td class="text-xs text-center">
                             {{ warehouse.created_by.name }}
                         </td>
