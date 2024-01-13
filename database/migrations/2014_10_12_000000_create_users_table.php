@@ -21,6 +21,8 @@ return new class extends Migration
             $table->timestamps();
             $table->boolean('first_login')->default(false);
             $table->boolean('email_verified')->default(false);
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
         });
     }

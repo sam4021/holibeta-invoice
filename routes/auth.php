@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['guest']], function(){
     Route::post('auth/authenticate',[AuthController::class, 'authenticate'])->name('authenticate');
-    // Route::post('register/creat/user',[AuthController::class, 'creatUser'])->name('create.user');
-    // Route::get('auth/register',[AuthController::class, 'register'])->name('register');
+    Route::post('register/creat/user',[AuthController::class, 'creatUser'])->name('create.user');
+    Route::get('auth/register',[AuthController::class, 'register'])->name('register');
     Route::get('/auth/password-reset',[AuthController::class, 'reset'])->name('password-reset');
     Route::post('/auth/password-store',[AuthController::class, 'resetPassword'])->name('check.email');
     Route::get('/auth/reset-password', [AuthController::class, 'newPassword'])->name('create.password');

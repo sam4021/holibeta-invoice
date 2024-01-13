@@ -1,23 +1,20 @@
 <?php
 
-namespace Crater\Models;
+namespace App\Models;
 
 use Carbon\Carbon;
-use Crater\Notifications\CustomerMailResetPasswordNotification;
+use App\Notifications\CustomerMailResetPasswordNotification;
 use Crater\Traits\HasCustomFieldsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Customer extends Authenticatable implements HasMedia
+class Customer extends Authenticatable
 {
     use HasApiTokens;
     use Notifiable;
-    use InteractsWithMedia;
     use HasCustomFieldsTrait;
     use HasFactory;
     use HasRolesAndAbilities;
@@ -111,11 +108,6 @@ class Customer extends Authenticatable implements HasMedia
     public function shippingAddress()
     {
         return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
-    }
-
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new CustomerMailResetPasswordNotification($token));
     }
 
     public function getAvatarAttribute()

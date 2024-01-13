@@ -3,6 +3,12 @@
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminRolesController;
+use App\Http\Controllers\Admin\AdminInvoiceController;
+use App\Http\Controllers\Admin\AdminCustomerController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,4 +24,16 @@ Route::get('/', [MainController::class, 'home'])->name('login')->middleware('gue
 
 
 require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+
+Route::prefix('admin')->group(function () {
+    Route::group(['middleware' => ['auth', 'verified', 'update_password']], function () {
+        Route::resource('users', AdminUserController::class, ['names' => 'admin.users']);
+        Route::post('roles/permission', [AdminRolesController::class, 'permission'])->name('admin.roles.permission');
+        Route::resource('roles', AdminRolesController::class, ['names' => 'admin.roles']);
+
+        Route::resource('invoice', AdminInvoiceController::class, ['names' => 'invoice']);
+        Route::resource('customer', AdminCustomerController::class, ['names' => 'customer']);
+
+        Route::resource('/', AdminController::class, ['names' => 'admin']);
+    });
+});

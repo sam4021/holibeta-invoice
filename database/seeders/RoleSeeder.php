@@ -20,46 +20,15 @@ class RoleSeeder extends Seeder
         Role::truncate();
         Schema::enableForeignKeyConstraints();
 
-        $roles=[
+        $roles = [
             [
-                'name'=>RoleEnum::Admin->value,
-                'guard_name'=>'web'
-            ],
-            [
-                'name'=>RoleEnum::SecuritySupervisor->value,
-                'guard_name'=>'web'
-            ],
-            [
-                'name'=>RoleEnum::StoreManager->value,
-                'guard_name'=>'web'
-            ],
-            [
-                'name' => RoleEnum::StoreOfficer->value,
+                'name' => RoleEnum::Admin->value,
                 'guard_name' => 'web'
             ],
-            [
-                'name' => RoleEnum::StoreSupervisor->value,
-                'guard_name' => 'web'
-            ],
-            [
-                'name' => RoleEnum::GrainInspector->value,
-                'guard_name' => 'web'
-            ],
-            [
-                'name' => RoleEnum::LaboratorySupervisor->value,
-                'guard_name' => 'web'
-            ],
-            [
-                'name' => RoleEnum::WeighbridgeOperator->value,
-                'guard_name' => 'web'
-            ],
-            [
-                'name' => RoleEnum::WeighbridgeSupervisor->value,
-                'guard_name' => 'web'
-            ],
+
         ];
 
-        foreach ($roles as $role){
+        foreach ($roles as $role) {
             Role::create($role);
         }
     }

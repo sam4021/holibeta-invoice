@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('company_name')->nullable();
-            $table->string('website')->nullable();
-            $table->unsignedInteger('creator_id')->nullable();
-            $table->foreign('creator_id')->references('id')->on('users');
+            $table->unsignedBigInteger('creator_id')->index();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

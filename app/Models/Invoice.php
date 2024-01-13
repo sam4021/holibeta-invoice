@@ -1,27 +1,23 @@
 <?php
 
-namespace Crater\Models;
+namespace App\Models;
 
-use App;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-use Crater\Mail\SendInvoiceMail;
-use Crater\Services\SerialNumberFormatter;
-use Crater\Traits\GeneratesPdfTrait;
-use Crater\Traits\HasCustomFieldsTrait;
+use App\Mail\SendInvoiceMail;
+use App\Services\SerialNumberFormatter;
+use App\Traits\GeneratesPdfTrait;
+use App\Traits\HasCustomFieldsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Facades\Module;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Vinkla\Hashids\Facades\Hashids;
 
-class Invoice extends Model implements HasMedia
+class Invoice extends Model
 {
     use HasFactory;
-    use InteractsWithMedia;
     use GeneratesPdfTrait;
     use HasCustomFieldsTrait;
 
@@ -290,16 +286,6 @@ class Invoice extends Model implements HasMedia
         $query->orWhere('id', $invoice_id);
     }
 
-    public function scopeWhereCompany($query)
-    {
-        $query->where('invoices.company_id', request()->header('company'));
-    }
-
-    public function scopeWhereCompanyId($query, $company)
-    {
-        $query->where('invoices.company_id', $company);
-    }
-
     public function scopeWhereCustomer($query, $customer_id)
     {
         $query->where('invoices.customer_id', $customer_id);
@@ -326,7 +312,6 @@ class Invoice extends Model implements HasMedia
 
         $serial = (new SerialNumberFormatter())
             ->setModel($invoice)
-            ->setCompany($invoice->company_id)
             ->setCustomer($invoice->customer_id)
             ->setNextNumbers();
 
@@ -367,7 +352,6 @@ class Invoice extends Model implements HasMedia
     {
         $serial = (new SerialNumberFormatter())
             ->setModel($this)
-            ->setCompany($this->company_id)
             ->setCustomer($request->customer_id)
             ->setModelObject($this->id)
             ->setNextNumbers();
@@ -442,7 +426,6 @@ class Invoice extends Model implements HasMedia
     {
         $data['invoice'] = $this->toArray();
         $data['customer'] = $this->customer->toArray();
-        $data['company'] = Company::find($this->company_id);
         $data['subject'] = $this->getEmailString($data['subject']);
         $data['body'] = $this->getEmailString($data['body']);
         $data['attach']['data'] = ($this->getEmailAttachmentSetting()) ? $this->getPDFData() : null;
@@ -483,7 +466,6 @@ class Invoice extends Model implements HasMedia
         $exchange_rate = $invoice->exchange_rate;
 
         foreach ($invoiceItems as $invoiceItem) {
-            $invoiceItem['company_id'] = $invoice->company_id;
             $invoiceItem['exchange_rate'] = $exchange_rate;
             $invoiceItem['base_price'] = $invoiceItem['price'] * $exchange_rate;
             $invoiceItem['base_discount_val'] = $invoiceItem['discount_val'] * $exchange_rate;
@@ -498,7 +480,6 @@ class Invoice extends Model implements HasMedia
 
             if (array_key_exists('taxes', $invoiceItem) && $invoiceItem['taxes']) {
                 foreach ($invoiceItem['taxes'] as $tax) {
-                    $tax['company_id'] = $invoice->company_id;
                     $tax['exchange_rate'] = $invoice->exchange_rate;
                     $tax['base_amount'] = $tax['amount'] * $exchange_rate;
                     $tax['currency_id'] = $invoice->currency_id;
@@ -524,7 +505,6 @@ class Invoice extends Model implements HasMedia
         $exchange_rate = $invoice->exchange_rate;
 
         foreach ($taxes as $tax) {
-            $tax['company_id'] = $invoice->company_id;
             $tax['exchange_rate'] = $invoice->exchange_rate;
             $tax['base_amount'] = $tax['amount'] * $exchange_rate;
             $tax['currency_id'] = $invoice->currency_id;

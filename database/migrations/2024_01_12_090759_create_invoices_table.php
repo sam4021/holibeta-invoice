@@ -35,9 +35,9 @@ class CreateInvoicesTable extends Migration
             $table->boolean('viewed')->default(false);
             $table->boolean('overdue')->default(false);
             $table->string('unique_hash')->nullable();
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->index();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->timestamps();
         });

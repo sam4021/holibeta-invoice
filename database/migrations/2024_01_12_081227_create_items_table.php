@@ -19,6 +19,8 @@ class CreateItemsTable extends Migration
             $table->string('description')->nullable();
             $table->string('unit')->nullable();
             $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('creator_id')->index();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

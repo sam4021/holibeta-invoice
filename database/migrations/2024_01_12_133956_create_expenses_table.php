@@ -21,10 +21,10 @@ class CreateExpensesTable extends Migration
             $table->string('notes')->nullable();
             $table->integer('expense_category_id')->unsigned();
             $table->foreign('expense_category_id')->references('id')->on('expense_categories')->onDelete('cascade');
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->unsignedBigInteger('creator_id')->index();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
