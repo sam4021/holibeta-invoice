@@ -4,56 +4,22 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Notifications\CustomerMailResetPasswordNotification;
-use Crater\Traits\HasCustomFieldsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class Customer extends Authenticatable
 {
     use HasApiTokens;
     use Notifiable;
-    use HasCustomFieldsTrait;
     use HasFactory;
-    use HasRolesAndAbilities;
 
     protected $guarded = [
         'id'
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
-    protected $with = [
-        'currency',
-    ];
-
-    protected $appends = [
-        'formattedCreatedAt',
-        'avatar'
-    ];
-
-    protected $casts = [
-        'enable_portal' => 'boolean',
-    ];
-
-    public function getFormattedCreatedAtAttribute($value)
-    {
-        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
-
-        return Carbon::parse($this->created_at)->format($dateFormat);
-    }
-
-    public function setPasswordAttribute($value)
-    {
-        if ($value != null) {
-            $this->attributes['password'] = bcrypt($value);
-        }
-    }
 
     public function estimates()
     {
@@ -75,19 +41,11 @@ class Customer extends Authenticatable
         return $this->hasMany(Payment::class);
     }
 
-    public function addresses()
-    {
-        return $this->hasMany(Address::class);
-    }
+    
 
     public function recurringInvoices()
     {
         return $this->hasMany(RecurringInvoice::class);
-    }
-
-    public function currency()
-    {
-        return $this->belongsTo(Currency::class);
     }
 
     public function creator()
@@ -95,31 +53,6 @@ class Customer extends Authenticatable
         return $this->belongsTo(Customer::class, 'creator_id');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function billingAddress()
-    {
-        return $this->hasOne(Address::class)->where('type', Address::BILLING_TYPE);
-    }
-
-    public function shippingAddress()
-    {
-        return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
-    }
-
-    public function getAvatarAttribute()
-    {
-        $avatar = $this->getMedia('customer_avatar')->first();
-
-        if ($avatar) {
-            return  asset($avatar->getUrl());
-        }
-
-        return 0;
-    }
 
     public static function deleteCustomers($ids)
     {

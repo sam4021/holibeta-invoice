@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
-            $table->string('contact_name')->nullable();
-            $table->string('company_name')->nullable();
             $table->unsignedBigInteger('creator_id')->index();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

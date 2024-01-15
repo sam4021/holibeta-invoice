@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\DeleteCustomersRequest;
-use App\Http\Resources\CustomerResource;
+use App\Http\Resources\Customer\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Inertia\Inertia;
 
 class AdminCustomerController extends Controller
 {
@@ -18,26 +18,24 @@ class AdminCustomerController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Customer::class);
+        // $this->authorize('viewAny', Customer::class);
 
         $limit = request()->has('limit') ? request()->limit : 10;
 
         $customers = Customer::with('creator')
-        ->whereCompany()
-            ->applyFilters($request->all())
+            ->applyFilters(request()->all())
             ->select(
                 'customers.*',
-                DB::raw('sum(invoices.base_due_amount) as base_due_amount'),
                 DB::raw('sum(invoices.due_amount) as due_amount'),
             )
             ->groupBy('customers.id')
             ->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginateData($limit);
 
-        return (CustomerResource::collection($customers))
-            ->additional(['meta' => [
-                'customer_total_count' => Customer::whereCompany()->count(),
-            ]]);
+        $customers = CustomerResource::collection($customers);
+        $filters = request()->only(['showing', 'search', 'status']);
+
+        return inertia::render('admin/customer/index', compact('customers', 'filters'));
     }
 
     /**
@@ -45,15 +43,19 @@ class AdminCustomerController extends Controller
      */
     public function create()
     {
-        //
+        return inertia::render('admin/customer/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Requests\CustomerRequest $request)
     {
-        //
+        $this->authorize('create', Customer::class);
+
+        $customer = Customer::createCustomer($request);
+
+        return new CustomerResource($customer);
     }
 
     /**
