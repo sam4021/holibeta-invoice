@@ -20,13 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get/products',[ApiController::class,'getProducts']);
-Route::get('get/counties', [ApiController::class, 'getCounties']);
-Route::get('get/sub-counties/{id}', [ApiController::class, 'getSubcounties']);
-Route::get('get/default_county', [ApiController::class, 'getDefaultCounty']);
-Route::get('get/suppliers/count', [ApiController::class, 'getSuppliersCount']);
-Route::get('get/drivers/count', [ApiController::class, 'getDriversCount']);
-Route::get('get/grains/count/warehouse', [ApiController::class, 'getGrainsWarehouseCount']);
-Route::get('get/banks', [ApiController::class, 'getBanks']);
-Route::get('get/warehouse/weight/daily',[ApiController::class,'getWarehouseWeightDaily']);
-Route::get('get/warehouse/bags/daily',[ApiController::class,'getWarehouseBagDaily']);
+
+Route::get('get/countries', [ApiController::class, 'getCountries']);
+Route::get('get/cities/{id}', [ApiController::class, 'getCities']);
+Route::get('get/default_country', [ApiController::class, 'getDefaultCountry']);

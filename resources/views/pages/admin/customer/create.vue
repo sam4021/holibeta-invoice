@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import Admin from "@/views/layouts/admin.vue";
 import { Head, useForm, usePage, router } from "@inertiajs/vue3";
-import { ref, onMounted } from "vue";
-import CountySelect from "@/views/components/general-components/county-select.vue";
-import SubcountySelect from "@/views/components/general-components/subcounty-select.vue";
+import { ref, onMounted, watch } from "vue";
+// import PhoneInput from "@/views/components/general-components/phone-input.vue";
 import { useLocationStore } from "@/scripts/store/locationStore";
 import CreateDriver from "@/views/components/driver/create.vue";
 import VueSelect from "@/views/components/general-components/vue-select.vue";
+import CitiesSelect from "@/views/components/general-components/cities-select.vue";
+const locationStore=useLocationStore()
 
-const locationStore = useLocationStore();
 const search = ref("");
 
 let props = defineProps({});
@@ -20,15 +20,30 @@ let form = useForm({
     phone: "",
     billing_name: "",
     billing_address_street_1: "",
+    billing_address_street_2: "",
+    billing_town: "",
+    billing_country: "",
+    billing_zip: "",
+    billing_phone: "",
 });
 
 const submit = () => {
+    form.billing_country=locationStore.default_country.id;
+    form.billing_town=locationStore.city;
     form.post(route("customer.store"), {
-        onSuccess: () => {},
+        onSuccess: () => {
+            locationStore.$reset()
+        },
     });
 };
 
-onMounted(() => {});
+watch(()=>locationStore.default_country,  ()=>{
+    locationStore.getCities(locationStore.default_country.name)
+})
+onMounted(()=>{
+    locationStore.getDefaultCountry()
+    locationStore.getCities(locationStore.default_country.name)
+})
 </script>
 
 <template>
@@ -83,6 +98,18 @@ onMounted(() => {});
                             {{ form.errors.email }}
                         </div>
                     </div>
+                    <!-- <div>
+                    <label class="sumo-label">Country & Cellphone:</label>
+                    <div class="z-50 my-2">
+                        <phone-input></phone-input>
+                    </div>
+                    <div class="flex justify-between">
+                        <div v-if="form.errors.phone" class="mt-3 text-red-800 text-sm">
+                            <span class="text-xs">{{form.errors.phone }}</span>
+                        </div>
+                        
+                    </div>
+                </div> -->
                     <div>
                         <label
                             for="phone"
@@ -147,7 +174,7 @@ onMounted(() => {});
                             class="sumo-error"
                             v-if="form.errors.billing_address_street_1"
                         >
-                            {{ form.errors.bolling_address_street_1 }}
+                            {{ form.errors.billing_address_street_1 }}
                         </div>
                     </div>
                     <div>
@@ -169,6 +196,102 @@ onMounted(() => {});
                             v-if="form.errors.billing_address_street_2"
                         >
                             {{ form.errors.billing_address_street_2 }}
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            for="billing_town"
+                            class="text-sm font-medium text-gray-700"
+                            >Town</label
+                        >
+                        <input
+                            v-model="form.billing_town"
+                            type="text"
+                            id="billing_town"
+                            name="billing_town"
+                            class="sumo-input my-2"
+                            placeholder="07xxxxxxx"
+                        />
+                        <div
+                            class="sumo-error"
+                            v-if="form.errors.billing_town"
+                        >
+                            {{ form.errors.billing_town }}
+                        </div>
+                    </div>
+                    <div v-if="locationStore.default_country">
+                    <label class="sumo-label">City/Town:</label>
+                    <cities-select
+                        :searchable="true"
+                        placeholder="Select City/town"
+                        :disabled="!locationStore.default_country"
+                        class="my-2"
+                    ></cities-select>
+                    <div v-if="form.errors.billing_town" class="mt-3 text-red-800 text-sm">
+                        <span class="text-xs">{{form.errors.billing_town }}</span>
+                    </div>
+                </div>
+                    <div>
+                        <label
+                            for="billing_country"
+                            class="text-sm font-medium text-gray-700"
+                            >Country </label
+                        >
+                        <input
+                            v-model="form.billing_country"
+                            type="text"
+                            id="billing_country"
+                            name="billing_country"
+                            class="sumo-input my-2"
+                            placeholder="07xxxxxxx"
+                        />
+                        <div
+                            class="sumo-error"
+                            v-if="form.errors.billing_country"
+                        >
+                            {{ form.errors.billing_country }}
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            for="billing_zip"
+                            class="text-sm font-medium text-gray-700"
+                            >Zip</label
+                        >
+                        <input
+                            v-model="form.billing_zip"
+                            type="text"
+                            id="billing_zip"
+                            name="billing_zip"
+                            class="sumo-input my-2"
+                            placeholder="07xxxxxxx"
+                        />
+                        <div
+                            class="sumo-error"
+                            v-if="form.errors.billing_zip"
+                        >
+                            {{ form.errors.billing_zip }}
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            for="billing_phone"
+                            class="text-sm font-medium text-gray-700"
+                            >Phone</label
+                        >
+                        <input
+                            v-model="form.billing_phone"
+                            type="text"
+                            id="billing_phone"
+                            name="billing_phone"
+                            class="sumo-input my-2"
+                            placeholder="07xxxxxxx"
+                        />
+                        <div
+                            class="sumo-error"
+                            v-if="form.errors.billing_phone"
+                        >
+                            {{ form.errors.billing_phone }}
                         </div>
                     </div>
                 </div>
