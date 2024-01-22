@@ -51,7 +51,7 @@ class AdminCustomerController extends Controller
      */
     public function store(Requests\CustomerRequest $request)
     {
-        $this->authorize('create', Customer::class);
+        // $this->authorize('create', Customer::class);
 
         $customer = Customer::createCustomer($request);
 
