@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\AdminRolesController;
 use App\Http\Controllers\Admin\AdminInvoiceController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 
+use App\Http\Controllers\Admin\AdminTransactionController;
+use App\Http\Controllers\Admin\AdminVatController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +36,9 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('invoice', AdminInvoiceController::class, ['names' => 'invoice']);
         Route::resource('customer', AdminCustomerController::class, ['names' => 'customer']);
+        
+    Route::resource('admin/transactions', AdminTransactionController::class);
+    Route::resource('admin/vat', AdminVatController::class);
 
         Route::resource('/', AdminController::class, ['names' => 'admin']);
     });

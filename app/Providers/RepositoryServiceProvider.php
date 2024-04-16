@@ -21,6 +21,10 @@ use App\Repositories\UserRepository;
 use App\Interfaces\DriverInterface;
 use App\Repositories\DriverRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\Transaction\VatInterface;
+use App\Repositories\Transaction\VatRepository;
+use App\Interfaces\Transaction\TransactionInterface;
+use App\Repositories\Transaction\TransactionRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -39,6 +43,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(QualityControlInterface::class, QualityControlRepository::class);
         $this->app->bind(DriverInterface::class, DriverRepository::class);
         $this->app->bind(UserRepository::class, UserInterface::class);
+        $this->app->bind(TransactionInterface::class, TransactionRepository::class);
+        $this->app->bind(VatInterface::class, VatRepository::class);
     }
 
     /**
